@@ -90,14 +90,6 @@ type Dict = {
     titleB: string;
     items: { quote: string; name: string; role: string; company: string; initials: string }[];
   };
-  why: {
-    tag: string;
-    titleA: string;
-    titleB: string;
-    headers: readonly string[];
-    rows: { label: string; cells: string[] }[];
-    footnote: string;
-  };
   changelog: {
     tag: string;
     title: string;
@@ -376,21 +368,6 @@ export const dict: Record<Lang, Dict> = {
           initials: "YK",
         },
       ],
-    },
-    why: {
-      tag: "Why Continuum",
-      titleA: "You shouldn't have to choose",
-      titleB: "between AI apps. Or re-explain yourself to all of them.",
-      headers: ["", "Continuum", "ChatGPT memory", "Manual notes", "Re-explaining"],
-      rows: [
-        { label: "Works across every AI app", cells: ["✓", "✗", "—", "—"] },
-        { label: "AI extracts memory for you", cells: ["✓", "✓", "✗", "—"] },
-        { label: "You stay in control", cells: ["✓", "Partial", "✓", "—"] },
-        { label: "Cross-device sync", cells: ["Pro", "✓", "—", "—"] },
-        { label: "5-line install (MCP)", cells: ["✓", "—", "—", "—"] },
-        { label: "Privacy: data stays on your Mac", cells: ["Hobby", "✗", "✓", "—"] },
-      ],
-      footnote: "Updated weekly. Honest about what we do and don't do.",
     },
     changelog: {
       tag: "What's new",
@@ -741,23 +718,6 @@ export const dict: Record<Lang, Dict> = {
           initials: "YK",
         },
       ],
-    },
-    why: {
-      tag: "为什么是 Continuum",
-      titleA: "你本来就不该被迫在 AI app 里选边站,",
-      titleB: "或者对每个 app 重复解释自己。",
-      headers: ["", "Continuum", "ChatGPT memory", "手动笔记", "重复解释"],
-      rows: [
-        { label: "持久 memory", cells: ["3 层", "1 层", "DIY", "DIY"] },
-        { label: "行为挖掘", cells: ["内置", "—", "插件", "DIY"] },
-        { label: "跨所有 AI app 工作", cells: ["✓", "✗", "—", "—"] },
-        { label: "AI 替你提取 memory", cells: ["✓", "✓", "✗", "—"] },
-        { label: "你始终掌控", cells: ["✓", "部分", "✓", "—"] },
-        { label: "跨设备同步", cells: ["Pro", "✓", "—", "—"] },
-        { label: "5 行安装(MCP)", cells: ["✓", "—", "—", "—"] },
-        { label: "数据留在本机", cells: ["Hobby", "✗", "✓", "—"] },
-      ],
-      footnote: "每周更新。诚实讲我们能做什么、不能做什么。",
     },
     changelog: {
       tag: "最近更新",
