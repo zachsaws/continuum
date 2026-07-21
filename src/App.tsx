@@ -1385,6 +1385,8 @@ function NotFound({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void })
 
 export default function App() {
   const [lang, setLang] = useState<Lang>("zh");
+  // GitHub Pages serves this site at /continuum/ — strip the base before 404-checking.
+  const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
   const [path, setPath] = useState<string>(
     typeof window !== "undefined" ? window.location.pathname : "/",
   );
@@ -1425,7 +1427,9 @@ export default function App() {
     };
   }, []);
 
-  if (path !== "/" && !path.startsWith("/#")) {
+  const normalized = path.replace(/\/$/, "") || "/";
+  const isHome = normalized === "/" || normalized === base;
+  if (!isHome && !path.startsWith("/#")) {
     return <NotFound lang={lang} setLang={setLang} />;
   }
 
