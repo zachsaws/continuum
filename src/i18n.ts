@@ -143,6 +143,14 @@ type Dict = {
     closer: string;
     cta: string;
   };
+  supportedApps: {
+    tag: string;
+    titleA: string;
+    titleB: string;
+    body: string;
+    cta: string;
+    apps: { name: string; sub: string; fg: string; bg: string; status: "native" | "experimental" | "mcp" }[];
+  };
   beforeAfter: {
     tag: string;
     titleA: string;
@@ -514,6 +522,24 @@ export const dict: Record<Lang, Dict> = {
       ],
       closer: "If you scrolled to the bottom of this section, you're in column 3.",
       cta: "Install Continuum",
+    },
+    supportedApps: {
+      tag: "Works where you work",
+      titleA: "Compatible with every AI app",
+      titleB: "that speaks MCP.",
+      body: "Continuum runs as a local MCP server. Every AI client that speaks the standard works out of the box. Today, that includes:",
+      cta: "See the full compatibility list →",
+      apps: [
+        { name: "Claude Desktop", sub: "Anthropic", fg: "#da7756", bg: "rgba(218,119,86,0.10)", status: "native" },
+        { name: "Cursor", sub: "AI code editor", fg: "#a78bfa", bg: "rgba(167,139,250,0.10)", status: "native" },
+        { name: "Cline", sub: "VS Code agent", fg: "#5eead4", bg: "rgba(94,234,212,0.10)", status: "native" },
+        { name: "Zed", sub: "Code at the speed of thought", fg: "#facc15", bg: "rgba(250,204,21,0.10)", status: "native" },
+        { name: "Continue", sub: "Open-source AI assistant", fg: "#60a5fa", bg: "rgba(96,165,250,0.10)", status: "native" },
+        { name: "Windsurf", sub: "Agentic IDE by Codeium", fg: "#22d3ee", bg: "rgba(34,211,238,0.10)", status: "native" },
+        { name: "Sourcegraph Amp", sub: "Coding agent", fg: "#ff5543", bg: "rgba(255,85,67,0.10)", status: "native" },
+        { name: "ChatGPT", sub: "via OpenAI bridge", fg: "#10a37f", bg: "rgba(16,163,127,0.10)", status: "experimental" },
+        { name: "Any MCP client", sub: "Spec-compliant", fg: "#f4a896", bg: "rgba(244,168,150,0.12)", status: "mcp" },
+      ],
     },
     beforeAfter: {
       tag: "The change",
@@ -902,6 +928,24 @@ export const dict: Record<Lang, Dict> = {
       ],
       closer: "如果你滚到了这段底部,说明你在第 3 列。",
       cta: "装上 Continuum",
+    },
+    supportedApps: {
+      tag: "它在你已经用的地方工作",
+      titleA: "所有支持 MCP 的 AI app",
+      titleB: "都接得上。",
+      body: "Continuum 跑在你本机,是个 MCP server。任何实现这个开放标准的客户端,装上就能用。今天包括:",
+      cta: "看完整兼容列表 →",
+      apps: [
+        { name: "Claude Desktop", sub: "Anthropic", fg: "#da7756", bg: "rgba(218,119,86,0.10)", status: "native" },
+        { name: "Cursor", sub: "AI 代码编辑器", fg: "#a78bfa", bg: "rgba(167,139,250,0.10)", status: "native" },
+        { name: "Cline", sub: "VS Code agent", fg: "#5eead4", bg: "rgba(94,234,212,0.10)", status: "native" },
+        { name: "Zed", sub: "高速代码编辑器", fg: "#facc15", bg: "rgba(250,204,21,0.10)", status: "native" },
+        { name: "Continue", sub: "开源 AI 助手", fg: "#60a5fa", bg: "rgba(96,165,250,0.10)", status: "native" },
+        { name: "Windsurf", sub: "Codeium 的 agentic IDE", fg: "#22d3ee", bg: "rgba(34,211,238,0.10)", status: "native" },
+        { name: "Sourcegraph Amp", sub: "Coding agent", fg: "#ff5543", bg: "rgba(255,85,67,0.10)", status: "native" },
+        { name: "ChatGPT", sub: "通过 OpenAI bridge", fg: "#10a37f", bg: "rgba(16,163,127,0.10)", status: "experimental" },
+        { name: "任意 MCP 客户端", sub: "符合规范即可", fg: "#f4a896", bg: "rgba(244,168,150,0.12)", status: "mcp" },
+      ],
     },
     beforeAfter: {
       tag: "变化",

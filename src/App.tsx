@@ -73,6 +73,7 @@ function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
             <a href="#usecases" className="transition hover:text-fg">{t.useCases}</a>
             <a href="#pricing" className="transition hover:text-fg">{t.pricing}</a>
             <a href="#faq" className="transition hover:text-fg">{t.faq}</a>
+            <a href="#apps" className="transition hover:text-fg">{lang === "zh" ? "兼容" : "Apps"}</a>
           </nav>
         </div>
         <div className="flex items-center gap-2">
@@ -247,6 +248,80 @@ function Hero({ lang }: { lang: Lang }) {
               </span>
             ))}
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------ supported apps ----------------------------- */
+
+function SupportedApps({ lang }: { lang: Lang }) {
+  const t = dict[lang].supportedApps;
+  return (
+    <section id="apps" className="border-t border-border-subtle py-20 md:py-28">
+      <div className="container-page">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="text-xs uppercase tracking-[0.2em] text-accent">{t.tag}</span>
+          <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight md:text-4xl">
+            {t.titleA} <br />
+            <span className="text-fg-muted">{t.titleB}</span>
+          </h2>
+          <p className="mt-5 text-fg-muted">{t.body}</p>
+        </div>
+
+        <div className="mx-auto mt-14 grid max-w-5xl gap-3 sm:grid-cols-2 md:grid-cols-3">
+          {t.apps.map((app) => {
+            const isGhost = app.status === "mcp";
+            return (
+              <div
+                key={app.name}
+                className={`group relative flex items-center gap-3 rounded-2xl border p-4 transition-all ${
+                  isGhost
+                    ? "border-dashed border-accent/40 bg-accent/[0.04] hover:bg-accent/[0.07]"
+                    : "border-border-subtle bg-bg-card/60 hover:-translate-y-0.5 hover:border-border hover:bg-bg-card"
+                }`}
+              >
+                <div
+                  className="flex h-11 w-11 flex-none items-center justify-center rounded-xl font-semibold"
+                  style={{ color: app.fg, backgroundColor: app.bg }}
+                >
+                  {isGhost ? "+" : app.name.charAt(0)}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="truncate text-[14px] font-semibold text-fg">{app.name}</div>
+                  <div className="truncate text-[11px] text-fg-dim">{app.sub}</div>
+                </div>
+                {!isGhost && (
+                  <div
+                    className={`flex-none text-[9px] font-semibold uppercase tracking-wider ${
+                      app.status === "experimental" ? "text-fg-dim" : "text-accent"
+                    }`}
+                  >
+                    {app.status === "experimental"
+                      ? lang === "zh"
+                        ? "实验"
+                        : "beta"
+                      : lang === "zh"
+                        ? "原生"
+                        : "native"}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-10 text-center">
+          <a
+            href="#pricing"
+            className="inline-flex items-center gap-1.5 text-[13px] text-fg-muted transition hover:text-accent"
+          >
+            {t.cta}
+            <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
         </div>
       </div>
     </section>
@@ -765,27 +840,32 @@ function Features({ lang }: { lang: Lang }) {
           <p className="mt-5 text-fg-muted">{t.body}</p>
         </div>
 
-        <div className="mt-14 space-y-4">
-          {t.items.map((f, i) => (
-            <div
-              key={f.name}
-              className={`card card-hover grid gap-6 md:grid-cols-[1.1fr_1fr] ${
-                i % 2 === 1 ? "md:[&>div:first-child]:order-2" : ""
-              }`}
-            >
-              <div>
-                <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-fg-dim">
+        <div className="mt-14 grid gap-3 md:grid-cols-3">
+          {t.items.map((f, i) => {
+            const isFeatured = i === 0;
+            return (
+              <div
+                key={f.name}
+                className={`group relative flex flex-col overflow-hidden rounded-3xl border border-border-subtle bg-bg-card/60 p-6 transition-all hover:-translate-y-0.5 hover:border-border hover:bg-bg-card ${
+                  isFeatured ? "md:col-span-2 md:row-span-1" : ""
+                }`}
+              >
+                <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-fg-dim">
                   <span className="font-mono text-accent">0{i + 1}</span>
                   <span>{f.tag}</span>
                 </div>
-                <h3 className="mt-3 text-2xl font-semibold tracking-tight">{f.name}</h3>
-                <p className="mt-3 max-w-md text-[15px] leading-relaxed text-fg-muted">{f.body}</p>
+                <h3 className="mt-3 text-xl font-semibold tracking-tight md:text-2xl">
+                  {f.name}
+                </h3>
+                <p className="mt-3 max-w-md text-[13.5px] leading-relaxed text-fg-muted">
+                  {f.body}
+                </p>
+                <div className={`mt-5 rounded-2xl border border-border-subtle bg-bg-soft/40 p-4 ${isFeatured ? "" : "grow"}`}>
+                  {featureVisuals[i]}
+                </div>
               </div>
-              <div className="rounded-lg border border-border-subtle bg-bg-soft/50 p-5">
-                {featureVisuals[i]}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
@@ -1628,6 +1708,7 @@ export default function App() {
       <Nav lang={lang} setLang={setLang} />
       <main>
         <Hero lang={lang} />
+        <SupportedApps lang={lang} />
         <Problem lang={lang} />
         <BeforeAfter lang={lang} />
         <ByTheNumbers lang={lang} />
