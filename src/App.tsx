@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { dict, type Lang } from "./i18n";
 
+const GITHUB_URL = "https://github.com/zachsaws/continuum";
+
 /* --------------------------------- helpers -------------------------------- */
 
 function renderInline(s: string) {
@@ -79,7 +81,7 @@ function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
           <a href="#" className="hidden text-sm text-fg-muted transition hover:text-fg lg:inline-block">
             {t.docs}
           </a>
-          <a href="#pricing" className="btn-primary-sm">
+          <a href={GITHUB_URL} className="btn-primary-sm">
             {t.getKey}
           </a>
         </div>
@@ -92,10 +94,25 @@ function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
 
 function Hero({ lang }: { lang: Lang }) {
   const t = dict[lang].hero;
-  const installLine = "$ npm i -g @continuum/mcp && claude mcp add continuum";
+  const isZh = lang === "zh";
+  // Sample memory card — single product visual. Real copy, not a fake screenshot.
+  const memories = isZh
+    ? [
+        { tag: "preference", text: "Concise answers · no emojis", source: "Claude · 3 days ago" },
+        { tag: "project", text: "v3 launches Friday", source: "Cursor · Monday" },
+      ]
+    : [
+        { tag: "preference", text: "Concise answers · no emojis", source: "Claude · 3 days ago" },
+        { tag: "project", text: "v3 launches Friday", source: "Cursor · Monday" },
+      ];
+  const aiReply = isZh
+    ? "Sure. Picking up from last week — Friday deadline, concise, no emojis. Here's a draft…"
+    : "Sure. Picking up from last week — Friday deadline, concise, no emojis. Here's a draft…";
+  const userPrompt = isZh ? "帮我写 v3 发布的文案。" : "Help me write the launch copy for v3.";
+
   return (
     <section className="relative overflow-hidden border-b border-border-subtle">
-      <div className="container-page pt-24 pb-24 md:pt-32 md:pb-32">
+      <div className="container-page pt-20 pb-24 md:pt-28 md:pb-32">
         <div className="mx-auto max-w-2xl text-center">
           <div className="mb-8 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-fg-muted">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
@@ -107,8 +124,11 @@ function Hero({ lang }: { lang: Lang }) {
           <p className="mx-auto mt-7 max-w-xl text-balance text-[16px] leading-[1.7] text-fg-muted md:text-[17px]">
             {renderInline(t.body)}
           </p>
+          <p className="mx-auto mt-3 max-w-xl text-[12.5px] leading-[1.6] text-fg-dim">
+            {t.body2}
+          </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a href="#pricing" className="btn-primary">
+            <a href={GITHUB_URL} className="btn-primary">
               {t.cta1}
               <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
@@ -121,20 +141,75 @@ function Hero({ lang }: { lang: Lang }) {
           <p className="mt-5 text-[12.5px] text-fg-dim">{t.hint}</p>
         </div>
 
-        {/* Install line — a real, useful piece of UI, not a fake screenshot */}
-        <div className="mx-auto mt-16 max-w-xl">
-          <div className="overflow-hidden rounded-md border border-border">
-            <div className="flex items-center gap-1.5 border-b border-border-subtle bg-bg-soft/60 px-3.5 py-2">
-              <span className="h-2 w-2 rounded-full bg-fg-dim/40" />
-              <span className="h-2 w-2 rounded-full bg-fg-dim/40" />
-              <span className="h-2 w-2 rounded-full bg-fg-dim/40" />
-              <span className="ml-2 font-mono text-[10px] text-fg-dim">~ / zsh</span>
+        {/* Single live-looking memory card — proof, not a fake screenshot */}
+        <div className="mx-auto mt-16 max-w-2xl">
+          <div className="overflow-hidden rounded-md border border-border bg-bg-soft/40">
+            {/* Claude-style chrome */}
+            <div className="flex items-center justify-between border-b border-border-subtle bg-bg-soft/60 px-4 py-2.5">
+              <div className="flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-fg-dim/40" />
+                <span className="h-2 w-2 rounded-full bg-fg-dim/40" />
+                <span className="h-2 w-2 rounded-full bg-fg-dim/40" />
+              </div>
+              <div className="font-mono text-[10.5px] text-fg-dim">
+                {isZh ? "Claude Desktop · Continuum 已连接" : "Claude Desktop · Continuum connected"}
+              </div>
+              <div className="font-mono text-[10.5px] text-fg-dim">~</div>
             </div>
-            <div className="bg-bg px-4 py-3.5 font-mono text-[12.5px] leading-relaxed text-fg-muted">
-              <span className="select-none text-accent">$ </span>
-              {installLine}
+
+            <div className="grid gap-0 md:grid-cols-[1fr_240px]">
+              {/* Chat column */}
+              <div className="space-y-5 p-5 md:p-6">
+                <div>
+                  <div className="mb-1.5 text-[10px] uppercase tracking-wider text-fg-dim">
+                    {isZh ? "你" : "You"}
+                  </div>
+                  <div className="text-[13.5px] leading-relaxed text-fg">{userPrompt}</div>
+                </div>
+                <div>
+                  <div className="mb-1.5 flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-fg-dim">
+                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
+                    Claude
+                  </div>
+                  <div className="text-[13.5px] leading-relaxed text-fg-muted">{aiReply}</div>
+                </div>
+              </div>
+
+              {/* Continuum memory column */}
+              <div className="border-t border-border-subtle bg-bg/60 p-4 md:border-l md:border-t-0">
+                <div className="mb-3 flex items-center gap-1.5">
+                  <span className="inline-flex h-3.5 w-3.5 items-center justify-center rounded-full border border-accent text-[8px] font-bold text-accent">
+                    C
+                  </span>
+                  <span className="text-[10px] font-medium uppercase tracking-wider text-fg-muted">
+                    Continuum
+                  </span>
+                </div>
+                <div className="mb-2 text-[10px] text-fg-dim">
+                  {isZh ? "从过去 7 天自动提取:" : "Pulled from the last 7 days:"}
+                </div>
+                <div className="space-y-2">
+                  {memories.map((m, i) => (
+                    <div
+                      key={i}
+                      className="rounded border border-border-subtle bg-bg p-2.5 text-[11px]"
+                    >
+                      <div className="mb-0.5 flex items-center gap-1.5">
+                        <span className="font-mono text-[8px] uppercase tracking-wider text-accent">
+                          {m.tag}
+                        </span>
+                        <span className="text-fg-dim">· {m.source}</span>
+                      </div>
+                      <div className="leading-snug text-fg">{m.text}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
+          <p className="mt-4 text-center text-[12px] italic text-fg-dim">
+            {t.demoCaption}
+          </p>
         </div>
       </div>
     </section>
@@ -356,7 +431,7 @@ function IsForMe({ lang }: { lang: Lang }) {
         <div className="mx-auto mt-12 max-w-2xl text-center">
           <p className="text-[14px] text-fg-muted">{t.closer}</p>
           <a
-            href="#pricing"
+            href={GITHUB_URL}
             className="btn-primary mt-5 h-10 px-5"
           >
             {t.cta}
@@ -444,12 +519,12 @@ function Pricing({ lang }: { lang: Lang }) {
                 ))}
               </ul>
               <a
-                href="#"
-                className={`mt-7 h-10 rounded-md text-[14px] font-medium transition ${
-                  tier.name === "Pro"
+                href={GITHUB_URL}
+                className={`mt-7 h-10 rounded-md text-[14px] font-medium transition inline-flex items-center justify-center ${
+                  tier.name === "Hobby"
                     ? "bg-fg text-bg hover:bg-fg/90"
                     : "border border-border text-fg hover:bg-bg-soft"
-                } inline-flex items-center justify-center`}
+                }`}
               >
                 {tier.cta}
               </a>
@@ -597,10 +672,10 @@ function FinalCTA({ lang }: { lang: Lang }) {
           </h2>
           <p className="mt-6 text-[15px] leading-[1.7] text-fg-muted">{t.body}</p>
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a href="#" className="btn-primary h-11 px-6 text-sm">
+            <a href={GITHUB_URL} className="btn-primary h-11 px-6 text-sm">
               {t.cta1}
             </a>
-            <a href="#" className="btn-ghost h-11 px-6 text-sm">
+            <a href="#features" className="btn-ghost h-11 px-6 text-sm">
               {t.cta2}
             </a>
           </div>
@@ -723,17 +798,31 @@ function NotFound({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void })
 
 /* --------------------------------- root app ------------------------------- */
 
+function detectInitialLang(): Lang {
+  if (typeof window === "undefined") return "zh";
+  // Honor explicit ?lang= override
+  const params = new URLSearchParams(window.location.search);
+  const override = params.get("lang");
+  if (override === "en" || override === "zh") return override;
+  // Try localStorage
+  try {
+    const saved = localStorage.getItem("c-lang");
+    if (saved === "en" || saved === "zh") return saved;
+  } catch {}
+  // Detect from navigator
+  const nav = (navigator.language || "en").toLowerCase();
+  return nav.startsWith("zh") ? "zh" : "en";
+}
+
 export default function App() {
-  const [lang, setLang] = useState<Lang>("zh");
+  const [lang, setLang] = useState<Lang>(detectInitialLang);
   const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
   const path: string =
     typeof window !== "undefined" ? window.location.pathname : "/";
 
   useEffect(() => {
-    const onScroll = () => {};
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    try { localStorage.setItem("c-lang", lang); } catch {}
+  }, [lang]);
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {

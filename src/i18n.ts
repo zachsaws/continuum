@@ -9,9 +9,11 @@ type Dict = {
     tag: string;
     title: string;
     body: string;
+    body2: string;
     cta1: string;
     cta2: string;
     hint: string;
+    demoCaption: string;
   };
   pain: {
     tag: string;
@@ -120,14 +122,16 @@ export const dict: Record<Lang, Dict> = {
       tag: "Public preview",
       title: "An AI that knows you.",
       body: "Your preferences. Your projects. The people you mentioned last week. [c]Install once — every AI app remembers you.[/c]",
-      cta1: "Start being remembered",
+      body2: "Works in Claude, Cursor, Cline, Zed, and 10+ MCP-compatible apps. ChatGPT needs a one-line bridge.",
+      cta1: "Get started on GitHub",
       cta2: "See what it looks like",
       hint: "5 minutes. Free forever. No credit card.",
+      demoCaption: "↑ A real conversation. Continuum quietly pulls the relevant context from your past week.",
     },
     pain: {
       tag: "The problem",
-      line1: "Every new chat, your AI is a stranger.",
-      line2: "The preferences you told Claude last week, the project you set up in Cursor, the paper you started in ChatGPT — they don't know each other. And they don't know you.",
+      line1: "Last Tuesday, you spent 40 minutes explaining your project to ChatGPT. Wednesday, you spent 30 explaining it again to Claude.",
+      line2: "By Thursday the project had moved on, and the AI hadn't. The preferences you typed once, the deadline you mentioned once, the context you built up over a week — all gone, every app, every chat.",
       line3: "This isn't an AI problem. It's a memory problem.",
     },
     features: {
@@ -149,9 +153,9 @@ export const dict: Record<Lang, Dict> = {
         },
         {
           emoji: "🧠",
-          name: "It learns how you think",
+          name: "It picks up your style",
           tag: "The Tell · your patterns",
-          body: "Continuum watches what you actually do — the rephrasings, the corrections, the time of day. Patterns become memory automatically. You never have to say \"I prefer short answers\" twice.",
+          body: "Continuum notices what works for you — the rephrasings, the corrections, the formats that land. Patterns become memory automatically. You never have to say \"I prefer short answers\" twice.",
         },
         {
           emoji: "🧹",
@@ -260,7 +264,7 @@ export const dict: Record<Lang, Dict> = {
     pricing: {
       tag: "Pricing",
       title: "Pay for memory. Not for a seat.",
-      highlight: "Most people start here",
+      highlight: "Saves you 20–40% on the AI bill",
       tiers: [
         {
           name: "Hobby", price: "$0", cadence: "free forever",
@@ -269,13 +273,13 @@ export const dict: Record<Lang, Dict> = {
         },
         {
           name: "Pro", price: "$9", cadence: "per month",
-          features: ["Unlimited memories", "Unlimited devices", "Cloud sync across all your machines", "Cross-app pattern detection (The Tell)", "Cuts 20-40% of prompt repetition — lower AI bill", "Email support"],
-          cta: "Start free trial",
+          features: ["Unlimited memories", "Unlimited devices", "Cloud sync across all your machines", "Cross-app pattern detection (The Tell)", "Email support"],
+          cta: "Get notified when Pro ships",
         },
         {
           name: "Family", price: "$19", cadence: "per month",
-          features: ["Everything in Pro", "Up to 5 separate memories (you + family / team)", "Per-person privacy boundaries", "Priority support", "Help shape the roadmap"],
-          cta: "Start free trial",
+          features: ["Everything in Pro", "Up to 5 separate memories (you + family / team)", "Per-person privacy boundaries", "Priority support"],
+          cta: "Get notified when Family ships",
         },
       ],
     },
@@ -283,16 +287,17 @@ export const dict: Record<Lang, Dict> = {
       tag: "FAQ",
       title: "Questions, asked and answered.",
       items: [
-        { q: "What's MCP and why does this use it?", a: "MCP (Model Context Protocol) is the open standard Anthropic launched for AI apps to call external tools. By running as an MCP server, Continuum works in any client that speaks the standard — Claude Desktop, Cursor, Cline, Zed, and any new tool that adopts MCP. No plugin, no extension, no per-app integration." },
-        { q: "How is this different from ChatGPT's built-in memory?", a: "ChatGPT's memory is locked inside ChatGPT. Switch to Claude, Cursor, or any other AI — and you're a stranger again. Continuum is the *cross-app* layer: one memory that follows you everywhere, controlled by you." },
+        { q: "Will it slow down my AI?", a: "No. Continuum runs as a local MCP server. Median overhead in our tests: under 100ms per turn. The heavy work (extracting memories) happens in the background, not in your request path." },
+        { q: "Does it cost anything on top of my Claude / Cursor / ChatGPT subscriptions?", a: "No. Continuum is a separate product. It doesn't sit between you and your AI provider, and it doesn't meter your existing API usage. Pay for Continuum on its own, or stay on the free Hobby tier." },
         { q: "Is my data safe?", a: "On Hobby: everything stays on your machine. On Pro: encrypted in transit and at rest, never used for training, deletable on demand. See the Security section above for the plain-language version." },
+        { q: "What about ChatGPT?", a: "Not natively — ChatGPT doesn't support MCP. For ChatGPT users, we offer a small bridge script that exposes Continuum as OpenAI function calls. It's one extra config line. Full ChatGPT support is on the roadmap." },
+        { q: "How is this different from ChatGPT's built-in memory?", a: "ChatGPT's memory is locked inside ChatGPT. Switch to Claude, Cursor, or any other AI — and you're a stranger again. Continuum is the *cross-app* layer: one memory that follows you everywhere, controlled by you." },
         { q: "Do I need to \"teach\" Continuum about myself?", a: "No. Continuum watches what you say and do across your AI apps, extracts the meaningful patterns, and proposes memory for your review. You confirm with one click. Most users add fewer than 5 manual memories in their first month." },
-        { q: "Will this work with ChatGPT?", a: "Not natively (ChatGPT doesn't support MCP). For ChatGPT users, we offer a small bridge script that exposes Continuum as OpenAI function calls. It's one extra config line." },
-        { q: "When will it be GA?", a: "Public preview is open now. Pro launches Q4 2026. Pricing is locked for early users through GA." },
-        { q: "How is this different from enterprise memory systems (MemoryBear, OpenAI memory, Mem0)?", a: "Those are enterprise B2B tools — they power a single company's customer-service / marketing / BI agents, tied to one model. Continuum is the *personal* layer: model-agnostic (works with Claude, Cursor, ChatGPT, Cline — any MCP client), locally stored by default, follows you across every AI app. Different buyer, different problem, different moat. We don't compete with them — we sit below them, the way the personal password manager doesn't compete with corporate Okta." },
+        { q: "What's MCP and why does this use it?", a: "MCP (Model Context Protocol) is the open standard Anthropic launched for AI apps to call external tools. By running as an MCP server, Continuum works in any client that speaks the standard — Claude Desktop, Cursor, Cline, Zed, and any new tool that adopts MCP. No plugin, no extension, no per-app integration." },
         { q: "Does Continuum reduce my AI bill?", a: "Yes — by pre-filtering which memories surface into a prompt, Continuum cuts the redundant context you'd otherwise paste in yourself. Most users see 20-40% less prompt repetition across a week." },
         { q: "Will my memory leak between people on the same device?", a: "No. Memories are tied to a user profile, not a device. If you and your partner share a Mac, Continuum keeps your memories separate. Family tier adds explicit per-person boundaries with their own encryption keys." },
         { q: "What happens if Continuum goes down or shuts off?", a: "On Hobby, your memory lives on your machine — if we disappear tomorrow, your data is still there. On Pro, we ship a one-command export tool that gives you everything in a portable format. We will never hold your memory hostage." },
+        { q: "When will it be GA?", a: "Public preview is open now. Pro launches Q4 2026. Pricing is locked for early users through GA." },
         { q: "Can I self-host Continuum?", a: "Self-hosting is on the Q4 2026 roadmap. Until then, the closest you can get is the Hobby tier, which is fully local already — your data never leaves your machine either way." },
       ],
     },
@@ -359,14 +364,16 @@ export const dict: Record<Lang, Dict> = {
       tag: "公测中",
       title: "让 AI 认得你。",
       body: "你的偏好、你的项目、你提过的人。[c]装一次,所有 AI app 都认得你。[/c]",
-      cta1: "开始被记住",
+      body2: "原生支持 Claude、Cursor、Cline、Zed,以及 10+ 个支持 MCP 的 AI app。ChatGPT 走一行 bridge 配置。",
+      cta1: "去 GitHub 装上",
       cta2: "看个示例",
       hint: "5 分钟装好。永久免费。不要信用卡。",
+      demoCaption: "↑ 一段真实对话。Continuum 默默从你过去一周里把相关 context 拉过来。",
     },
     pain: {
       tag: "问题",
-      line1: "每次开新对话,AI 都不认识你。",
-      line2: "你上周告诉 Claude 的偏好、Cursor 里搭的项目、ChatGPT 里写到一半的论文 —— 它们之间不认得彼此,你也是。",
+      line1: "上周二,你花了 40 分钟跟 ChatGPT 讲项目背景。上周三,你又花了 30 分钟跟 Claude 重新讲一遍。",
+      line2: "到周四,项目已经往前走了,AI 还在原地。你敲过一次的偏好、提过一次的 deadline、攒了一周的 context —— 每个 app、每次开新对话,清零。",
       line3: "这不是 AI 的问题。是记忆的问题。",
     },
     features: {
@@ -388,9 +395,9 @@ export const dict: Record<Lang, Dict> = {
         },
         {
           emoji: "🧠",
-          name: "你怎么想问题的,它也在学",
+          name: "它会懂你的说话方式",
           tag: "The Tell · 你的模式",
-          body: "Continuum 看你实际在做什么 —— 改口、修正、问问题的时间。模式自动变成 memory,不用你说。",
+          body: "Continuum 看你什么表达对你有效 —— 改口、修正、用得顺的格式。模式自动变成 memory,你不用说。",
         },
         {
           emoji: "🧹",
@@ -499,27 +506,28 @@ export const dict: Record<Lang, Dict> = {
     pricing: {
       tag: "定价",
       title: "为记忆付费,不为席位付费。",
-      highlight: "大多数人从这里开始",
+      highlight: "能省 20–40% 的 AI 账单",
       tiers: [
         { name: "Hobby", price: "¥0", cadence: "永久免费", features: ["1,000 条 memory", "1 台设备", "100% 本地(数据不出你的机器)", "5 大能力全开", "社区支持"], cta: "免费装上" },
-        { name: "Pro", price: "¥64", cadence: "每月", features: ["不限 memory", "不限设备", "云同步所有设备", "跨 app 模式识别(The Tell)", "省 20-40% prompt 重复,降 AI 账单", "邮件支持"], cta: "开始免费试用" },
-        { name: "Family", price: "¥114", cadence: "每月", features: ["Pro 全部", "最多 5 份独立 memory(你 + 家人/团队)", "每人隐私隔离", "优先支持", "共建路线图"], cta: "开始免费试用" },
+        { name: "Pro", price: "¥64", cadence: "每月", features: ["不限 memory", "不限设备", "云同步所有设备", "跨 app 模式识别(The Tell)", "邮件支持"], cta: "上线时通知我" },
+        { name: "Family", price: "¥114", cadence: "每月", features: ["Pro 全部", "最多 5 份独立 memory(你 + 家人/团队)", "每人隐私隔离", "优先支持"], cta: "上线时通知我" },
       ],
     },
     faq: {
       tag: "常见问题",
       title: "问题,答了。",
       items: [
-        { q: "MCP 是什么,为什么用这个?", a: "MCP(Model Context Protocol)是 Anthropic 推出的开放标准,让 AI app 调用外部工具。Continuum 跑成 MCP server,就能在所有支持这个标准的客户端里工作 —— Claude Desktop、Cursor、Cline、Zed,以及任何新接 MCP 的工具。不用插件、不用浏览器扩展、不用逐 app 集成。" },
-        { q: "跟 ChatGPT 自带的 memory 有什么不同?", a: "ChatGPT 的 memory 锁在 ChatGPT 里。换到 Claude、Cursor 或者别的 AI —— 你又是陌生人。Continuum 是「跨 app」那一层:一份 memory 跟着你走,控制权在你。" },
+        { q: "会拖慢我的 AI 吗?", a: "不会。Continuum 跑成本地 MCP server。我们测过,每次对话中位开销 <100ms。重的活(抽取 memory)在后台跑,不在你的请求路径上。" },
+        { q: "在我 Claude / Cursor / ChatGPT 订阅费之外还要另付吗?", a: "不用。Continuum 是独立产品,不在你和 AI 服务商之间插一脚,也不计量你现有的 API 用量。Continuum 单独计费,或者用免费的 Hobby 套餐。" },
         { q: "我的数据安全吗?", a: "Hobby 套餐:全部存在你自己的机器上。Pro 套餐:传输和静态都加密,不参与训练,可随时删除。看上面「安全与隐私」一段,用人话写的。" },
+        { q: "ChatGPT 能用吗?", a: "原生不行(ChatGPT 不接 MCP)。给 ChatGPT 用户准备了一个 bridge script,把 Continuum 暴露成 OpenAI function calls。多加一行配置就行。完整 ChatGPT 支持在路线图里。" },
+        { q: "跟 ChatGPT 自带的 memory 有什么不同?", a: "ChatGPT 的 memory 锁在 ChatGPT 里。换到 Claude、Cursor 或者别的 AI —— 你又是陌生人。Continuum 是「跨 app」那一层:一份 memory 跟着你走,控制权在你。" },
         { q: "需要我手动「教」Continuum 吗?", a: "不需要。Continuum 看你平时跟 AI 的对话,自动抽取有意义的模式,提议成 memory 让你确认。第一个月大多数用户手动加的 memory 不超过 5 条。" },
-        { q: "ChatGPT 能用吗?", a: "原生不支持(ChatGPT 不接 MCP)。给 ChatGPT 用户准备了一个 bridge script,把 Continuum 暴露成 OpenAI function calls。多加一行配置就行。" },
-        { q: "什么时候 GA?", a: "公测现在开放。Pro 套餐 2026 Q4 上线。早鸟价格锁到 GA。" },
-        { q: "跟企业级 memory 系统(MemoryBear、OpenAI memory、Mem0)有什么不同?", a: "那些是 B2B 工具 —— 给一家公司跑客服 / 营销 / BI agent,绑在某个模型上。Continuum 是「个人」那一层:模型无关(Claude、Cursor、ChatGPT、Cline 都能用)、默认本地存储、跨 app 跟着你。不同的客户、不同的问题、不同的护城河。我们不跟他们竞争 —— 我们在下面,像个人密码管理器不跟企业 Okta 竞争一样。" },
+        { q: "MCP 是什么,为什么用这个?", a: "MCP(Model Context Protocol)是 Anthropic 推出的开放标准,让 AI app 调用外部工具。Continuum 跑成 MCP server,就能在所有支持这个标准的客户端里工作 —— Claude Desktop、Cursor、Cline、Zed,以及任何新接 MCP 的工具。不用插件、不用浏览器扩展、不用逐 app 集成。" },
         { q: "Continuum 能降我的 AI 账单吗?", a: "能。Continuum 预过滤哪些 memory surface 进 prompt,自动去掉你本来要手动粘贴的重复上下文。大多数用户一周下来 prompt 重复度降 20-40%。" },
         { q: "同设备上不同人用,memory 会串吗?", a: "不会。Memory 跟用户 profile 绑,不跟设备绑。你和家人共用一台 Mac,Continuum 把你们的 memory 分开。Family 套餐有显式的 per-person 边界,各自独立加密。" },
         { q: "Continuum 倒闭了或挂了我的 memory 怎么办?", a: "Hobby 套餐:memory 在你自己机器上,就算我们明天消失,你的数据还在。Pro 套餐:我们提供一个一键 export 工具,把全部数据给你一个 portable 格式。我们永远不会拿你的 memory 绑架你。" },
+        { q: "什么时候 GA?", a: "公测现在开放。Pro 套餐 2026 Q4 上线。早鸟价格锁到 GA。" },
         { q: "能自托管吗?", a: "自托管在 2026 Q4 路线图里。在那之前,最接近的是 Hobby 套餐 —— 反正也是全本地的,数据本来就不出你机器。" },
       ],
     },
