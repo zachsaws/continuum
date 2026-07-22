@@ -525,6 +525,38 @@ function Changelog({ lang }: { lang: Lang }) {
   );
 }
 
+/* --------------------------------- roadmap ------------------------------- */
+
+function Roadmap({ lang }: { lang: Lang }) {
+  const t = dict[lang].roadmap;
+  return (
+    <section className="border-b border-border-subtle py-24 md:py-32">
+      <div className="container-page">
+        <div className="mx-auto max-w-2xl">
+          <div className="mb-6 text-[11px] uppercase tracking-[0.2em] text-fg-dim">
+            {t.tag}
+          </div>
+          <h2 className="text-balance text-3xl font-semibold leading-[1.15] tracking-tight md:text-[2.5rem]">
+            {t.title}
+          </h2>
+          <p className="mt-5 text-[15px] text-fg-muted">{t.body}</p>
+          <ol className="mt-12 space-y-8">
+            {t.items.map((it, i) => (
+              <li key={i} className="grid gap-2 border-t border-border-subtle pt-6 md:grid-cols-[160px_1fr] md:gap-10">
+                <div className="font-mono text-[12px] uppercase tracking-[0.12em] text-fg-dim">
+                  {it.when}
+                </div>
+                <p className="text-[16px] leading-[1.7] text-fg">{it.what}</p>
+              </li>
+            ))}
+          </ol>
+          <p className="mt-12 text-[13px] italic text-fg-dim">{t.footnote}</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ----------------------------------- faq ---------------------------------- */
 
 function Faq({ lang }: { lang: Lang }) {
@@ -738,6 +770,7 @@ export default function App() {
       <Pricing lang={lang} />
       <PricingFaq lang={lang} />
       <Changelog lang={lang} />
+      <Roadmap lang={lang} />
       <Faq lang={lang} />
       <FinalCTA lang={lang} />
       <Footer lang={lang} />

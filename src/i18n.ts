@@ -37,6 +37,13 @@ type Dict = {
     paragraphs: string[];
     signature: string;
   };
+  roadmap: {
+    tag: string;
+    title: string;
+    body: string;
+    items: { when: string; what: string }[];
+    footnote: string;
+  };
   whyNot: {
     tag: string;
     title: string;
@@ -185,8 +192,21 @@ export const dict: Record<Lang, Dict> = {
       paragraphs: [
         "Six months building a memory layer. A reorg that lost half of it. Then a rewrite. The model kept getting smarter — and the prompt kept forgetting the user.",
         "Continuum exists because \"context engineering\" shouldn't be a full-time job. It should be five lines of JSON. We made it five lines.",
+        "We run on the same primitives the big labs do — embeddings, vector search, decay-based memory. We just package them so you don't have to. The hard part of memory isn't the storage; it's deciding what to forget.",
       ],
       signature: "— The team at Continuum Labs",
+    },
+    roadmap: {
+      tag: "What's next",
+      title: "Where we're going.",
+      body: "We're a small team. We ship in public, slowly, on purpose.",
+      items: [
+        { when: "2026 · Q3", what: "Pro & Family launch. Cloud sync. Cross-app pattern detection (The Tell) at scale." },
+        { when: "2026 · Q4", what: "Native Claude Desktop integration. Mobile companion app. Self-hosted option for power users." },
+        { when: "2027 · Q1", what: "Open-source the local memory engine. The cloud stays proprietary; the local engine becomes a public good." },
+        { when: "2027 · and beyond", what: "A personal assistant that knows you well enough to start the conversation for you." },
+      ],
+      footnote: "Dates are honest estimates, not promises. We move when the work is ready.",
     },
     whyNot: {
       tag: "What we don't do",
@@ -271,6 +291,9 @@ export const dict: Record<Lang, Dict> = {
         { q: "When will it be GA?", a: "Public preview is open now. Pro launches Q4 2026. Pricing is locked for early users through GA." },
         { q: "How is this different from enterprise memory systems (MemoryBear, OpenAI memory, Mem0)?", a: "Those are enterprise B2B tools — they power a single company's customer-service / marketing / BI agents, tied to one model. Continuum is the *personal* layer: model-agnostic (works with Claude, Cursor, ChatGPT, Cline — any MCP client), locally stored by default, follows you across every AI app. Different buyer, different problem, different moat. We don't compete with them — we sit below them, the way the personal password manager doesn't compete with corporate Okta." },
         { q: "Does Continuum reduce my AI bill?", a: "Yes — by pre-filtering which memories surface into a prompt, Continuum cuts the redundant context you'd otherwise paste in yourself. Most users see 20-40% less prompt repetition across a week." },
+        { q: "Will my memory leak between people on the same device?", a: "No. Memories are tied to a user profile, not a device. If you and your partner share a Mac, Continuum keeps your memories separate. Family tier adds explicit per-person boundaries with their own encryption keys." },
+        { q: "What happens if Continuum goes down or shuts off?", a: "On Hobby, your memory lives on your machine — if we disappear tomorrow, your data is still there. On Pro, we ship a one-command export tool that gives you everything in a portable format. We will never hold your memory hostage." },
+        { q: "Can I self-host Continuum?", a: "Self-hosting is on the Q4 2026 roadmap. Until then, the closest you can get is the Hobby tier, which is fully local already — your data never leaves your machine either way." },
       ],
     },
     pricingFaq: {
@@ -408,8 +431,21 @@ export const dict: Record<Lang, Dict> = {
       paragraphs: [
         "六个月的搭建,一次组织调整丢一半,再来一次重写。模型越来越聪明 —— prompt 却越来越记不住用户。",
         "Continuum 存在的原因是:「context engineering」不该是一份全职工作。它该是五行 JSON。我们做到了五行。",
+        "底层用的是大厂同款的 primitives —— embedding、向量检索、decay-based memory。我们只是把它们打包成你不用自己搭的样子。记忆的难处不在存,在忘。",
       ],
       signature: "—— Continuum Labs 团队",
+    },
+    roadmap: {
+      tag: "下一步",
+      title: "我们在往哪儿走。",
+      body: "我们是个小团队。公开地、慢慢、按节奏地发版。",
+      items: [
+        { when: "2026 · Q3", what: "Pro 和 Family 正式上线。云同步。跨 app 模式识别(The Tell)规模化。" },
+        { when: "2026 · Q4", what: "Claude Desktop 原生集成。移动端伴生 app。自托管选项给重度用户。" },
+        { when: "2027 · Q1", what: "开源本地 memory 引擎。云端继续专有;本地引擎成为公共资源。" },
+        { when: "2027 · 及以后", what: "一个足够了解你的 AI 助手,会替你先开口。" },
+      ],
+      footnote: "时间是我们诚实的估计,不是承诺。我们按工作完成的节奏走。",
     },
     whyNot: {
       tag: "我们不做什么",
@@ -482,6 +518,9 @@ export const dict: Record<Lang, Dict> = {
         { q: "什么时候 GA?", a: "公测现在开放。Pro 套餐 2026 Q4 上线。早鸟价格锁到 GA。" },
         { q: "跟企业级 memory 系统(MemoryBear、OpenAI memory、Mem0)有什么不同?", a: "那些是 B2B 工具 —— 给一家公司跑客服 / 营销 / BI agent,绑在某个模型上。Continuum 是「个人」那一层:模型无关(Claude、Cursor、ChatGPT、Cline 都能用)、默认本地存储、跨 app 跟着你。不同的客户、不同的问题、不同的护城河。我们不跟他们竞争 —— 我们在下面,像个人密码管理器不跟企业 Okta 竞争一样。" },
         { q: "Continuum 能降我的 AI 账单吗?", a: "能。Continuum 预过滤哪些 memory surface 进 prompt,自动去掉你本来要手动粘贴的重复上下文。大多数用户一周下来 prompt 重复度降 20-40%。" },
+        { q: "同设备上不同人用,memory 会串吗?", a: "不会。Memory 跟用户 profile 绑,不跟设备绑。你和家人共用一台 Mac,Continuum 把你们的 memory 分开。Family 套餐有显式的 per-person 边界,各自独立加密。" },
+        { q: "Continuum 倒闭了或挂了我的 memory 怎么办?", a: "Hobby 套餐:memory 在你自己机器上,就算我们明天消失,你的数据还在。Pro 套餐:我们提供一个一键 export 工具,把全部数据给你一个 portable 格式。我们永远不会拿你的 memory 绑架你。" },
+        { q: "能自托管吗?", a: "自托管在 2026 Q4 路线图里。在那之前,最接近的是 Hobby 套餐 —— 反正也是全本地的,数据本来就不出你机器。" },
       ],
     },
     pricingFaq: {
