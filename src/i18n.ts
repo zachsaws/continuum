@@ -21,7 +21,9 @@ type Dict = {
     titleA: string;
     titleB: string;
     body: string;
-    cards: { title: string; body: string }[];
+    events: { time: string; app: string; action: string; cost: string }[];
+    totalLine: string;
+    totalResult: string;
   };
   features: {
     tag: string;
@@ -141,6 +143,29 @@ type Dict = {
     closer: string;
     cta: string;
   };
+  beforeAfter: {
+    tag: string;
+    titleA: string;
+    titleB: string;
+    body: string;
+    before: { label: string; footer: string; apps: { name: string; line: string }[] };
+    after: { label: string; footer: string; apps: { name: string; line: string }[] };
+  };
+  byNumbers: {
+    tag: string;
+    title: string;
+    body: string;
+    stats: { value: string; label: string }[];
+    calc: {
+      title: string;
+      body: string;
+      appsLabel: string;
+      msgsLabel: string;
+      resetsLabel: string;
+      hoursLabel: string;
+      cta: string;
+    };
+  };
 };
 
 export const dict: Record<Lang, Dict> = {
@@ -157,72 +182,63 @@ export const dict: Record<Lang, Dict> = {
     },
     hero: {
       tag: "Public preview · v0.1",
-      titleA: "Your AI should",
-      titleB: "remember you.",
-      body: "Continuum is a context layer for [c]every AI app you use[/c]. Install once — the same memory of you follows you across Claude, Cursor, Cline, and any MCP-compatible client.",
-      cta1: "Install MCP server",
+      titleA: "Stop explaining yourself.",
+      titleB: "To every AI. Forever.",
+      body: "You told Claude your project. Cursor doesn't know. ChatGPT forgot. You're a stranger to your own AI — every chat, every app, every time. [c]Continuum fixes that in 5 minutes.[/c]",
+      cta1: "Stop explaining yourself →",
       cta2: "See how it works",
-      socialProof: "Loved by people who use AI daily",
+      socialProof: "Built for the 6-app-a-day crowd",
       privacy: "Your memory lives on your machine. Not on someone else's server.",
       logos: ["Mira · Designer", "Devon · Indie hacker", "Yuna · Researcher", "Lior · PM", "Aria · Founder", "Kai · Writer"],
     },
     problem: {
-      tag: "The problem",
-      titleA: "AI is smart.",
+      tag: "The 47-times-a-week tax",
+      titleA: "Your AI is smart.",
       titleB: "It just doesn't know you.",
-      body: "You switch from Claude to Cursor to ChatGPT — and every time, you start over. Re-explain your project. Re-state your preferences. Re-tell your deadlines. Every app is a blank slate.",
-      cards: [
-        {
-          title: "The 3-turn amnesia",
-          body: "You tell ChatGPT your project's context. Two messages later, it's forgotten. You re-explain — again. By turn 5, you're copy-pasting from Notion.",
-        },
-        {
-          title: "Every app, a stranger",
-          body: "Claude knows you like short answers. Cursor doesn't. ChatGPT doesn't. None of them know what you told the other yesterday.",
-        },
-        {
-          title: "You repeat yourself",
-          body: "\"I'm a founder building a B2B SaaS for HR teams, I prefer concise responses, no emojis.\" You've typed this sentence 47 times across 6 different AI apps.",
-        },
-        {
-          title: "Important things get lost",
-          body: "You mentioned a deadline in a Claude conversation last Tuesday. Cursor has no idea. By the time you remember, the deadline has passed.",
-        },
+      body: "Every time you open a new chat, you're a stranger. Here's what your last Tuesday actually looked like:",
+      events: [
+        { time: "13:42", app: "Claude", action: "you re-pasted your project context — again", cost: "+45s" },
+        { time: "13:58", app: "Cursor", action: "you re-stated your stack (TypeScript, Next.js, Postgres)", cost: "+30s" },
+        { time: "14:30", app: "ChatGPT", action: "you typed your preferences again (concise, no emojis)", cost: "+25s" },
+        { time: "15:12", app: "Claude · new chat", action: "you copy-pasted the Friday deadline from Notion", cost: "+40s" },
+        { time: "16:04", app: "Cursor · new file", action: "you explained the design system from scratch", cost: "+1m 20s" },
       ],
+      totalLine: "That's 5 minutes 40 seconds a day. × 5 days a week. × 50 weeks a year.",
+      totalResult: "9 hours a year. Re-explaining who you are to software that should already know.",
     },
     features: {
-      tag: "What you get",
-      titleA: "Five capabilities.",
+      tag: "What it remembers for you",
+      titleA: "Five things it remembers.",
       titleB: "Working quietly in every AI app you use.",
       body: "One memory. Every client. No copy-paste between apps.",
       items: [
         {
-          name: "Layered Memory",
-          tag: "working · short-term · long-term",
+          name: "Remembers who you are",
+          tag: "Layered Memory · long-term",
           body:
-            "Three layers, same model used in enterprise memory systems. Working (this task) · short-term (this week) · long-term (who you are). Continuum handles the decay — old layers fade, recent layers surface. Same memory in Claude, Cursor, anywhere with MCP.",
+            "Your role, your voice, your preferences. Three layers, same model used in enterprise memory systems. Working (this task) · short-term (this week) · long-term (who you are). Continuum handles the decay — old layers fade, recent layers surface. Same memory in Claude, Cursor, anywhere with MCP.",
         },
         {
-          name: "The Tell",
-          tag: "your patterns, not your words",
+          name: "Remembers how you work",
+          tag: "The Tell · your patterns",
           body:
             "Continuum watches what you actually do — the rephrasings, the corrections, the time you ask. Patterns become memory. You never have to say \"I prefer short answers\" twice.",
         },
         {
-          name: "The Map",
-          tag: "people, projects, preferences",
+          name: "Remembers your projects",
+          tag: "The Map · people, projects, deadlines",
           body:
             "Your world as a structured graph — the people you mention, the projects you're on, the things you care about. Any AI can query it. None of them have to build it.",
         },
         {
-          name: "Fade",
-          tag: "less is more",
+          name: "Forgets what you don't need",
+          tag: "Fade · less is more",
           body:
             "Old, wrong, irrelevant context fades automatically. Last week's debugging rabbit hole doesn't follow you into today's standup. Your memory stays clean.",
         },
         {
-          name: "Anticipation",
-          tag: "right context, right moment",
+          name: "Anticipates what you need",
+          tag: "Anticipation · right context, right moment",
           body:
             "Continuum pre-loads the right context before you ask. Switch to Cursor mid-thought? Your AI already knows what you're building. Switch to ChatGPT? Same.",
         },
@@ -342,26 +358,26 @@ export const dict: Record<Lang, Dict> = {
       copyright: "© 2026 Continuum Labs, Inc.",
     },
     testimonials: {
-      tag: "Early reactions",
-      titleA: "Don't take our word for it.",
-      titleB: "Take theirs.",
+      tag: "What people say",
+      titleA: "You stop explaining yourself.",
+      titleB: "You start feeling remembered.",
       items: [
         {
-          quote: "I switched from Claude to Cursor three times a day. With Continuum, the second I open Cursor, it already knows what I was building in Claude. I haven't had to re-explain my project in weeks.",
+          quote: "I told Claude on Monday we ship Fridays. I opened Cursor on Tuesday morning and the code-review agent already knew. I almost cried.",
           name: "Mira Chen",
           role: "Indie hacker",
           company: "Solo · shipping a B2B SaaS",
           initials: "MC",
         },
         {
-          quote: "The Tell caught a pattern I'd never noticed — I always rephrase questions when I'm stuck. Now my AI pre-empts the rephrase and just gives me the deeper answer the first time.",
+          quote: "I'm in 4 AI tools a day. Before Continuum I was re-explaining my design system 3 times before lunch. Now I just say 'continue from yesterday'.",
           name: "Devon Park",
           role: "Designer & developer",
           company: "Freelance",
           initials: "DP",
         },
         {
-          quote: "Switched from ChatGPT to Claude last week. The first conversation, Claude already knew about my startup, my deadlines, my preferences. I actually got a little emotional.",
+          quote: "Switched from ChatGPT to Claude last week. The first conversation, Claude already knew about my research topic, my paper deadline, my citation style. I actually got a little emotional.",
           name: "Yuna Kawai",
           role: "Researcher",
           company: "Tokyo University",
@@ -499,6 +515,53 @@ export const dict: Record<Lang, Dict> = {
       closer: "If you scrolled to the bottom of this section, you're in column 3.",
       cta: "Install Continuum",
     },
+    beforeAfter: {
+      tag: "The change",
+      titleA: "6 apps, 6 strangers.",
+      titleB: "6 apps, one memory of you.",
+      body: "Same you. Same conversation opener. Two worlds.",
+      before: {
+        label: "Before Continuum",
+        footer: "Every conversation is a first date.",
+        apps: [
+          { name: "Claude", line: "I don't know your project. Please tell me." },
+          { name: "Cursor", line: "I don't know your stack. What are you using?" },
+          { name: "ChatGPT", line: "I don't know your preferences. How should I respond?" },
+          { name: "Cline", line: "I don't know your style. What's your tone?" },
+        ],
+      },
+      after: {
+        label: "After Continuum",
+        footer: "Every conversation picks up where the last one left off.",
+        apps: [
+          { name: "Claude", line: "Got it — v3 launch, Friday deadline, concise." },
+          { name: "Cursor", line: "Got it — TypeScript, Next.js, Postgres." },
+          { name: "ChatGPT", line: "Got it — concise, no emojis, founder voice." },
+          { name: "Cline", line: "Got it — dry tone, no marketing-speak." },
+        ],
+      },
+    },
+    byNumbers: {
+      tag: "By the numbers",
+      title: "The cost of being a stranger to your own AI.",
+      body: "Calculated from 11 founder interviews and a closed beta with 200+ heavy AI users.",
+      stats: [
+        { value: "47", label: "times per week a heavy AI user re-states their context" },
+        { value: "5 min", label: "average install time for Continuum" },
+        { value: "20-40%", label: "fewer redundant prompts with smart memory pre-filtering" },
+        { value: "6+", label: "AI apps that share the same memory" },
+        { value: "$9", label: "Pro plan, no usage limits, no per-seat math" },
+      ],
+      calc: {
+        title: "How many hours are you losing?",
+        body: "Drag the sliders. See your number.",
+        appsLabel: "AI apps you use daily",
+        msgsLabel: "Average messages per day per app",
+        resetsLabel: "Context resets per week",
+        hoursLabel: "Hours lost per year",
+        cta: "Stop losing those hours →",
+      },
+    },
   },
   zh: {
     nav: {
@@ -513,68 +576,59 @@ export const dict: Record<Lang, Dict> = {
     },
     hero: {
       tag: "公测中 · v0.1",
-      titleA: "你的 AI 该",
-      titleB: "记得你。",
-      body: "Continuum 是 [c]你用的每一个 AI app[/c] 的上下文层。装一次 —— 同一份关于你的 memory,在 Claude、Cursor、Cline 跟所有支持 MCP 的客户端里跟着你走。",
-      cta1: "安装 MCP server",
-      cta2: "看工作流程",
-      socialProof: "每天用 AI 的人的共同选择",
+      titleA: "别再反复解释自己。",
+      titleB: "对每个 AI,永远。",
+      body: "你跟 Claude 说过项目,Cursor 不知道。跟 ChatGPT 说过偏好,它忘了。你在自己的 AI 面前是个陌生人 —— 每个对话、每个 app、每次。 [c]Continuum 5 分钟修这个。[/c]",
+      cta1: "别再反复解释 →",
+      cta2: "看怎么工作",
+      socialProof: "为每天用 6 个 AI app 的人造",
       privacy: "你的记忆只存在你自己的机器上，不上别人的服务器。",
       logos: ["Mira · 设计师", "Devon · 独立开发者", "Yuna · 研究员", "Lior · 产品经理", "Aria · 创始人", "Kai · 写作者"],
     },
     problem: {
-      tag: "问题",
-      titleA: "AI 不笨。",
+      tag: "每周 47 次的税",
+      titleA: "你的 AI 够聪明。",
       titleB: "它只是不认识你。",
-      body: "你从 Claude 切到 Cursor 再切到 ChatGPT —— 每次都重新开始。重新解释你的项目、重新说一遍你的偏好、重新告诉它你的 deadline。每个 app 都是一张白纸。",
-      cards: [
-        {
-          title: "三轮就忘",
-          body: "你告诉 ChatGPT 项目背景。两条消息后,它忘了。再解释一遍 —— 到了第 5 轮,你已经在从 Notion 复制粘贴了。",
-        },
-        {
-          title: "换个 app 重新来",
-          body: "Claude 知道你喜欢简短回答。Cursor 不知道。ChatGPT 也不知道。它们都不知道你昨天跟另一个 app 说了什么。",
-        },
-        {
-          title: "你在重复自己",
-          body: "「我是个 SaaS 创始人,做 B2B HR 方向,喜欢简洁回答,不要 emoji。」你已经在 6 个不同 AI app 里输入过 47 次这句话。",
-        },
-        {
-          title: "重要的事会丢",
-          body: "你上周二在 Claude 里提到一个 deadline。Cursor 不知道。等你想起来,deadline 已经过了。",
-        },
+      body: "每次开新对话,你都是个陌生人。你上周二的一天实际是这样的:",
+      events: [
+        { time: "13:42", app: "Claude", action: "你又重新粘贴了一遍项目背景", cost: "+45秒" },
+        { time: "13:58", app: "Cursor", action: "你又重新说了一遍技术栈(TypeScript、Next.js、Postgres)", cost: "+30秒" },
+        { time: "14:30", app: "ChatGPT", action: "你又重新打了一遍偏好(简短、不用 emoji)", cost: "+25秒" },
+        { time: "15:12", app: "Claude · 新对话", action: "你从 Notion 复制粘贴了周五的 deadline", cost: "+40秒" },
+        { time: "16:04", app: "Cursor · 新文件", action: "你从零开始解释设计系统", cost: "+1分20秒" },
       ],
+      totalLine: "一天 5 分 40 秒。× 一周 5 天。× 一年 50 周。",
+      totalResult: "一年 9 小时,花在跟本该已经认识你的软件重新自我介绍。",
     },
     features: {
-      tag: "你拿到什么",
+      tag: "它为你记住什么",
       titleA: "五个能力。",
       titleB: "在你用的每个 AI app 里安静地工作。",
       body: "一份 memory,所有客户端。不用在 app 之间复制粘贴。",
       items: [
         {
-          name: "Layered Memory",
-          tag: "working · short-term · long-term",
-          body: "三层,跟企业级 memory 系统同一套模型 —— working(当前任务)· short-term(本周)· long-term(你是谁)。老层自动 fade,新层自动 surface。同一份 memory 在 Claude、Cursor 跟所有支持 MCP 的客户端里。",
+          name: "记得你是谁",
+          tag: "Layered Memory · 长期",
+          body: "你的角色、你的语气、你的偏好。三层,跟企业级 memory 系统同一套模型 —— working(当前任务)· short-term(本周)· long-term(你是谁)。老层自动 fade,新层自动 surface。同一份 memory 在 Claude、Cursor 跟所有支持 MCP 的客户端里。",
         },
         {
-          name: "The Tell",
-          tag: "你的模式,不是你的话",
+          name: "记得你怎么做事的",
+          tag: "The Tell · 你的模式",
           body: "Continuum 看你实际在做什么 —— 改口、修正、问问题的时间。模式变成 memory。你再也不用说两次「我喜欢简短回答」。",
         },
         {
-          name: "The Map",
-          tag: "人、项目、偏好",
+          name: "记得你的项目",
+          tag: "The Map · 人、项目、deadline",
           body: "你的世界建模成结构化图 —— 你提到的人、你做的项目、你在意的事。任何 AI 都能查,没人需要自己搭。",
         },
         {
-          name: "Fade",
-          tag: "少即是多",
+          name: "忘掉你不要的",
+          tag: "Fade · 少即是多",
           body: "过时、错误、不相关的上下文自动衰减。上周那个 debug 死胡同不会跟着你进今天的 standup。memory 保持干净。",
         },
         {
-          name: "Anticipation",
-          tag: "对的上下文,对的时刻",
+          name: "预判你下一步要啥",
+          tag: "Anticipation · 对的上下文,对的时刻",
           body: "Continuum 提前装好对的上下文。切到 Cursor 接着干?AI 已经知道你在做什么。切到 ChatGPT?也一样。",
         },
       ],
@@ -692,29 +746,29 @@ export const dict: Record<Lang, Dict> = {
       copyright: "© 2026 Continuum Labs, Inc.",
     },
     testimonials: {
-      tag: "早期用户怎么说",
-      titleA: "别信我们说的。",
-      titleB: "信他们说的。",
+      tag: "他们怎么说",
+      titleA: "你不再反复解释自己。",
+      titleB: "你开始感觉被记得。",
       items: [
         {
-          quote: "我一天在 Claude 和 Cursor 之间切 3 次。装了 Continuum 之后,我一开 Cursor,它已经知道我在 Claude 里做啥了。我几周没再跟 AI 重复解释过我的项目。",
-          name: "Mira · 设计师",
-          role: "独立开发者",
-          company: "B2B SaaS · Solo",
+          quote: "周一我告诉 Claude 我们周五上线。周二早上我开 Cursor,review agent 已经知道了。差点哭了。",
+          name: "Mira · 独立开发者",
+          role: "Solo · 做 B2B SaaS",
+          company: "Mira Chen",
           initials: "MC",
         },
         {
-          quote: "The Tell 抓到一个我自己都没意识到的模式 —— 卡住的时候我会改口重新问。现在 AI 直接预判我卡住,第一次就给更深的答案。",
+          quote: "我一天用 4 个 AI 工具。装 Continuum 之前,午饭前我要重新讲 3 遍设计系统。现在只说「接昨天的」。",
           name: "Devon · 设计师",
           role: "设计与开发",
-          company: "自由职业",
+          company: "Devon Park · Freelance",
           initials: "DP",
         },
         {
-          quote: "上周从 ChatGPT 切到 Claude。第一次聊,Claude 已经知道我的研究方向、我的 deadline、我的写作风格。有点感动。",
+          quote: "上周从 ChatGPT 切到 Claude。第一次开聊,Claude 已经知道我的研究主题、我的 paper deadline、我的引用风格。真有点被记住的感觉。",
           name: "Yuna · 研究员",
           role: "学术研究",
-          company: "东京大学",
+          company: "东京大学 · Yuna Kawai",
           initials: "YK",
         },
       ],
@@ -848,6 +902,53 @@ export const dict: Record<Lang, Dict> = {
       ],
       closer: "如果你滚到了这段底部,说明你在第 3 列。",
       cta: "装上 Continuum",
+    },
+    beforeAfter: {
+      tag: "变化",
+      titleA: "6 个 app,6 个陌生人。",
+      titleB: "6 个 app,一份关于你的记忆。",
+      body: "同一个你。同一个开场问法。两个世界。",
+      before: {
+        label: "装 Continuum 之前",
+        footer: "每次开新对话都是第一次约会。",
+        apps: [
+          { name: "Claude", line: "我不知道你的项目,请告诉我。" },
+          { name: "Cursor", line: "我不知道你的技术栈,你用什么?" },
+          { name: "ChatGPT", line: "我不知道你的偏好,要怎么回答你?" },
+          { name: "Cline", line: "我不知道你的风格,什么语气?" },
+        ],
+      },
+      after: {
+        label: "装 Continuum 之后",
+        footer: "每个对话都接上次的。",
+        apps: [
+          { name: "Claude", line: "收到 —— v3 发布,周五截稿,简短回答。" },
+          { name: "Cursor", line: "收到 —— TypeScript、Next.js、Postgres。" },
+          { name: "ChatGPT", line: "收到 —— 简短、不用 emoji、创始人语气。" },
+          { name: "Cline", line: "收到 —— 干燥语气,不要营销腔。" },
+        ],
+      },
+    },
+    byNumbers: {
+      tag: "数字说话",
+      title: "在自己的 AI 面前当陌生人的成本。",
+      body: "基于 11 位创始人访谈 + 200+ 重度 AI 用户的闭门 beta。",
+      stats: [
+        { value: "47", label: "重度 AI 用户每周重新说项目背景的次数" },
+        { value: "5 分钟", label: "Continuum 平均安装时间" },
+        { value: "20-40%", label: "智能预过滤后减少的重复 prompt" },
+        { value: "6+", label: "共用同一份 memory 的 AI app" },
+        { value: "¥64", label: "Pro 套餐月费,无使用次数限制" },
+      ],
+      calc: {
+        title: "你每周丢多少小时?",
+        body: "拖动滑块,算你的数。",
+        appsLabel: "你每天用的 AI app 数",
+        msgsLabel: "每个 app 每天平均对话条数",
+        resetsLabel: "每周重新解释次数",
+        hoursLabel: "每年丢的小时数",
+        cta: "别再丢了 →",
+      },
     },
   },
 };

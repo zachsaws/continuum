@@ -255,49 +255,45 @@ function Hero({ lang }: { lang: Lang }) {
 
 /* --------------------------------- problem --------------------------------- */
 
-const problemIcons = [
-  <svg key="p1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-    <circle cx="12" cy="12" r="9" />
-    <path d="M12 7v5l3 2" />
-  </svg>,
-  <svg key="p2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-    <path d="M3 12h4l3-9 4 18 3-9h4" />
-  </svg>,
-  <svg key="p3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-    <rect x="3" y="4" width="18" height="16" rx="2" />
-    <path d="M7 9h10M7 13h10M7 17h6" />
-  </svg>,
-  <svg key="p4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-    <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
-    <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
-    <path d="M21 3v5h-5M3 21v-5h5" />
-  </svg>,
-];
-
 function Problem({ lang }: { lang: Lang }) {
   const t = dict[lang].problem;
   return (
-    <section className="border-t border-border-subtle py-16 md:py-24">
+    <section className="border-t border-border-subtle py-20 md:py-28">
       <div className="container-page">
         <div className="mx-auto max-w-2xl text-center">
           <span className="text-xs uppercase tracking-[0.2em] text-accent">{t.tag}</span>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+          <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight md:text-4xl">
             {t.titleA} <br />
             <span className="text-fg-muted">{t.titleB}</span>
           </h2>
           <p className="mt-5 text-fg-muted">{t.body}</p>
         </div>
 
-        <div className="mt-14 grid gap-4 md:grid-cols-2">
-          {t.cards.map((p, i) => (
-            <div key={p.title} className="card card-hover">
-              <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-md border border-border bg-bg-soft text-accent">
-                {problemIcons[i]}
+        <div className="mx-auto mt-14 max-w-3xl">
+          <div className="relative space-y-3">
+            {/* vertical timeline line */}
+            <div className="absolute left-[80px] top-3 bottom-3 hidden w-px bg-border md:block" />
+            {t.events.map((e, i) => (
+              <div key={i} className="relative grid grid-cols-[60px_1fr_auto] items-center gap-3 rounded-lg border border-border-subtle bg-bg-card/60 px-4 py-3 md:grid-cols-[80px_1fr_80px]">
+                <span className="font-mono text-[12px] text-fg-dim">{e.time}</span>
+                <div className="flex items-center gap-2">
+                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent md:relative md:left-[-22px]" />
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[10px] uppercase tracking-wider text-fg-dim">{e.app}</div>
+                    <div className="truncate text-[13.5px] text-fg-muted">{e.action}</div>
+                  </div>
+                </div>
+                <span className="text-right font-mono text-[11px] text-accent/80">{e.cost}</span>
               </div>
-              <h3 className="text-base font-semibold">{p.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-fg-muted">{p.body}</p>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+
+        <div className="mx-auto mt-10 max-w-2xl text-center">
+          <p className="text-[14px] text-fg-muted">{t.totalLine}</p>
+          <p className="mt-3 text-2xl font-semibold text-fg md:text-3xl">
+            {t.totalResult}
+          </p>
         </div>
       </div>
     </section>
@@ -560,6 +556,194 @@ function IsForMe({ lang }: { lang: Lang }) {
               <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BeforeAfter({ lang }: { lang: Lang }) {
+  const t = dict[lang].beforeAfter;
+  return (
+    <section className="border-t border-border-subtle py-20 md:py-28">
+      <div className="container-page">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="text-xs uppercase tracking-[0.2em] text-accent">{t.tag}</span>
+          <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight md:text-4xl">
+            {t.titleA} <br />
+            <span className="text-fg-muted">{t.titleB}</span>
+          </h2>
+          <p className="mt-5 text-fg-muted">{t.body}</p>
+        </div>
+
+        <div className="mx-auto mt-14 grid max-w-5xl gap-6 md:grid-cols-2">
+          {[
+            { side: t.before, isAfter: false },
+            { side: t.after, isAfter: true },
+          ].map(({ side, isAfter }) => (
+            <div
+              key={side.label}
+              className={`relative rounded-2xl border p-5 md:p-6 ${
+                isAfter
+                  ? "border-accent/40 bg-gradient-to-b from-accent/[0.06] to-transparent"
+                  : "border-border bg-bg-card/60"
+              }`}
+            >
+              <div className="mb-4 flex items-center justify-between">
+                <span
+                  className={`text-[11px] font-semibold uppercase tracking-[0.18em] ${
+                    isAfter ? "text-accent" : "text-fg-dim"
+                  }`}
+                >
+                  {side.label}
+                </span>
+                {isAfter && (
+                  <span className="rounded-full bg-accent px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-bg">
+                    this
+                  </span>
+                )}
+              </div>
+              <div className="space-y-2.5">
+                {side.apps.map((app) => (
+                  <div
+                    key={app.name}
+                    className={`rounded-md border px-3 py-2.5 ${
+                      isAfter
+                        ? "border-accent/30 bg-bg/60"
+                        : "border-border-subtle bg-bg/40"
+                    }`}
+                  >
+                    <div
+                      className={`mb-0.5 text-[10px] font-semibold uppercase tracking-wider ${
+                        isAfter ? "text-accent" : "text-fg-dim"
+                      }`}
+                    >
+                      {app.name}
+                    </div>
+                    <div className="text-[13px] text-fg-muted">{app.line}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 text-[12px] italic text-fg-dim">{side.footer}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ByTheNumbers({ lang }: { lang: Lang }) {
+  const t = dict[lang].byNumbers;
+  const [apps, setApps] = useState(3);
+  const [msgs, setMsgs] = useState(15);
+
+  // Re-state context: ~30% of new messages need a context reset, each costs ~1 min
+  const resetsPerWeek = Math.round(apps * msgs * 5 * 0.3);
+  const hoursLostPerYear = Math.round((resetsPerWeek * 52 * 1) / 60);
+
+  return (
+    <section className="border-t border-border-subtle bg-bg-card/30 py-20 md:py-28">
+      <div className="container-page">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="text-xs uppercase tracking-[0.2em] text-accent">{t.tag}</span>
+          <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight md:text-4xl">
+            {t.title}
+          </h2>
+          <p className="mt-4 text-fg-muted">{t.body}</p>
+        </div>
+
+        <div className="mx-auto mt-14 grid max-w-6xl gap-3 sm:grid-cols-2 md:grid-cols-5">
+          {t.stats.map((s) => (
+            <div
+              key={s.label}
+              className="rounded-xl border border-border-subtle bg-bg-card/60 p-5 text-center"
+            >
+              <div className="bg-gradient-to-br from-accent to-[#a78bfa] bg-clip-text text-3xl font-semibold leading-none tracking-tight text-transparent md:text-4xl">
+                {s.value}
+              </div>
+              <div className="mt-3 text-[12.5px] leading-snug text-fg-muted">{s.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Calculator */}
+        <div className="mx-auto mt-10 max-w-3xl rounded-2xl border border-accent/30 bg-gradient-to-b from-accent/[0.04] to-transparent p-6 md:p-8">
+          <div className="text-center">
+            <h3 className="text-2xl font-semibold tracking-tight md:text-3xl">{t.calc.title}</h3>
+            <p className="mt-2 text-fg-muted">{t.calc.body}</p>
+          </div>
+
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <div>
+              <div className="mb-2 flex items-baseline justify-between">
+                <label className="text-[12px] font-medium uppercase tracking-wider text-fg-muted">
+                  {t.calc.appsLabel}
+                </label>
+                <span className="font-mono text-2xl font-semibold text-accent">{apps}</span>
+              </div>
+              <input
+                type="range"
+                min={1}
+                max={6}
+                value={apps}
+                onChange={(e) => setApps(Number(e.target.value))}
+                className="w-full accent-accent"
+              />
+              <div className="mt-1 flex justify-between text-[10px] text-fg-dim">
+                <span>1</span>
+                <span>6</span>
+              </div>
+            </div>
+            <div>
+              <div className="mb-2 flex items-baseline justify-between">
+                <label className="text-[12px] font-medium uppercase tracking-wider text-fg-muted">
+                  {t.calc.msgsLabel}
+                </label>
+                <span className="font-mono text-2xl font-semibold text-accent">{msgs}</span>
+              </div>
+              <input
+                type="range"
+                min={5}
+                max={30}
+                value={msgs}
+                onChange={(e) => setMsgs(Number(e.target.value))}
+                className="w-full accent-accent"
+              />
+              <div className="mt-1 flex justify-between text-[10px] text-fg-dim">
+                <span>5</span>
+                <span>30</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 grid grid-cols-2 gap-4 border-t border-border-subtle pt-6">
+            <div className="text-center">
+              <div className="font-mono text-3xl font-semibold text-fg md:text-4xl">
+                {resetsPerWeek}
+              </div>
+              <div className="mt-1 text-[11px] uppercase tracking-wider text-fg-dim">
+                {t.calc.resetsLabel}
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="bg-gradient-to-br from-accent to-[#a78bfa] bg-clip-text font-mono text-3xl font-semibold text-transparent md:text-4xl">
+                {hoursLostPerYear}h
+              </div>
+              <div className="mt-1 text-[11px] uppercase tracking-wider text-fg-dim">
+                {t.calc.hoursLabel}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 text-center">
+            <a href="#pricing" className="btn-primary inline-flex h-10 items-center gap-1.5 px-5">
+              {t.calc.cta}
+              <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -1444,13 +1628,15 @@ export default function App() {
       <main>
         <Hero lang={lang} />
         <Problem lang={lang} />
-        <WhyExists lang={lang} />
-        <IsForMe lang={lang} />
+        <BeforeAfter lang={lang} />
+        <ByTheNumbers lang={lang} />
         <Features lang={lang} />
         <HowItWorks lang={lang} />
+        <UseCases lang={lang} />
+        <WhyExists lang={lang} />
+        <IsForMe lang={lang} />
         <Architecture lang={lang} />
         <CodeBlock lang={lang} />
-        <UseCases lang={lang} />
         <Testimonials lang={lang} />
         <Pricing lang={lang} />
         <Security lang={lang} />
