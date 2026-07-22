@@ -181,20 +181,20 @@ export const dict: Record<Lang, Dict> = {
       getKey: "Get API key",
     },
     hero: {
-      tag: "Public preview · v0.1",
-      titleA: "Stop explaining yourself.",
-      titleB: "To every AI. Forever.",
-      body: "You told Claude your project. Cursor doesn't know. ChatGPT forgot. You're a stranger to your own AI — every chat, every app, every time. [c]Continuum fixes that in 5 minutes.[/c]",
-      cta1: "Stop explaining yourself →",
-      cta2: "See how it works",
-      socialProof: "Built for the 6-app-a-day crowd",
+      tag: "Public preview",
+      titleA: "Let your AI",
+      titleB: "know you.",
+      body: "Not a tool. The \"it knows you\" thing. [c]One memory across every AI app you use.[/c]",
+      cta1: "Start being remembered →",
+      cta2: "See what it looks like",
+      socialProof: "For the 6-app-a-day crowd",
       privacy: "Your memory lives on your machine. Not on someone else's server.",
       logos: ["Mira · Designer", "Devon · Indie hacker", "Yuna · Researcher", "Lior · PM", "Aria · Founder", "Kai · Writer"],
     },
     problem: {
-      tag: "The 47-times-a-week tax",
-      titleA: "Your AI is smart.",
-      titleB: "It just doesn't know you.",
+      tag: "the 47-times-a-week tax",
+      titleA: "Your AI isn't dumb.",
+      titleB: "You're just re-introducing yourself.",
       body: "Every time you open a new chat, you're a stranger. Here's what your last Tuesday actually looked like:",
       events: [
         { time: "13:42", app: "Claude", action: "you re-pasted your project context — again", cost: "+45s" },
@@ -341,10 +341,10 @@ export const dict: Record<Lang, Dict> = {
       ],
     },
     finalCta: {
-      titleA: "Stop explaining yourself.",
-      titleB: "Start being remembered.",
+      titleA: "Go meet your AI.",
+      titleB: "It already knows you.",
       body: "Five minutes to install. One memory across every AI app. Free forever for the first 1,000 memories — no credit card, no trial, no catch.",
-      cta1: "Install in 5 minutes",
+      cta1: "Start being remembered",
       cta2: "Read the docs first",
     },
     footer: {
@@ -519,10 +519,10 @@ export const dict: Record<Lang, Dict> = {
       tag: "The change",
       titleA: "6 apps, 6 strangers.",
       titleB: "6 apps, one memory of you.",
-      body: "Same you. Same conversation opener. Two worlds.",
+      body: "Same you. Same opener. Two worlds.",
       before: {
         label: "Before Continuum",
-        footer: "Every conversation is a first date.",
+        footer: "Strangers. Every time.",
         apps: [
           { name: "Claude", line: "I don't know your project. Please tell me." },
           { name: "Cursor", line: "I don't know your stack. What are you using?" },
@@ -532,7 +532,7 @@ export const dict: Record<Lang, Dict> = {
       },
       after: {
         label: "After Continuum",
-        footer: "Every conversation picks up where the last one left off.",
+        footer: "Old friends, picking up.",
         apps: [
           { name: "Claude", line: "Got it — v3 launch, Friday deadline, concise." },
           { name: "Cursor", line: "Got it — TypeScript, Next.js, Postgres." },
@@ -575,20 +575,20 @@ export const dict: Record<Lang, Dict> = {
       getKey: "获取 API Key",
     },
     hero: {
-      tag: "公测中 · v0.1",
-      titleA: "别再反复解释自己。",
-      titleB: "对每个 AI,永远。",
-      body: "你跟 Claude 说过项目,Cursor 不知道。跟 ChatGPT 说过偏好,它忘了。你在自己的 AI 面前是个陌生人 —— 每个对话、每个 app、每次。 [c]Continuum 5 分钟修这个。[/c]",
-      cta1: "别再反复解释 →",
-      cta2: "看怎么工作",
+      tag: "公测中",
+      titleA: "让 AI 变成你的",
+      titleB: "老朋友。",
+      body: "不是工具 —— 是「它认识你」这件事。[c]装一次,6 个 AI app 共用一份关于你的记忆。[/c]",
+      cta1: "开始被记住 →",
+      cta2: "看看什么样",
       socialProof: "为每天用 6 个 AI app 的人造",
       privacy: "你的记忆只存在你自己的机器上，不上别人的服务器。",
       logos: ["Mira · 设计师", "Devon · 独立开发者", "Yuna · 研究员", "Lior · 产品经理", "Aria · 创始人", "Kai · 写作者"],
     },
     problem: {
       tag: "每周 47 次的税",
-      titleA: "你的 AI 够聪明。",
-      titleB: "它只是不认识你。",
+      titleA: "AI 够聪明。",
+      titleB: "你只是每次都在重新介绍自己。",
       body: "每次开新对话,你都是个陌生人。你上周二的一天实际是这样的:",
       events: [
         { time: "13:42", app: "Claude", action: "你又重新粘贴了一遍项目背景", cost: "+45秒" },
@@ -729,10 +729,10 @@ export const dict: Record<Lang, Dict> = {
       ],
     },
     finalCta: {
-      titleA: "别再反复解释自己。",
-      titleB: "开始被记住。",
+      titleA: "去认识你的 AI。",
+      titleB: "它已经认识你了。",
       body: "5 分钟装好。一份 memory,所有 AI app 通用。前 1,000 条永久免费 —— 不要信用卡,不要试用,没套路。",
-      cta1: "5 分钟装好",
+      cta1: "开始被记住",
       cta2: "先看文档",
     },
     footer: {
@@ -910,7 +910,7 @@ export const dict: Record<Lang, Dict> = {
       body: "同一个你。同一个开场问法。两个世界。",
       before: {
         label: "装 Continuum 之前",
-        footer: "每次开新对话都是第一次约会。",
+        footer: "陌生人,每次都是。",
         apps: [
           { name: "Claude", line: "我不知道你的项目,请告诉我。" },
           { name: "Cursor", line: "我不知道你的技术栈,你用什么?" },
@@ -920,7 +920,7 @@ export const dict: Record<Lang, Dict> = {
       },
       after: {
         label: "装 Continuum 之后",
-        footer: "每个对话都接上次的。",
+        footer: "熟客了,接着聊。",
         apps: [
           { name: "Claude", line: "收到 —— v3 发布,周五截稿,简短回答。" },
           { name: "Cursor", line: "收到 —— TypeScript、Next.js、Postgres。" },

@@ -164,7 +164,7 @@ function HeroMagicMoment({ lang }: { lang: Lang }) {
               Continuum
             </span>
             <span className="ml-auto text-[9px] text-fg-dim">
-              {isZh ? "刚刚" : "just now"}
+              {isZh ? "它认得你" : "it knows you"}
             </span>
           </div>
           <div className="mb-2 text-[10px] text-fg-dim">
@@ -513,7 +513,7 @@ function IsForMe({ lang }: { lang: Lang }) {
           {t.columns.map((c, i) => (
             <div
               key={i}
-              className={`relative rounded-2xl border p-6 ${
+              className={`relative rounded-3xl border p-6 ${
                 c.emph
                   ? "border-accent/40 bg-gradient-to-b from-accent/[0.04] to-transparent"
                   : "border-border bg-bg-card"
@@ -564,6 +564,7 @@ function IsForMe({ lang }: { lang: Lang }) {
 
 function BeforeAfter({ lang }: { lang: Lang }) {
   const t = dict[lang].beforeAfter;
+  const isZh = lang === "zh";
   return (
     <section className="border-t border-border-subtle py-20 md:py-28">
       <div className="container-page">
@@ -583,7 +584,7 @@ function BeforeAfter({ lang }: { lang: Lang }) {
           ].map(({ side, isAfter }) => (
             <div
               key={side.label}
-              className={`relative rounded-2xl border p-5 md:p-6 ${
+              className={`relative rounded-3xl border p-5 md:p-6 ${
                 isAfter
                   ? "border-accent/40 bg-gradient-to-b from-accent/[0.06] to-transparent"
                   : "border-border bg-bg-card/60"
@@ -599,7 +600,7 @@ function BeforeAfter({ lang }: { lang: Lang }) {
                 </span>
                 {isAfter && (
                   <span className="rounded-full bg-accent px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-bg">
-                    this
+                    {isZh ? "现在" : "now"}
                   </span>
                 )}
               </div>
@@ -668,7 +669,7 @@ function ByTheNumbers({ lang }: { lang: Lang }) {
         </div>
 
         {/* Calculator */}
-        <div className="mx-auto mt-10 max-w-3xl rounded-2xl border border-accent/30 bg-gradient-to-b from-accent/[0.04] to-transparent p-6 md:p-8">
+        <div className="mx-auto mt-10 max-w-3xl rounded-3xl border border-accent/30 bg-gradient-to-b from-accent/[0.04] to-transparent p-6 md:p-8">
           <div className="text-center">
             <h3 className="text-2xl font-semibold tracking-tight md:text-3xl">{t.calc.title}</h3>
             <p className="mt-2 text-fg-muted">{t.calc.body}</p>

@@ -27,40 +27,40 @@ export default {
       },
       colors: {
         bg: {
-          DEFAULT: "#0a0a0a",
-          soft: "#111111",
-          elev: "#161616",
-          card: "#0d0d0d",
+          DEFAULT: "#1a1612", // warm dark brown (was #0a0a0a)
+          soft: "#221d18",
+          elev: "#2a241e",
+          card: "#1f1b16",
         },
         border: {
-          subtle: "rgba(255,255,255,0.06)",
+          subtle: "rgba(255,255,255,0.05)",
           DEFAULT: "rgba(255,255,255,0.10)",
           strong: "rgba(255,255,255,0.16)",
         },
         fg: {
-          DEFAULT: "#ededed",
-          muted: "#9ca3af",
-          dim: "#6b7280",
+          DEFAULT: "#f3ece2", // slightly warm off-white
+          muted: "#a89c8e",
+          dim: "#7a6f63",
         },
         accent: {
-          DEFAULT: "#5eead4", // teal-300
-          glow: "rgba(94, 234, 212, 0.18)",
-          deep: "#14b8a6",
+          DEFAULT: "#f4a896", // warm peach
+          glow: "rgba(244, 168, 150, 0.18)",
+          deep: "#e89070",
         },
         purple: {
-          accent: "#a78bfa",
+          accent: "#d4a87c", // cream / coffee
         },
       },
       backgroundImage: {
         "grid-fade":
-          "radial-gradient(circle at center, rgba(255,255,255,0.04) 1px, transparent 1px)",
+          "radial-gradient(circle at center, rgba(255,255,255,0.035) 1px, transparent 1px)",
         "hero-glow":
-          "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(94, 234, 212, 0.15), transparent)",
+          "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(244, 168, 150, 0.18), transparent)",
         "card-glow":
-          "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(167, 139, 250, 0.10), transparent)",
+          "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(212, 168, 124, 0.10), transparent)",
       },
       boxShadow: {
-        "glow-accent": "0 0 0 1px rgba(94,234,212,0.2), 0 8px 30px rgba(94,234,212,0.10)",
+        "glow-accent": "0 0 0 1px rgba(244,168,150,0.22), 0 8px 30px rgba(244,168,150,0.10)",
         "card": "0 1px 0 rgba(255,255,255,0.04) inset, 0 0 0 1px rgba(255,255,255,0.06)",
       },
       animation: {
