@@ -6,6 +6,9 @@ export default {
       fontFamily: {
         sans: [
           "Inter",
+          "PingFang SC",
+          "Hiragino Sans GB",
+          "Microsoft YaHei",
           "ui-sans-serif",
           "system-ui",
           "-apple-system",
@@ -27,61 +30,36 @@ export default {
       },
       colors: {
         bg: {
-          DEFAULT: "#1a1612", // warm dark brown (was #0a0a0a)
-          soft: "#221d18",
-          elev: "#2a241e",
-          card: "#1f1b16",
+          DEFAULT: "#FAF6F0", // paper warm cream
+          soft: "#F4EEE3", // slightly darker for hover / subtle elev
+          elev: "#FFFFFF", // rare elevated surfaces (use sparingly)
+          card: "#FAF6F0", // same as page, no separate card bg
         },
         border: {
-          subtle: "rgba(255,255,255,0.05)",
-          DEFAULT: "rgba(255,255,255,0.10)",
-          strong: "rgba(255,255,255,0.16)",
+          subtle: "rgba(31,26,20,0.08)",
+          DEFAULT: "rgba(31,26,20,0.12)",
+          strong: "rgba(31,26,20,0.20)",
         },
         fg: {
-          DEFAULT: "#f3ece2", // slightly warm off-white
-          muted: "#a89c8e",
-          dim: "#7a6f63",
+          DEFAULT: "#1f1a14", // deep warm gray (not pure black)
+          muted: "#7a6f63", // warm gray for body
+          dim: "#a89c8e", // lighter warm gray for hints
         },
         accent: {
-          DEFAULT: "#f4a896", // warm peach
-          glow: "rgba(244, 168, 150, 0.18)",
-          deep: "#e89070",
-        },
-        purple: {
-          accent: "#d4a87c", // cream / coffee
+          DEFAULT: "#d97a5c", // ink-stamp orange (used SPARINGLY)
+          glow: "rgba(217, 122, 92, 0.10)",
+          deep: "#b85a3c",
         },
       },
       backgroundImage: {
-        "grid-fade":
-          "radial-gradient(circle at center, rgba(255,255,255,0.035) 1px, transparent 1px)",
-        "hero-glow":
-          "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(244, 168, 150, 0.18), transparent)",
-        "card-glow":
-          "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(212, 168, 124, 0.10), transparent)",
+        "subtle-dots":
+          "radial-gradient(circle at center, rgba(31,26,20,0.04) 1px, transparent 1px)",
+        "hero-warm":
+          "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(217,122,92,0.08), transparent)",
       },
-      boxShadow: {
-        "glow-accent": "0 0 0 1px rgba(244,168,150,0.22), 0 8px 30px rgba(244,168,150,0.10)",
-        "card": "0 1px 0 rgba(255,255,255,0.04) inset, 0 0 0 1px rgba(255,255,255,0.06)",
-      },
-      animation: {
-        "fade-up": "fadeUp 0.6s ease-out forwards",
-        "pulse-slow": "pulse 4s ease-in-out infinite",
-        "shimmer": "shimmer 2.4s linear infinite",
-        float: "float 6s ease-in-out infinite",
-      },
-      keyframes: {
-        fadeUp: {
-          "0%": { opacity: "0", transform: "translateY(8px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
-        },
-        shimmer: {
-          "0%": { backgroundPosition: "-200% 0" },
-          "100%": { backgroundPosition: "200% 0" },
-        },
-        float: {
-          "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-6px)" },
-        },
+      borderRadius: {
+        // softer, paper-like; no sharp corners
+        card: "12px",
       },
     },
   },
