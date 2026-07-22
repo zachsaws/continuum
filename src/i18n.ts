@@ -79,6 +79,7 @@ type Dict = {
     body: string;
     cta1: string;
     cta2: string;
+    etymology: string;
   };
   footer: {
     tagline: string;
@@ -192,7 +193,7 @@ export const dict: Record<Lang, Dict> = {
       tag: "Public preview",
       titleA: "Let your AI",
       titleB: "know you.",
-      body: "Not a tool. The \"it knows you\" thing. [c]One memory across every AI app you use.[/c]",
+      body: "Your preferences. Your projects. The people you mentioned last week. [c]One memory that follows you across every AI app.[/c]",
       cta1: "Start being remembered →",
       cta2: "See what it looks like",
       socialProof: "For the 6-app-a-day crowd",
@@ -221,7 +222,7 @@ export const dict: Record<Lang, Dict> = {
       body: "One memory. Every client. No copy-paste between apps.",
       items: [
         {
-          name: "Remembers who you are",
+          name: "It knows what you've been working on",
           tag: "Layered Memory · long-term",
           body:
             "Your role, your voice, your preferences. Three layers, same model used in enterprise memory systems. Working (this task) · short-term (this week) · long-term (who you are). Continuum handles the decay — old layers fade, recent layers surface. Same memory in Claude, Cursor, anywhere with MCP.",
@@ -233,7 +234,7 @@ export const dict: Record<Lang, Dict> = {
             "Continuum watches what you actually do — the rephrasings, the corrections, the time you ask. Patterns become memory. You never have to say \"I prefer short answers\" twice.",
         },
         {
-          name: "Remembers your projects",
+          name: "Pick up where you left off",
           tag: "The Map · people, projects, deadlines",
           body:
             "Your world as a structured graph — the people you mention, the projects you're on, the things you care about. Any AI can query it. None of them have to build it.",
@@ -245,7 +246,7 @@ export const dict: Record<Lang, Dict> = {
             "Old, wrong, irrelevant context fades automatically. Last week's debugging rabbit hole doesn't follow you into today's standup. Your memory stays clean.",
         },
         {
-          name: "Anticipates what you need",
+          name: "Your next answer is already on its way",
           tag: "Anticipation · right context, right moment",
           body:
             "Continuum pre-loads the right context before you ask. Switch to Cursor mid-thought? Your AI already knows what you're building. Switch to ChatGPT? Same.",
@@ -354,6 +355,7 @@ export const dict: Record<Lang, Dict> = {
       body: "Five minutes to install. One memory across every AI app. Free forever for the first 1,000 memories — no credit card, no trial, no catch.",
       cta1: "Start being remembered",
       cta2: "Read the docs first",
+      etymology: "Continuum — Latin for “uninterrupted.” A continuous thread, only yours.",
     },
     footer: {
       tagline: "Your AI should remember you. Continuum is the context layer that makes it happen — across every MCP-compatible app.",
@@ -460,14 +462,12 @@ export const dict: Record<Lang, Dict> = {
       tag: "Security & privacy",
       titleA: "Your memory is yours.",
       titleB: "We just remember it for you.",
-      body: "Default-private, audit-logged, region-locked if you want it. Here's the exact behavior — no asterisks.",
+      body: "Privacy isn't a feature we added — it's the default. Here's what we actually do, in plain language.",
       checks: [
-        { title: "Encrypted at rest and in transit", body: "AES-256 at rest. TLS 1.3 in transit. Keys rotated quarterly. Your memory is unreadable to anyone without your API key — including us." },
-        { title: "We never train on your data", body: "Not for our models, not for embeddings, not for fine-tuning. Your conversations and memories are siloed from the training pipeline. Written into the contract." },
-        { title: "GDPR + CCPA compliant by default", body: "Right-to-deletion, data export, sub-processor list — all available in the dashboard. DPA available on request, signed within 48 hours." },
-        { title: "EU-only region available", body: "On Pro: pin your data to our Frankfurt region. We sign BAAs, we honor Schrems II, we don't move data across jurisdictions without notice." },
-        { title: "Self-hosted option on Family+", body: "Continuum runs in your infrastructure. Your keys, your rules, your audit. We ship the binary; you operate the rest. Air-gapped deployments available on request." },
-        { title: "Full audit logs, exportable", body: "Every memory read, write, and forget is logged with actor, timestamp, and reason. Export to S3, BigQuery, or your SIEM. SOC 2 Type II in progress — Q4 2026." },
+        { title: "Your memory starts on your machine", body: "Hobby tier: 100% local. Your data never leaves your computer. We can't read it because it never reaches us." },
+        { title: "We never sell your data", body: "There is no version of Continuum where we make money from your memory. We make money from subscriptions. That's it." },
+        { title: "Export, delete, port — anytime", body: "One click to export everything as a zip. One click to wipe. Your data is yours, in formats you can actually open." },
+        { title: "Full technical details for the audit-minded", body: "Encryption, regions, compliance docs — all available. We won't bore you with them here. Ask, and we'll send." },
       ],
     },
     howItWorks: {
@@ -604,7 +604,7 @@ export const dict: Record<Lang, Dict> = {
       tag: "公测中",
       titleA: "让 AI 变成你的",
       titleB: "老朋友。",
-      body: "不是工具 —— 是「它认识你」这件事。[c]装一次,6 个 AI app 共用一份关于你的记忆。[/c]",
+      body: "你的偏好,你的项目,你上周提过的人。[c]一段记忆,所有 AI 都认得你。[/c]",
       cta1: "开始被记住 →",
       cta2: "看看什么样",
       socialProof: "为每天用 6 个 AI app 的人造",
@@ -633,7 +633,7 @@ export const dict: Record<Lang, Dict> = {
       body: "一份 memory,所有客户端。不用在 app 之间复制粘贴。",
       items: [
         {
-          name: "记得你是谁",
+          name: "你最近在忙什么,它都知道",
           tag: "Layered Memory · 长期",
           body: "你的角色、你的语气、你的偏好。三层,跟企业级 memory 系统同一套模型 —— working(当前任务)· short-term(本周)· long-term(你是谁)。老层自动 fade,新层自动 surface。同一份 memory 在 Claude、Cursor 跟所有支持 MCP 的客户端里。",
         },
@@ -643,7 +643,7 @@ export const dict: Record<Lang, Dict> = {
           body: "Continuum 看你实际在做什么 —— 改口、修正、问问题的时间。模式变成 memory。你再也不用说两次「我喜欢简短回答」。",
         },
         {
-          name: "记得你的项目",
+          name: "上次那个项目,接着说就行",
           tag: "The Map · 人、项目、deadline",
           body: "你的世界建模成结构化图 —— 你提到的人、你做的项目、你在意的事。任何 AI 都能查,没人需要自己搭。",
         },
@@ -653,7 +653,7 @@ export const dict: Record<Lang, Dict> = {
           body: "过时、错误、不相关的上下文自动衰减。上周那个 debug 死胡同不会跟着你进今天的 standup。memory 保持干净。",
         },
         {
-          name: "预判你下一步要啥",
+          name: "你还没问,答案已经在路上了",
           tag: "Anticipation · 对的上下文,对的时刻",
           body: "Continuum 提前装好对的上下文。切到 Cursor 接着干?AI 已经知道你在做什么。切到 ChatGPT?也一样。",
         },
@@ -760,6 +760,7 @@ export const dict: Record<Lang, Dict> = {
       body: "5 分钟装好。一份 memory,所有 AI app 通用。前 1,000 条永久免费 —— 不要信用卡,不要试用,没套路。",
       cta1: "开始被记住",
       cta2: "先看文档",
+      etymology: "Continuum,拉丁文「不中断的连续」。一段只属于你的、不中断的记忆。",
     },
     footer: {
       tagline: "你的 AI 该记得你。Continuum 是让它发生的上下文层 —— 跨所有支持 MCP 的 AI app。",
@@ -866,14 +867,12 @@ export const dict: Record<Lang, Dict> = {
       tag: "安全与隐私",
       titleA: "你的 memory 是你的。",
       titleB: "我们只是替你记着。",
-      body: "默认私有、可审计、要锁区也行。下面是具体行为 —— 没说「再说」。",
+      body: "隐私不是我们加的功能 —— 它是默认设置。下面是我们实际做的事,用人话说。",
       checks: [
-        { title: "静态加密 + 传输加密", body: "AES-256 静态加密。TLS 1.3 传输加密。密钥每季度轮换。没有你的 API key,你的 memory 对任何人都不可读 —— 包括我们自己。" },
-        { title: "我们不会用你的数据训练模型", body: "不训我们的模型、不训 embedding、不微调。你的对话和 memory 与训练管道完全隔离。写进合同。" },
-        { title: "默认符合 GDPR + CCPA", body: "删除权、数据导出、子处理者清单 —— 都在 dashboard 里。DPA 申请即提供,48 小时内签。" },
-        { title: "EU-only 区域可用", body: "Pro 套餐:把数据钉死在法兰克福区。我们签 BAA,遵守 Schrems II,跨司法管辖区移动数据会提前通知。" },
-        { title: "Family+ 套餐支持私有化部署", body: "Continuum 跑在你的基础设施里。你的密钥、你的规则、你的审计。我们出二进制,其他你来运营。需要气隙隔离可谈。" },
-        { title: "完整审计日志,可导出", body: "每一次 memory 读写、遗忘,都带操作者、时间戳、原因记录。可导出到 S3、BigQuery、你的 SIEM。SOC 2 Type II 进展中 —— 2026 Q4。" },
+        { title: "你的记忆先存在你自己的机器上", body: "Hobby 套餐:100% 本地。数据从不出你的电脑。我们想读也读不到 —— 因为根本没到我们这。" },
+        { title: "我们不卖你的数据", body: "Continuum 不存在「靠你 memory 赚钱」这回事。我们只靠订阅赚钱。就这样。" },
+        { title: "随时导出、删除、迁移", body: "一键导出所有数据成 zip。一键全部删干净。你的数据是你的,格式你能直接打开。" },
+        { title: "技术细节给那些想看的人", body: "加密方式、合规文档、区域选择 —— 想看随时问。就不在这里烦你了。" },
       ],
     },
     howItWorks: {

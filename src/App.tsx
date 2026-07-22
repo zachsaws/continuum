@@ -1536,6 +1536,9 @@ function FinalCTA({ lang }: { lang: Lang }) {
               {t.cta2}
             </a>
           </div>
+          <p className="mt-8 text-[12.5px] italic leading-relaxed text-fg-dim">
+            {t.etymology}
+          </p>
         </div>
       </div>
     </section>
