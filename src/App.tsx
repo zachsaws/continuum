@@ -924,11 +924,12 @@ export default function App() {
     return () => document.removeEventListener("click", onClick);
   }, []);
 
-  const normalized = path.replace(/\/$/, "") || "/";
+  // Strip base from path so routing matches against relative paths.
+  // (For fresh load `path` includes base; for in-SPA nav, `path` is the raw href.)
+  const stripped = base && path.startsWith(base) ? path.slice(base.length) || "/" : path;
+  const normalized = stripped.replace(/\/$/, "") || "/";
   const isHome = normalized === "/" || normalized === base;
-  const isManifesto =
-    normalized === base + "/manifesto" ||
-    normalized === base + "/manifesto/";
+  const isManifesto = normalized === "/manifesto" || normalized === "/manifesto/";
   if (!isHome && !isManifesto && !path.startsWith("/#")) {
     return <NotFound lang={lang} setLang={setLang} />;
   }
