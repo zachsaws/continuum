@@ -373,7 +373,7 @@ export const dict: Record<Lang, Dict> = {
     pricing: {
       tag: "Pricing",
       title: "Pay for memory. Not for a seat.",
-      highlight: "Saves you 20–40% on the AI bill",
+      highlight: "Save 20–40%",
       tiers: [
         {
           name: "Hobby", price: "$0", cadence: "free forever",
@@ -698,7 +698,7 @@ export const dict: Record<Lang, Dict> = {
     pricing: {
       tag: "定价",
       title: "为记忆付费,不为席位付费。",
-      highlight: "能省 20–40% 的 AI 账单",
+      highlight: "省 20–40%",
       tiers: [
         { name: "Hobby", price: "¥0", cadence: "永久免费", features: ["1,000 条 memory", "1 台设备", "100% 本地(数据不出你的机器)", "5 大能力全开", "社区支持"], cta: "免费装上" },
         { name: "Pro", price: "¥64", cadence: "每月", features: ["不限 memory", "不限设备", "云同步所有设备", "跨 app 模式识别(The Tell)", "邮件支持"], cta: "上线时通知我" },

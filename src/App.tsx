@@ -1008,7 +1008,7 @@ function Pricing({ lang }: { lang: Lang }) {
                 }`}
               >
                 {isPro && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 text-[10.5px] font-semibold uppercase tracking-[0.12em] text-white shadow-sm">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 text-[10.5px] font-semibold uppercase tracking-[0.12em] text-white shadow-sm">
                     <span className="h-1.5 w-1.5 rounded-full bg-white" />
                     {t.highlight}
                   </div>
