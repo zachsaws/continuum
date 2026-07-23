@@ -995,42 +995,58 @@ function Pricing({ lang }: { lang: Lang }) {
           <h2 className="text-balance text-display-2 text-fg">{t.title}</h2>
         </div>
 
-        <div className="reveal mx-auto mt-16 grid max-w-5xl gap-px overflow-hidden rounded-2xl border border-border-subtle bg-border-subtle md:grid-cols-3">
-          {t.tiers.map((tier) => (
-            <div key={tier.name} className="relative flex flex-col bg-bg p-7">
-              {tier.name === "Pro" && (
-                <div className="mb-4 inline-flex w-fit items-center gap-1.5 rounded-full bg-accent/10 px-2.5 py-0.5 text-[10.5px] font-medium uppercase tracking-[0.12em] text-accent">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                  {t.highlight}
-                </div>
-              )}
-              <div className="text-[14px] font-semibold text-fg">{tier.name}</div>
-              <div className="mt-3 flex items-baseline gap-1.5">
-                <span className="text-[40px] font-semibold tracking-[-0.02em] text-fg">
-                  {tier.price}
-                </span>
-                <span className="text-[12.5px] text-fg-dim">{tier.cadence}</span>
-              </div>
-              <ul className="mt-6 space-y-2.5 text-[14px] text-fg-muted">
-                {tier.features.map((f) => (
-                  <li key={f} className="flex gap-2.5">
-                    <span className="mt-[9px] inline-block h-1 w-1 flex-none rounded-full bg-fg-dim" />
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
-              <a
-                href={GITHUB_URL}
-                className={`mt-7 h-10 rounded-full text-[14px] font-medium transition-all inline-flex items-center justify-center active:scale-[0.97] ${
-                  tier.name === "Hobby"
-                    ? "bg-fg text-bg hover:bg-fg/90"
-                    : "border border-border-subtle text-fg hover:bg-fg/[0.04]"
+        <div className="reveal mx-auto mt-16 grid max-w-5xl items-stretch gap-5 md:grid-cols-3 md:gap-4">
+          {t.tiers.map((tier) => {
+            const isPro = tier.name === "Pro";
+            return (
+              <div
+                key={tier.name}
+                className={`reveal group relative flex flex-col rounded-2xl border bg-white p-7 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-apple-3 ${
+                  isPro
+                    ? "border-accent/40 shadow-apple-2 md:scale-[1.03]"
+                    : "border-border-subtle shadow-apple-1"
                 }`}
               >
-                {tier.cta}
-              </a>
-            </div>
-          ))}
+                {isPro && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 text-[10.5px] font-semibold uppercase tracking-[0.12em] text-white shadow-sm">
+                    <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                    {t.highlight}
+                  </div>
+                )}
+                <div className="text-[14px] font-semibold text-fg">{tier.name}</div>
+                <div className="mt-3 flex items-baseline gap-1.5">
+                  <span className="text-[40px] font-semibold tracking-[-0.02em] text-fg">
+                    {tier.price}
+                  </span>
+                  <span className="text-[12.5px] text-fg-dim">{tier.cadence}</span>
+                </div>
+                <ul className="mt-6 space-y-2.5 text-[14px] text-fg-muted">
+                  {tier.features.map((f) => (
+                    <li key={f} className="flex gap-2.5">
+                      <span
+                        className={`mt-[9px] inline-block h-1 w-1 flex-none rounded-full ${
+                          isPro ? "bg-accent" : "bg-fg-dim"
+                        }`}
+                      />
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={GITHUB_URL}
+                  className={`mt-7 inline-flex h-10 items-center justify-center rounded-full text-[14px] font-medium transition-all active:scale-[0.97] ${
+                    isPro
+                      ? "bg-accent text-white hover:bg-accent-deep shadow-[0_2px_8px_rgba(217,122,92,0.25)]"
+                      : tier.name === "Hobby"
+                      ? "bg-fg text-bg hover:bg-fg/90"
+                      : "border border-border-subtle text-fg hover:bg-fg/[0.04]"
+                  }`}
+                >
+                  {tier.cta}
+                </a>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
