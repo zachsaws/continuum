@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "screenshot": "node scripts/screenshot.mjs"
+    "screenshot": "node scripts/screenshot.mjs",
+    "deploy": "npm run build && rm -rf docs && mkdir -p docs && cp -r dist/* docs/ && touch docs/.nojekyll && git add -A && git -c user.email=\"zachsaws@users.noreply.github.com\" -c user.name=\"zachsaws\" commit -m \"Deploy\" && git push"
   },
   "dependencies": {
     "react": "^19.2.7",
