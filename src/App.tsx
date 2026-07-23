@@ -692,6 +692,26 @@ function FinalCTA({ lang }: { lang: Lang }) {
 
 function Footer({ lang }: { lang: Lang }) {
   const t = dict[lang].footer;
+  const isZh = lang === "zh";
+  // Map link label → href. Anything not listed falls through to "#".
+  const linkHref = (label: string): string => {
+    const l = label.toLowerCase();
+    if (l === "manifesto" || l === "宣言") return "/manifesto";
+    if (l === "changelog" || l === "更新") return "/#changelog";
+    if (l === "pricing" || l === "定价") return "/#pricing";
+    if (l === "how it works" || l === "工作流程") return "/#how";
+    if (l === "install" || l === "安装") return GITHUB_URL;
+    if (l === "blog" || l === "博客") return "#";
+    if (l === "privacy" || l === "隐私") return "#";
+    if (l === "contact" || l === "联系") return "#";
+    if (l === "about" || l === "关于") return "#";
+    if (l === "docs" || l === "文档") return GITHUB_URL;
+    if (l === "mcp setup" || l === "mcp 配置") return GITHUB_URL + "#mcp-setup";
+    if (l === "examples" || l === "示例") return GITHUB_URL + "#examples";
+    if (l === "discord") return "#";
+    return "#";
+  };
+
   return (
     <footer className="py-14">
       <div className="container-page">
@@ -711,7 +731,10 @@ function Footer({ lang }: { lang: Lang }) {
                 <ul className="space-y-2 text-fg-muted">
                   {col.links.map((l) => (
                     <li key={l}>
-                      <a href="#" className="transition hover:text-fg">
+                      <a
+                        href={linkHref(l)}
+                        className="transition hover:text-fg"
+                      >
                         {l}
                       </a>
                     </li>
@@ -725,7 +748,7 @@ function Footer({ lang }: { lang: Lang }) {
           <span>{t.copyright}</span>
           <div className="flex gap-5">
             {t.legal.map((l) => (
-              <a key={l} href="#" className="transition hover:text-fg">
+              <a key={l} href={linkHref(l)} className="transition hover:text-fg">
                 {l}
               </a>
             ))}
