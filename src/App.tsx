@@ -1330,18 +1330,39 @@ function CookieBanner({ lang }: { lang: Lang }) {
 function Manifesto({ lang }: { lang: Lang }) {
   const t = dict[lang].manifesto;
   return (
-    <article className="border-t border-border-subtle py-20 md:py-28">
-      <div className="container-page">
-        <div className="reveal mx-auto max-w-2xl">
-          <div className="mb-8 text-center">
-            <div className="mb-5 text-[11px] font-medium uppercase tracking-[0.18em] text-fg-dim">
-              Manifesto
+    <article>
+      {/* Hero — warm gradient backplate, kicker + display title + intro, back link on top */}
+      <section className="relative overflow-hidden border-t border-border-subtle">
+        <div className="absolute inset-x-0 top-0 -z-10 h-[420px] bg-hero-warm" />
+        <div className="container-page pt-12 pb-12 md:pt-16 md:pb-16">
+          <div className="reveal mb-8">
+            <a
+              href="/"
+              className="inline-flex items-center gap-1.5 text-[12.5px] text-fg-muted transition-colors hover:text-fg"
+            >
+              <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <path d="M13 8H3M7 4 3 8l4 4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              {lang === "zh" ? "回到首页" : "Back home"}
+            </a>
+          </div>
+          <div className="reveal-stagger mx-auto max-w-2xl text-center">
+            <div className="mb-5 inline-flex items-center gap-1.5 rounded-full border border-border-subtle bg-bg/70 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.14em] text-fg-muted backdrop-blur">
+              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+              {lang === "zh" ? "宣言" : "Manifesto"}
             </div>
             <h1 className="text-balance text-display-1 text-fg">{t.title}</h1>
-            <p className="mt-5 text-[17px] italic text-fg-muted">{t.intro}</p>
+            <p className="mx-auto mt-5 max-w-xl text-balance text-[17px] italic leading-[1.55] text-fg-muted">
+              {t.intro}
+            </p>
           </div>
+        </div>
+      </section>
 
-          <div className="reveal mt-14 space-y-12">
+      {/* Body — sections + closing line + final back link */}
+      <section className="container-page py-20 md:py-28">
+        <div className="reveal mx-auto max-w-2xl">
+          <div className="space-y-12">
             {t.sections.map((s, i) => (
               <section key={i}>
                 <h2 className="text-[20px] font-semibold leading-[1.25] tracking-[-0.008em] text-fg">
@@ -1369,7 +1390,7 @@ function Manifesto({ lang }: { lang: Lang }) {
             </a>
           </div>
         </div>
-      </div>
+      </section>
     </article>
   );
 }
