@@ -775,10 +775,67 @@ function CookieBanner({ lang }: { lang: Lang }) {
   );
 }
 
+/* --------------------------------- manifesto ------------------------------ */
+
+function Manifesto({ lang }: { lang: Lang }) {
+  const t = dict[lang].manifesto;
+  return (
+    <article className="border-b border-border-subtle py-20 md:py-28">
+      <div className="container-page">
+        <div className="mx-auto max-w-2xl">
+          <div className="mb-8 text-center">
+            <div className="mb-6 text-[11px] uppercase tracking-[0.2em] text-fg-dim">
+              Manifesto
+            </div>
+            <h1 className="text-balance text-3xl font-semibold leading-[1.15] tracking-tight md:text-[2.5rem]">
+              {t.title}
+            </h1>
+            <p className="mt-5 text-[16px] italic text-fg-muted">{t.intro}</p>
+          </div>
+
+          <div className="mt-12 space-y-12">
+            {t.sections.map((s, i) => (
+              <section key={i}>
+                <h2 className="text-[20px] font-semibold leading-snug tracking-tight text-fg">
+                  {s.heading}
+                </h2>
+                {s.body.split("\n\n").map((p, j) => (
+                  <p
+                    key={j}
+                    className="mt-4 text-[16px] leading-[1.85] text-fg-muted"
+                  >
+                    {p}
+                  </p>
+                ))}
+              </section>
+            ))}
+          </div>
+
+          <p className="mt-16 text-center text-[13.5px] italic text-fg-dim">
+            {t.footer}
+          </p>
+
+          <div className="mt-10 text-center">
+            <a href="/" className="btn-ghost h-10 px-5">
+              ← {lang === "zh" ? "回到首页" : "Back home"}
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 /* ---------------------------------- 404 ----------------------------------- */
 
 function NotFound({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
   const t = dict[lang].notFound;
+  const suggestions = [
+    { label: lang === "zh" ? "看产品" : "What it does", href: "/" },
+    { label: lang === "zh" ? "看价格" : "Pricing", href: "/#pricing" },
+    { label: lang === "zh" ? "读宣言" : "Read the manifesto", href: "/manifesto" },
+    { label: lang === "zh" ? "看 FAQ" : "FAQ", href: "/#faq" },
+  ];
   return (
     <div className="flex min-h-screen flex-col bg-bg">
       <div className="absolute right-4 top-4 z-50">
@@ -788,7 +845,18 @@ function NotFound({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void })
         <div className="font-mono text-7xl font-bold tracking-tighter text-fg">404</div>
         <h1 className="mt-4 text-2xl font-semibold tracking-tight md:text-3xl">{t.title}</h1>
         <p className="mt-3 text-fg-muted">{t.body}</p>
-        <a href="/" className="btn-primary mt-6 h-10 px-5">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+          {suggestions.map((s) => (
+            <a
+              key={s.href}
+              href={s.href}
+              className="rounded-md border border-border px-3.5 py-1.5 text-[13px] text-fg transition hover:bg-bg-soft"
+            >
+              {s.label}
+            </a>
+          ))}
+        </div>
+        <a href="/" className="btn-primary mt-8 h-10 px-5">
           {t.cta}
         </a>
       </div>
@@ -817,23 +885,40 @@ function detectInitialLang(): Lang {
 export default function App() {
   const [lang, setLang] = useState<Lang>(detectInitialLang);
   const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
-  const path: string =
-    typeof window !== "undefined" ? window.location.pathname : "/";
+  const [path, setPath] = useState<string>(
+    typeof window !== "undefined" ? window.location.pathname : "/",
+  );
 
   useEffect(() => {
     try { localStorage.setItem("c-lang", lang); } catch {}
   }, [lang]);
 
   useEffect(() => {
+    const onPop = () => setPath(window.location.pathname);
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  useEffect(() => {
     const onClick = (e: MouseEvent) => {
       const a = (e.target as HTMLElement).closest("a");
       if (!a) return;
       const href = a.getAttribute("href");
-      if (!href || !href.startsWith("#")) return;
-      e.preventDefault();
-      const id = href.slice(1);
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (!href) return;
+      if (href.startsWith("#")) {
+        e.preventDefault();
+        const id = href.slice(1);
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+      // Internal SPA navigation: same-origin non-http(s) anchors
+      if (href.startsWith("/") && !href.startsWith("//") && a.origin === window.location.origin) {
+        e.preventDefault();
+        window.history.pushState({}, "", href);
+        setPath(href);
+        window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+      }
     };
     document.addEventListener("click", onClick);
     return () => document.removeEventListener("click", onClick);
@@ -841,8 +926,21 @@ export default function App() {
 
   const normalized = path.replace(/\/$/, "") || "/";
   const isHome = normalized === "/" || normalized === base;
-  if (!isHome && !path.startsWith("/#")) {
+  const isManifesto =
+    normalized === base + "/manifesto" ||
+    normalized === base + "/manifesto/";
+  if (!isHome && !isManifesto && !path.startsWith("/#")) {
     return <NotFound lang={lang} setLang={setLang} />;
+  }
+
+  if (isManifesto) {
+    return (
+      <div className="min-h-screen bg-bg text-fg">
+        <Nav lang={lang} setLang={setLang} />
+        <Manifesto lang={lang} />
+        <Footer lang={lang} />
+      </div>
+    );
   }
 
   return (

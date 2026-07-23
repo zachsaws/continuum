@@ -88,6 +88,12 @@ type Dict = {
     items: { version: string; date: string; points: string[] }[];
     cta: string;
   };
+  manifesto: {
+    title: string;
+    intro: string;
+    sections: { heading: string; body: string }[];
+    footer: string;
+  };
   finalCta: {
     titleA: string;
     titleB: string;
@@ -328,6 +334,33 @@ export const dict: Record<Lang, Dict> = {
       cta2: "Read the docs first",
       etymology: "Continuum — Latin for “uninterrupted.” A continuous thread, only yours.",
     },
+    manifesto: {
+      title: "Why we're building Continuum.",
+      intro: "A small note on what we're doing, and what we won't do.",
+      sections: [
+        {
+          heading: "The thing we keep seeing",
+          body: "Every team building an AI product — ourselves included, when we started — hits the same wall around month three: the model is great, but it forgets the user. So someone has to build a memory layer. They do. It works. Then the team ships something else, and the memory layer gets half-orphaned. Six months later, a reorg, and half of it is gone. A rewrite happens. The new layer is slightly different. The user, who had carefully trained the old one, has to start over.\n\nWe've watched this happen at three different companies. We've lived it once.",
+        },
+        {
+          heading: "What we're trying to be",
+          body: "Continuum is a small thing: a personal memory layer that follows you across the AI apps you use. It runs as an MCP server, so any AI app that speaks the open standard can read from and write to it. We're not building a model, not building a chatbot, not building a UI you'll stare at. We're building the thing underneath.\n\nThe hard part of memory isn't storing. It's forgetting. A system that remembers everything becomes useless fast. So most of the work in Continuum is about deciding what to keep, what to fade, what to surface. It's a smaller, more careful product than it looks.",
+        },
+        {
+          heading: "What we got wrong, briefly",
+          body: "We spent our first month trying to be a developer SDK — an API you call, with a fancy dashboard. A round of founder interviews later, the pattern was clear: nobody wanted to call our API. They wanted their AI to just know things. So we threw out the dashboard, threw out the SDK, kept the memory engine, and rebuilt the surface as an MCP server. The Hobby tier is fully local. The cloud sync is opt-in. The dashboard, if you need it, is a single config file.\n\nWe will get more things wrong. This is the first one we're comfortable admitting on the homepage.",
+        },
+        {
+          heading: "What we won't compromise on",
+          body: "Your memory is yours — always exportable, always deletable. We will never hold your data hostage, even if we shut down. The free Hobby tier never sends your data to a server, even ours. We never train models on your conversations — written into our terms, verifiable by source. And we won't ship viral features, growth hacks, or reposition the product as something it isn't. Memory is a utility. We treat it like one.",
+        },
+        {
+          heading: "What we are",
+          body: "A small team. Three people. Most of us have shipped developer tools before. We're not a research lab, we're not backed by anyone notable, and we're not trying to be the next platform. We're trying to ship one thing — a memory layer that works — and earn the right to keep shipping.",
+        },
+      ],
+      footer: "Continuum — Latin for “uninterrupted.” A continuous thread, only yours.",
+    },
     cookie: {
       body: "We use a single analytics cookie to count page views. No tracking, no third parties.",
       accept: "Got it",
@@ -342,7 +375,7 @@ export const dict: Record<Lang, Dict> = {
       tagline: "Your AI should remember you. Continuum is the context layer that makes it happen — across every MCP-compatible app.",
       columns: [
         { title: "Product", links: ["Install", "How it works", "Pricing", "Changelog"] },
-        { title: "Resources", links: ["Docs", "MCP setup", "Examples", "Discord"] },
+        { title: "Resources", links: ["Docs", "MCP setup", "Examples", "Manifesto"] },
         { title: "Company", links: ["About", "Blog", "Privacy", "Contact"] },
       ],
       legal: ["Privacy", "Terms", "Security"],
@@ -558,6 +591,33 @@ export const dict: Record<Lang, Dict> = {
       cta2: "先看文档",
       etymology: "Continuum,拉丁文「不中断的连续」。一段只属于你的、不中断的记忆。",
     },
+    manifesto: {
+      title: "为什么做 Continuum。",
+      intro: "一份小笔记,说清楚我们在做什么、不做什么。",
+      sections: [
+        {
+          heading: "我们反复看到的同一件事",
+          body: "每个做 AI 产品的团队 —— 包括我们自己在内,刚启动那会儿 —— 三个月左右都会撞同一堵墙:模型很好,但它不记得用户。于是得有人搭一层 memory。搭了。能用。然后团队去做别的,memory 层被半遗弃。六个月后一次组织调整,丢一半。再重写,新的稍微不一样。用户原来精心训练过的那份,得从头再来。\n\n我们在三家公司看过这事发生。我们自己经历过一次。",
+        },
+        {
+          heading: "我们想成为什么",
+          body: "Continuum 是个小东西:一份跟着你跨 AI app 走的个人 memory。它跑成 MCP server,所以任何支持这个开放标准的 AI app 都能读能写。我们不做模型,不做 chatbot,不做一个你要盯着的 UI。我们做底下那一层。\n\nmemory 的难处不在存,在忘。一个什么都记的系统很快变得没法用。所以 Continuum 大部分的工作是判断:留什么、fade 什么、surface 什么。这是个比看起来更小、更细心的产品。",
+        },
+        {
+          heading: "早期走错的",
+          body: "第一个月,我们试着做面向开发者的 SDK —— 一个能调用的 API,加一个花哨的 dashboard。一轮 founder 访谈做完,模式清楚了:没人想调我们的 API。他们想的是「让 AI 自己就记住」。所以我们把 dashboard 扔了,SDK 扔了,留着 memory 引擎,把入口重做成 MCP server。Hobby 套餐全本地,云同步默认关闭。如果非要看 dashboard,就是一个配置文件。\n\n我们以后会继续走错。这是第一个我们愿意放在首页承认的。",
+        },
+        {
+          heading: "不让步的",
+          body: "你的 memory 是你的 —— 永远能导出,永远能删。我们永远不会拿你的数据绑架你,哪怕我们关掉。免费 Hobby 套餐从不上传你的数据,连我们的都不上。我们不用你的对话训练模型 —— 写进合同,源代码里能查。我们也不会上病毒式功能、做增长 hack、把产品重新包装成它不是的东西。memory 是工具,我们按工具来对待。",
+        },
+        {
+          heading: "我们是谁",
+          body: "小团队。三个人。大多数人以前做过开发者工具。我们不是研究院,没拿到显赫的投资,也没想当下一个平台。我们只想把一件事做对 —— 一个能用的 memory 层 —— 然后挣到继续做下去的权利。",
+        },
+      ],
+      footer: "Continuum —— 拉丁文「不中断的连续」。一段只属于你的、不中断的记忆。",
+    },
     cookie: {
       body: "我们用一个 analytics cookie 数页面访问。不追踪,没第三方。",
       accept: "好",
@@ -572,7 +632,7 @@ export const dict: Record<Lang, Dict> = {
       tagline: "你的 AI 该记得你。Continuum 是让它发生的上下文层 —— 跨所有支持 MCP 的 AI app。",
       columns: [
         { title: "产品", links: ["安装", "工作流程", "定价", "更新"] },
-        { title: "资源", links: ["文档", "MCP 配置", "示例", "Discord"] },
+        { title: "资源", links: ["文档", "MCP 配置", "示例", "宣言"] },
         { title: "公司", links: ["关于", "博客", "隐私", "联系"] },
       ],
       legal: ["隐私", "条款", "安全"],
