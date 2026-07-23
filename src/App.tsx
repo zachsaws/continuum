@@ -934,11 +934,13 @@ export default function App() {
         if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
         return;
       }
-      // Internal SPA navigation: same-origin non-http(s) anchors
+      // Internal SPA navigation: same-origin non-http(s) anchors.
+      // Prepend the base so a refresh hits a valid GitHub Pages path.
       if (href.startsWith("/") && !href.startsWith("//") && a.origin === window.location.origin) {
         e.preventDefault();
-        window.history.pushState({}, "", href);
-        setPath(href);
+        const fullHref = (base ? base : "") + href;
+        window.history.pushState({}, "", fullHref);
+        setPath(fullHref);
         window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
       }
     };
