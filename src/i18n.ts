@@ -18,7 +18,20 @@ type Dict = {
     cta1: string;
     cta2: string;
     hint: string;
-    demoCaption: string;
+    worksIn: string;
+    stats: { num: string; label: string }[];
+    mockup: {
+      windowTitle: string;
+      userLabel: string;
+      claudeLabel: string;
+      continuumLabel: string;
+      pullHint: string;
+      userPrompt: string;
+      claudeReply: string;
+      claudeDraft: string;
+      memories: { tag: string; text: string; source: string }[];
+      demoCaption: string;
+    };
   };
   pain: {
     tag: string;
@@ -143,7 +156,31 @@ export const dict: Record<Lang, Dict> = {
       cta1: "Get started on GitHub",
       cta2: "See what it looks like",
       hint: "5 minutes. Free forever. No credit card.",
-      demoCaption: "↑ A real conversation. Continuum quietly pulls the relevant context from your past week.",
+      worksIn: "Works in",
+      stats: [
+        { num: "1,000", label: "free memories" },
+        { num: "100%", label: "stays on your machine" },
+        { num: "< 50ms", label: "memory recall" },
+        { num: "12+", label: "MCP-compatible apps" },
+      ],
+      mockup: {
+        windowTitle: "Claude — launch copy for v3",
+        userLabel: "You",
+        claudeLabel: "Claude",
+        continuumLabel: "Continuum",
+        pullHint: "Pulled from the last 7 days",
+        userPrompt: "Help me write the launch copy for v3.",
+        claudeReply:
+          "Sure. Picking up from last week — Friday deadline, concise tone, no emojis. Here's a draft that reads like you, not like marketing:",
+        claudeDraft:
+          "v3 is out. Same product. Half the friction. We fixed the seven things you were going to hit anyway. …",
+        memories: [
+          { tag: "preference", text: "Concise answers · no emojis", source: "Claude · 3 days ago" },
+          { tag: "project", text: "v3 launches Friday", source: "Cursor · Monday" },
+          { tag: "person", text: "Reviews with Mei on Tuesday", source: "Slack · last week" },
+        ],
+        demoCaption: "↑ A real conversation. Continuum quietly pulls the relevant context from your past week.",
+      },
     },
     pain: {
       tag: "The problem",
@@ -418,7 +455,30 @@ export const dict: Record<Lang, Dict> = {
       cta1: "去 GitHub 装上",
       cta2: "看个示例",
       hint: "5 分钟装好。永久免费。不要信用卡。",
-      demoCaption: "↑ 一段真实对话。Continuum 默默从你过去一周里把相关 context 拉过来。",
+      worksIn: "原生支持",
+      stats: [
+        { num: "1,000", label: "条免费记忆" },
+        { num: "100%", label: "留在你本机" },
+        { num: "< 50ms", label: "记忆召回速度" },
+        { num: "12+", label: "个 MCP 兼容 app" },
+      ],
+      mockup: {
+        windowTitle: "Claude — v3 发布文案",
+        userLabel: "你",
+        claudeLabel: "Claude",
+        continuumLabel: "Continuum",
+        pullHint: "从过去 7 天自动提取",
+        userPrompt: "帮我写 v3 发布的文案。",
+        claudeReply:
+          "好。根据你之前告诉我的 —— 周五截稿、简短、不用 emoji —— 先按你的口吻写了一版:",
+        claudeDraft: "v3 上线。摩擦减半。改的是 7 个你大概率会撞上的坎……",
+        memories: [
+          { tag: "preference", text: "简短回答,不用 emoji", source: "Claude · 3 天前" },
+          { tag: "project", text: "v3 周五截稿", source: "Cursor · 周一" },
+          { tag: "person", text: "周二和 Mei 过一遍", source: "Slack · 上周" },
+        ],
+        demoCaption: "↑ 一段真实对话。Continuum 默默从你过去一周里把相关 context 拉过来。",
+      },
     },
     pain: {
       tag: "问题",

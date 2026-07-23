@@ -177,37 +177,147 @@ function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
 
 /* ----------------------------------- hero --------------------------------- */
 
+function StatsWall({ stats }: { stats: { num: string; label: string }[] }) {
+  return (
+    <div className="mx-auto mt-12 grid max-w-4xl grid-cols-2 gap-x-6 gap-y-7 border-y border-border-subtle py-7 sm:grid-cols-4 sm:gap-y-0">
+      {stats.map((s, i) => (
+        <div key={i} className="text-center">
+          <div className="text-balance text-[28px] font-semibold tracking-[-0.018em] text-fg sm:text-[32px]">
+            {s.num}
+          </div>
+          <div className="mt-1.5 text-[12.5px] leading-[1.35] text-fg-muted">{s.label}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+const LOGO_BAR_ITEMS = [
+  { name: "Claude", color: "#D97757", letter: "C" },
+  { name: "Cursor", color: "#000000", letter: "Cu" },
+  { name: "Cline", color: "#3B82F6", letter: "Cl" },
+  { name: "Zed", color: "#F59E0B", letter: "Z" },
+  { name: "Continue", color: "#0D9488", letter: "Co" },
+  { name: "OpenCode", color: "#7C3AED", letter: "OC" },
+];
+
+function LogoBar({ label }: { label: string }) {
+  return (
+    <div className="mt-9 flex flex-col items-center gap-4">
+      <div className="text-[11px] font-medium uppercase tracking-[0.18em] text-fg-dim">
+        {label}
+      </div>
+      <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 sm:gap-x-8">
+        {LOGO_BAR_ITEMS.map((it) => (
+          <div
+            key={it.name}
+            className="flex items-center gap-2 text-[14px] font-medium text-fg-muted transition-colors hover:text-fg"
+          >
+            <span
+              className="inline-flex h-6 w-6 items-center justify-center rounded-md text-[10px] font-bold text-white"
+              style={{ backgroundColor: it.color }}
+            >
+              {it.letter}
+            </span>
+            <span>{it.name}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function BigProductMockup({ lang }: { lang: Lang }) {
+  const m = dict[lang].hero.mockup;
+  return (
+    <div className="reveal mx-auto mt-16 max-w-5xl">
+      <div className="overflow-hidden rounded-xl border border-border-subtle bg-white shadow-apple-3">
+        {/* macOS window chrome */}
+        <div className="flex items-center gap-2 border-b border-border-subtle bg-[#F5F5F4] px-4 py-2.5">
+          <span className="h-3 w-3 rounded-full bg-[#FF5F57]" />
+          <span className="h-3 w-3 rounded-full bg-[#FEBC2E]" />
+          <span className="h-3 w-3 rounded-full bg-[#28C840]" />
+          <div className="ml-3 flex-1 text-center text-[11.5px] font-medium text-fg-muted">
+            {m.windowTitle}
+          </div>
+          <div className="w-12" />
+        </div>
+        {/* Two-column: chat | continuum sidebar */}
+        <div className="grid gap-0 md:grid-cols-[1fr_280px]">
+          {/* Chat column */}
+          <div className="space-y-6 p-7 md:p-9">
+            <div>
+              <div className="mb-2 text-[10.5px] font-semibold uppercase tracking-[0.16em] text-fg-dim">
+                {m.userLabel}
+              </div>
+              <div className="text-[15px] leading-[1.55] text-fg">{m.userPrompt}</div>
+            </div>
+            <div>
+              <div className="mb-2 flex items-center gap-1.5 text-[10.5px] font-semibold uppercase tracking-[0.16em] text-fg-dim">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
+                {m.claudeLabel}
+              </div>
+              <p className="text-[15px] leading-[1.6] text-fg-muted">{m.claudeReply}</p>
+              <div className="mt-3 rounded-lg border-l-2 border-accent bg-bg-soft/50 px-4 py-3 text-[14.5px] italic leading-[1.55] text-fg">
+                &ldquo;{m.claudeDraft}&rdquo;
+              </div>
+            </div>
+          </div>
+
+          {/* Continuum memory sidebar */}
+          <div className="border-t border-border-subtle bg-[#FAFAF7] p-5 md:border-l md:border-t-0">
+            <div className="mb-4 flex items-center gap-2">
+              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border-[1.5px] border-accent text-[9px] font-bold text-accent">
+                C
+              </span>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-fg">
+                {m.continuumLabel}
+              </span>
+            </div>
+            <div className="mb-3 text-[11px] text-fg-muted">{m.pullHint}</div>
+            <div className="space-y-2.5">
+              {m.memories.map((mem, i) => (
+                <div
+                  key={i}
+                  className="rounded-lg border border-border-subtle bg-white p-3 transition-shadow hover:shadow-apple-1"
+                >
+                  <div className="mb-1 flex items-center gap-1.5 text-[10px]">
+                    <span className="font-semibold uppercase tracking-[0.14em] text-accent">
+                      {mem.tag}
+                    </span>
+                    <span className="text-fg-dim">· {mem.source}</span>
+                  </div>
+                  <div className="text-[12.5px] leading-[1.4] text-fg">{mem.text}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+      <p className="mt-4 text-center text-[12px] italic text-fg-dim">{m.demoCaption}</p>
+    </div>
+  );
+}
+
 function Hero({ lang }: { lang: Lang }) {
   const t = dict[lang].hero;
-  const isZh = lang === "zh";
-  const memories = [
-    { tag: "preference", text: isZh ? "简短回答,不用 emoji" : "Concise answers · no emojis", source: isZh ? "Claude · 3 天前" : "Claude · 3 days ago" },
-    { tag: "project", text: isZh ? "v3 周五截稿" : "v3 launches Friday", source: isZh ? "Cursor · 周一" : "Cursor · Monday" },
-  ];
-  const aiReply = isZh
-    ? "好。根据你之前告诉我的 —— 周五截稿、简短、不用 emoji —— 先按你的口吻写了一版:「v3 上线。摩擦减半。改的是 7 个你大概率会撞上的坎……」"
-    : "Sure. Picking up from last week — Friday deadline, concise tone, no emojis. Here's a draft that reads like you, not like marketing: \"v3 is out. Same product. Half the friction. We fixed the seven things you were going to hit anyway. …\"";
-  const userPrompt = isZh ? "帮我写 v3 发布的文案。" : "Help me write the launch copy for v3.";
 
   return (
     <section className="relative overflow-hidden">
-      <div className="absolute inset-x-0 top-0 -z-10 h-[680px] bg-hero-warm" />
-      <div className="container-page pt-20 pb-20 md:pt-28 md:pb-28">
+      <div className="absolute inset-x-0 top-0 -z-10 h-[560px] bg-hero-warm" />
+      <div className="container-page pt-16 pb-12 md:pt-20 md:pb-16">
         <div className="reveal-stagger mx-auto max-w-3xl text-center">
-          <div className="mb-7 inline-flex items-center gap-1.5 rounded-full border border-border-subtle bg-bg/70 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.14em] text-fg-muted backdrop-blur">
+          <div className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-border-subtle bg-bg/70 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.14em] text-fg-muted backdrop-blur">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             {t.tag}
           </div>
           <h1 className="text-balance text-display-1 text-fg">
             {renderInline(t.title)}
           </h1>
-          <p className="mx-auto mt-6 max-w-xl text-balance text-[17px] leading-[1.55] text-fg-muted">
+          <p className="mx-auto mt-5 max-w-xl text-balance text-[17px] leading-[1.55] text-fg-muted">
             {renderInline(t.body)}
           </p>
-          <p className="mx-auto mt-3 max-w-md text-[13px] leading-[1.6] text-fg-dim">
-            {t.body2}
-          </p>
-          <div className="mt-9 flex flex-col items-center justify-center gap-2.5 sm:flex-row">
+          <div className="mt-7 flex flex-col items-center justify-center gap-2.5 sm:flex-row">
             <a href={GITHUB_URL} className="btn-primary h-11 px-6 text-[14px]">
               {t.cta1}
               <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -218,66 +328,15 @@ function Hero({ lang }: { lang: Lang }) {
               {t.cta2}
             </a>
           </div>
-          <p className="mt-4 text-[12.5px] text-fg-dim">{t.hint}</p>
-        </div>
-
-        {/* Memory card — Apple-clean: white card, soft shadow, no fake chrome */}
-        <div className="reveal mx-auto mt-16 max-w-2xl">
-          <div className="overflow-hidden rounded-2xl border border-border-subtle bg-white shadow-apple-2">
-            <div className="grid gap-0 md:grid-cols-[1fr_240px]">
-              {/* Chat column */}
-              <div className="space-y-5 p-6 md:p-7">
-                <div>
-                  <div className="mb-1.5 text-[10.5px] font-medium uppercase tracking-[0.14em] text-fg-dim">
-                    {isZh ? "你" : "You"}
-                  </div>
-                  <div className="text-[14px] leading-[1.55] text-fg">{userPrompt}</div>
-                </div>
-                <div>
-                  <div className="mb-1.5 flex items-center gap-1.5 text-[10.5px] font-medium uppercase tracking-[0.14em] text-fg-dim">
-                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
-                    Claude
-                  </div>
-                  <div className="text-[14px] leading-[1.55] text-fg-muted">{aiReply}</div>
-                </div>
-              </div>
-
-              {/* Continuum memory column */}
-              <div className="border-t border-border-subtle bg-bg-soft/40 p-5 md:border-l md:border-t-0">
-                <div className="mb-4 flex items-center gap-1.5">
-                  <span className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-accent text-[8px] font-bold text-accent">
-                    C
-                  </span>
-                  <span className="text-[10.5px] font-semibold uppercase tracking-[0.14em] text-fg-muted">
-                    Continuum
-                  </span>
-                </div>
-                <div className="mb-2.5 text-[10.5px] text-fg-dim">
-                  {isZh ? "从过去 7 天自动提取" : "Pulled from the last 7 days"}
-                </div>
-                <div className="space-y-2">
-                  {memories.map((m, i) => (
-                    <div
-                      key={i}
-                      className="rounded-lg border border-border-subtle bg-white p-2.5"
-                    >
-                      <div className="mb-0.5 flex items-center gap-1.5 text-[9.5px]">
-                        <span className="font-semibold uppercase tracking-[0.12em] text-accent">
-                          {m.tag}
-                        </span>
-                        <span className="text-fg-dim">· {m.source}</span>
-                      </div>
-                      <div className="text-[12px] leading-snug text-fg">{m.text}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-          <p className="mt-3.5 text-center text-[12px] italic text-fg-dim">
-            {t.demoCaption}
+          <p className="mt-3 text-[12.5px] text-fg-dim">{t.hint}</p>
+          <p className="mx-auto mt-3 max-w-md text-[12.5px] leading-[1.55] text-fg-dim">
+            {t.body2}
           </p>
         </div>
+
+        <StatsWall stats={t.stats} />
+        <LogoBar label={t.worksIn} />
+        <BigProductMockup lang={lang} />
       </div>
     </section>
   );
