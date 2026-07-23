@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { dict, type Lang } from "./i18n";
+import { dict, type Dict, type Lang } from "./i18n";
 
 const GITHUB_URL = "https://github.com/zachsaws/continuum";
 
@@ -552,7 +552,7 @@ function Features({ lang }: { lang: Lang }) {
                   <p className="mt-4 text-[15.5px] leading-[1.7] text-fg-muted">{f.body}</p>
                 </div>
                 <div className={flip ? "lg:order-1" : ""}>
-                  <FeatureViz kind={f.key} alt={f.alt} />
+                  <FeatureViz kind={f.key} alt={f.alt} viz={f.viz} />
                 </div>
               </div>
             );
@@ -565,28 +565,24 @@ function Features({ lang }: { lang: Lang }) {
 
 /* -------------------------- feature visualizations ------------------------- */
 
-function FeatureViz({ kind, alt }: { kind: "memory" | "map" | "tell" | "fade"; alt: string }) {
+type VizData = Dict["features"]["items"][number]["viz"];
+
+function FeatureViz({ kind, alt, viz }: { kind: "memory" | "map" | "tell" | "fade"; alt: string; viz: VizData }) {
   return (
     <div
       role="img"
       aria-label={alt}
       className="overflow-hidden rounded-xl border border-border-subtle bg-bg-soft/50 p-5 shadow-apple-1"
     >
-      {kind === "memory" && <MemoryTimelineViz />}
-      {kind === "map" && <MapGraphViz />}
-      {kind === "tell" && <TellRadarViz />}
-      {kind === "fade" && <FadeViz />}
+      {kind === "memory" && <MemoryTimelineViz data={viz.memory} />}
+      {kind === "map" && <MapGraphViz data={viz.map} />}
+      {kind === "tell" && <TellRadarViz data={viz.tell} />}
+      {kind === "fade" && <FadeViz data={viz.fade} />}
     </div>
   );
 }
 
-function MemoryTimelineViz() {
-  const rows = ["Context", "Preferences", "Tasks", "Tools", "Models"];
-  const cols = [
-    { label: "Last wk", fills: [0.25, 0.3, 0.4, 0.2, 0.3] },
-    { label: "This wk", fills: [0.55, 0.7, 0.65, 0.5, 0.45] },
-    { label: "Now", fills: [0.95, 1.0, 0.9, 0.8, 0.85] },
-  ];
+function MemoryTimelineViz({ data }: { data: VizData["memory"] }) {
   return (
     <div>
       <div className="mb-3 flex items-center justify-between">
@@ -595,17 +591,17 @@ function MemoryTimelineViz() {
         </span>
         <div className="flex items-center gap-1.5 text-[9.5px] text-fg-dim">
           <span className="inline-block h-2 w-2 rounded-sm bg-fg-dim/30" />
-          <span>fades</span>
+          <span>{data.legendFades}</span>
           <span className="mx-1">→</span>
           <span className="inline-block h-2 w-2 rounded-sm bg-accent" />
-          <span>active</span>
+          <span>{data.legendActive}</span>
         </div>
       </div>
       <div className="space-y-1.5">
-        {rows.map((row, ri) => (
+        {data.rows.map((row, ri) => (
           <div key={row} className="flex items-center gap-2">
             <div className="w-[88px] shrink-0 text-[10.5px] text-fg-muted">{row}</div>
-            {cols.map((col, ci) => {
+            {data.cols.map((col, ci) => {
               const fill = col.fills[ri];
               return (
                 <div
@@ -637,23 +633,16 @@ function MemoryTimelineViz() {
   );
 }
 
-function MapGraphViz() {
-  // Center: You; satellites with thin lines
-  const you = { x: 50, y: 50, label: "You", primary: true };
-  const nodes = [
-    { x: 50, y: 12, label: "v3 launch", note: "Project" },
-    { x: 12, y: 38, label: "Mei", note: "Person" },
-    { x: 88, y: 38, label: "Cursor", note: "Tool" },
-    { x: 28, y: 84, label: "Friday", note: "Deadline" },
-    { x: 72, y: 84, label: "P-2", note: "Person" },
-  ];
+function MapGraphViz({ data }: { data: VizData["map"] }) {
+  const you = { x: 50, y: 50, label: data.center, primary: true };
+  const nodes = data.nodes;
   return (
     <div>
       <div className="mb-3 flex items-center justify-between">
         <span className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-fg-muted">
           THE MAP
         </span>
-        <span className="text-[9.5px] text-fg-dim">9 entities · 14 relations</span>
+        <span className="text-[9.5px] text-fg-dim">{data.stats}</span>
       </div>
       <div className="relative aspect-[4/3] w-full">
         <svg
@@ -706,15 +695,8 @@ function MapGraphViz() {
   );
 }
 
-function TellRadarViz() {
-  // 5 axes around a center
-  const axes = [
-    { name: "Concise", value: 0.92 },
-    { name: "Direct", value: 0.85 },
-    { name: "Casual", value: 0.7 },
-    { name: "No-emoji", value: 0.95 },
-    { name: "Long-form", value: 0.25 },
-  ];
+function TellRadarViz({ data }: { data: VizData["tell"] }) {
+  const axes = data.axes;
   const cx = 50;
   const cy = 50;
   const r = 38;
@@ -724,7 +706,6 @@ function TellRadarViz() {
     return [cx + Math.cos(a) * r * v, cy + Math.sin(a) * r * v] as const;
   };
   const polygon = axes.map((a, i) => point(i, a.value).join(",")).join(" ");
-  // Concentric grid rings
   const rings = [0.25, 0.5, 0.75, 1.0];
   return (
     <div>
@@ -732,11 +713,10 @@ function TellRadarViz() {
         <span className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-fg-muted">
           THE TELL
         </span>
-        <span className="text-[9.5px] text-fg-dim">detected from 142 replies</span>
+        <span className="text-[9.5px] text-fg-dim">{data.caption}</span>
       </div>
       <div className="relative aspect-[4/3] w-full">
         <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full">
-          {/* Grid rings */}
           {rings.map((ring) => (
             <polygon
               key={ring}
@@ -748,7 +728,6 @@ function TellRadarViz() {
               strokeWidth="0.3"
             />
           ))}
-          {/* Axes */}
           {axes.map((_a, i) => {
             const [x, y] = point(i, 1);
             return (
@@ -763,7 +742,6 @@ function TellRadarViz() {
               />
             );
           })}
-          {/* Filled polygon */}
           <polygon
             points={polygon}
             fill="rgba(217,122,92,0.22)"
@@ -772,7 +750,6 @@ function TellRadarViz() {
             strokeLinejoin="round"
           />
         </svg>
-        {/* Labels */}
         {axes.map((a, i) => {
           const [x, y] = point(i, 1.15);
           return (
@@ -790,25 +767,17 @@ function TellRadarViz() {
   );
 }
 
-function FadeViz() {
-  // 5 memory items with fading opacity
-  const items = [
-    { text: "Reviewed pull request with Mei", opacity: 1, age: "Now" },
-    { text: "v3 launch copy draft", opacity: 0.7, age: "1 day" },
-    { text: "Pricing tier for Pro", opacity: 0.45, age: "4 days" },
-    { text: "Standup notes — Aug 12", opacity: 0.25, age: "2 weeks" },
-    { text: "Old debug session", opacity: 0.1, age: "1 month" },
-  ];
+function FadeViz({ data }: { data: VizData["fade"] }) {
   return (
     <div>
       <div className="mb-3 flex items-center justify-between">
         <span className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-fg-muted">
           FADE
         </span>
-        <span className="text-[9.5px] text-fg-dim">time →</span>
+        <span className="text-[9.5px] text-fg-dim">{data.caption}</span>
       </div>
       <div className="space-y-2">
-        {items.map((it, i) => (
+        {data.items.map((it, i) => (
           <div
             key={i}
             className="flex items-center gap-3 rounded-md border border-border-subtle bg-white px-3 py-2"

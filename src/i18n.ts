@@ -4,7 +4,7 @@
 // Use [h]...[/h] inline to render an accent (brand color) word.
 export type Lang = "en" | "zh";
 
-type Dict = {
+export type Dict = {
   nav: Record<string, string>;
   promo: {
     items: Array<{
@@ -55,6 +55,12 @@ type Dict = {
       kicker: string;
       body: string;
       alt: string;
+      viz: {
+        memory: { rows: string[]; cols: { label: string; fills: number[] }[]; legendFades: string; legendActive: string };
+        map: { center: string; nodes: { x: number; y: number; label: string; note: string }[]; stats: string };
+        tell: { axes: { name: string; value: number }[]; caption: string };
+        fade: { items: { text: string; age: string; opacity: number }[]; caption: string };
+      };
     }[];
   };
   howItWorks: {
@@ -235,6 +241,21 @@ export const dict: Record<Lang, Dict> = {
           name: "Three layers, one continuous thread.",
           body: "Working memory (this task), short-term (this week), long-term (who you are). Older layers fade on their own; the recent ones surface. The same memory follows you into Claude, Cursor, anywhere with MCP — no copy-paste.",
           alt: "Layered memory timeline",
+          viz: {
+            memory: {
+              rows: ["Context", "Preferences", "Tasks", "Tools", "Models"],
+              cols: [
+                { label: "Last wk", fills: [0.25, 0.3, 0.4, 0.2, 0.3] },
+                { label: "This wk", fills: [0.55, 0.7, 0.65, 0.5, 0.45] },
+                { label: "Now", fills: [0.95, 1.0, 0.9, 0.8, 0.85] },
+              ],
+              legendFades: "fades",
+              legendActive: "active",
+            },
+            map: { center: "You", nodes: [], stats: "" },
+            tell: { axes: [], caption: "" },
+            fade: { items: [], caption: "" },
+          },
         },
         {
           key: "map",
@@ -242,6 +263,22 @@ export const dict: Record<Lang, Dict> = {
           name: "Your world, as a structured graph.",
           body: "The people you mention, the projects you're on, the deadlines you keep missing. Continuum builds the map once, in the background. Any AI can query it; none of them have to build it themselves.",
           alt: "Knowledge graph with you at the center",
+          viz: {
+            memory: { rows: [], cols: [], legendFades: "", legendActive: "" },
+            map: {
+              center: "You",
+              nodes: [
+                { x: 50, y: 12, label: "v3 launch", note: "Project" },
+                { x: 12, y: 38, label: "Mei", note: "Person" },
+                { x: 88, y: 38, label: "Cursor", note: "Tool" },
+                { x: 28, y: 84, label: "Friday", note: "Deadline" },
+                { x: 72, y: 84, label: "P-2", note: "Person" },
+              ],
+              stats: "9 entities · 14 relations",
+            },
+            tell: { axes: [], caption: "" },
+            fade: { items: [], caption: "" },
+          },
         },
         {
           key: "tell",
@@ -249,6 +286,21 @@ export const dict: Record<Lang, Dict> = {
           name: "It picks up your style — and predicts the next answer.",
           body: "Continuum watches which phrasings you keep, which formats land, which corrections you make. Patterns become memory. When you switch apps, your next answer is already half-typed — because the AI already knows how you'd write it.",
           alt: "Style radar across 5 dimensions",
+          viz: {
+            memory: { rows: [], cols: [], legendFades: "", legendActive: "" },
+            map: { center: "", nodes: [], stats: "" },
+            tell: {
+              axes: [
+                { name: "Concise", value: 0.92 },
+                { name: "Direct", value: 0.85 },
+                { name: "Casual", value: 0.7 },
+                { name: "No-emoji", value: 0.95 },
+                { name: "Long-form", value: 0.25 },
+              ],
+              caption: "detected from 142 replies",
+            },
+            fade: { items: [], caption: "" },
+          },
         },
         {
           key: "fade",
@@ -256,6 +308,21 @@ export const dict: Record<Lang, Dict> = {
           name: "It forgets what doesn't matter.",
           body: "Last Tuesday's debugging rabbit hole doesn't follow you into today's standup. Old, wrong, irrelevant context fades on its own. Your memory stays clean without you lifting a finger.",
           alt: "Memory items fading over time",
+          viz: {
+            memory: { rows: [], cols: [], legendFades: "", legendActive: "" },
+            map: { center: "", nodes: [], stats: "" },
+            tell: { axes: [], caption: "" },
+            fade: {
+              items: [
+                { text: "Reviewed pull request with Mei", opacity: 1, age: "Now" },
+                { text: "v3 launch copy draft", opacity: 0.7, age: "1 day" },
+                { text: "Pricing tier for Pro", opacity: 0.45, age: "4 days" },
+                { text: "Standup notes — Aug 12", opacity: 0.25, age: "2 weeks" },
+                { text: "Old debug session", opacity: 0.1, age: "1 month" },
+              ],
+              caption: "time →",
+            },
+          },
         },
       ],
     },
@@ -563,6 +630,21 @@ export const dict: Record<Lang, Dict> = {
           name: "三层 memory,一条不间断的线。",
           body: "Working(当前任务)、short-term(本周)、long-term(你是谁)。老层自动 fade,新层自动 surface。同一份 memory 跟着你进 Claude、Cursor、所有支持 MCP 的客户端 —— 不复制粘贴。",
           alt: "Layered memory 时间线",
+          viz: {
+            memory: {
+              rows: ["上下文", "偏好", "任务", "工具", "模型"],
+              cols: [
+                { label: "上周", fills: [0.25, 0.3, 0.4, 0.2, 0.3] },
+                { label: "本周", fills: [0.55, 0.7, 0.65, 0.5, 0.45] },
+                { label: "现在", fills: [0.95, 1.0, 0.9, 0.8, 0.85] },
+              ],
+              legendFades: "渐隐",
+              legendActive: "激活",
+            },
+            map: { center: "你", nodes: [], stats: "" },
+            tell: { axes: [], caption: "" },
+            fade: { items: [], caption: "" },
+          },
         },
         {
           key: "map",
@@ -570,6 +652,22 @@ export const dict: Record<Lang, Dict> = {
           name: "你的世界,一张结构化的图。",
           body: "你提到的人、你做的项目、错过一次的 deadline。Continuum 在后台把这张图建一次。任何 AI 都能查,谁都不用自己搭。",
           alt: "以你为中心的关系图",
+          viz: {
+            memory: { rows: [], cols: [], legendFades: "", legendActive: "" },
+            map: {
+              center: "你",
+              nodes: [
+                { x: 50, y: 12, label: "v3 上线", note: "项目" },
+                { x: 12, y: 38, label: "Mei", note: "人" },
+                { x: 88, y: 38, label: "Cursor", note: "工具" },
+                { x: 28, y: 84, label: "周五", note: "截止" },
+                { x: 72, y: 84, label: "P-2", note: "人" },
+              ],
+              stats: "9 个实体 · 14 个关系",
+            },
+            tell: { axes: [], caption: "" },
+            fade: { items: [], caption: "" },
+          },
         },
         {
           key: "tell",
@@ -577,6 +675,21 @@ export const dict: Record<Lang, Dict> = {
           name: "它懂你的语气 —— 下个答案已在路上。",
           body: "Continuum 看你哪些措辞留着、哪些格式顺、哪些改口。模式自动变成 memory。切到别的 app,下个答案已经写好一半 —— 因为 AI 已经知道你会怎么写。",
           alt: "风格雷达 5 个维度",
+          viz: {
+            memory: { rows: [], cols: [], legendFades: "", legendActive: "" },
+            map: { center: "", nodes: [], stats: "" },
+            tell: {
+              axes: [
+                { name: "简洁", value: 0.92 },
+                { name: "直接", value: 0.85 },
+                { name: "随意", value: 0.7 },
+                { name: "不用 emoji", value: 0.95 },
+                { name: "长文", value: 0.25 },
+              ],
+              caption: "从 142 条回复中识别",
+            },
+            fade: { items: [], caption: "" },
+          },
         },
         {
           key: "fade",
@@ -584,6 +697,21 @@ export const dict: Record<Lang, Dict> = {
           name: "不重要的,它自己忘掉。",
           body: "上周二 debug 那个 rabbit hole,不该跟着你进今天的 standup。旧、错、不相关的 context 自动 fade 掉。memory 一直干净,你不用动手。",
           alt: "记忆项随时间渐隐",
+          viz: {
+            memory: { rows: [], cols: [], legendFades: "", legendActive: "" },
+            map: { center: "", nodes: [], stats: "" },
+            tell: { axes: [], caption: "" },
+            fade: {
+              items: [
+                { text: "和 Mei 一起 review PR", opacity: 1, age: "现在" },
+                { text: "v3 上线文案初稿", opacity: 0.7, age: "1 天" },
+                { text: "Pro 定价档", opacity: 0.45, age: "4 天" },
+                { text: "standup 笔记 — 8/12", opacity: 0.25, age: "2 周" },
+                { text: "老的 debug session", opacity: 0.1, age: "1 个月" },
+              ],
+              caption: "时间 →",
+            },
+          },
         },
       ],
     },
