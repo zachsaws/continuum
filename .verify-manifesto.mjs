@@ -1,0 +1,11 @@
+import { chromium } from "playwright";
+const URL = "https://zachsaws.github.io/continuum/manifesto";
+const OUT = "/Users/tianxiang/.minimax-agent-cn/projects/continuum/.screenshots";
+const browser = await chromium.launch();
+const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+const page = await ctx.newPage();
+await page.goto(URL, { waitUntil: "networkidle" });
+await page.waitForTimeout(500);
+await page.screenshot({ path: `${OUT}/v18-manifesto.png`, fullPage: false });
+await browser.close();
+console.log("done");

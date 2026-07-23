@@ -151,7 +151,7 @@ function Nav({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
           <Logo />
           <nav className="hidden items-center gap-5 text-[13px] text-fg-muted md:flex">
             <a href="#features" className="transition-colors hover:text-fg">{t.features}</a>
-            <a href="#how" className="transition-colors hover:text-fg">{t.how}</a>
+            <a href="#install" className="transition-colors hover:text-fg">{t.how}</a>
             <a href="/manifesto" className="transition-colors hover:text-fg">{t.manifesto}</a>
             <a href="#pricing" className="transition-colors hover:text-fg">{t.pricing}</a>
             <a href="#faq" className="transition-colors hover:text-fg">{t.faq}</a>
@@ -328,7 +328,31 @@ function Hero({ lang }: { lang: Lang }) {
               {t.cta2}
             </a>
           </div>
-          <p className="mt-3 text-[12.5px] text-fg-dim">{t.hint}</p>
+          {/* Choose platform secondary CTA — like evomap's "Apple / Intel" choice */}
+          <div className="mt-3 flex items-center justify-center gap-1.5 text-[12.5px] text-fg-muted">
+            <span>{t.platformLabel}</span>
+            <a
+              href={`${GITHUB_URL}#macos`}
+              className="text-accent underline decoration-accent/40 underline-offset-[3px] transition-colors hover:text-accent-deep hover:decoration-accent"
+            >
+              {t.platformMac}
+            </a>
+            <span className="text-fg-dim">·</span>
+            <a
+              href={`${GITHUB_URL}#windows`}
+              className="text-accent underline decoration-accent/40 underline-offset-[3px] transition-colors hover:text-accent-deep hover:decoration-accent"
+            >
+              {t.platformWin}
+            </a>
+            <span className="text-fg-dim">·</span>
+            <a
+              href={`${GITHUB_URL}#linux`}
+              className="text-accent underline decoration-accent/40 underline-offset-[3px] transition-colors hover:text-accent-deep hover:decoration-accent"
+            >
+              {t.platformLinux}
+            </a>
+          </div>
+          <p className="mt-2 text-[12.5px] text-fg-dim">{t.hint}</p>
           <p className="mx-auto mt-3 max-w-md text-[12.5px] leading-[1.55] text-fg-dim">
             {t.body2}
           </p>
@@ -383,40 +407,311 @@ function Features({ lang }: { lang: Lang }) {
           <p className="mt-5 text-[15.5px] leading-[1.6] text-fg-muted">{t.body}</p>
         </div>
 
-        <div className="reveal mx-auto mt-20 max-w-3xl">
-          {t.items.map((f, i) => (
-            <div
-              key={f.name}
-              className={`grid gap-4 py-10 md:grid-cols-[56px_1fr] md:gap-8 ${
-                i !== 0 ? "border-t border-border-subtle" : ""
-              }`}
-            >
-              <div className="text-[32px] leading-none md:text-[36px]" aria-hidden>
-                {f.emoji}
-              </div>
-              <div>
-                <div className="mb-1 font-mono text-[10.5px] uppercase tracking-[0.16em] text-fg-dim">
-                  {f.tag}
+        <div className="mx-auto mt-24 max-w-5xl space-y-28">
+          {t.items.map((f, i) => {
+            const flip = i % 2 === 1;
+            return (
+              <div
+                key={f.key}
+                className={`reveal grid items-center gap-10 md:gap-16 lg:grid-cols-2 ${
+                  flip ? "lg:[&>div:first-child]:order-2" : ""
+                }`}
+              >
+                <div className={flip ? "lg:order-2" : ""}>
+                  <div className="mb-3 font-mono text-[10.5px] uppercase tracking-[0.16em] text-accent">
+                    {f.kicker}
+                  </div>
+                  <h3 className="text-balance text-[24px] font-semibold leading-[1.22] tracking-[-0.012em] text-fg md:text-[28px]">
+                    {f.name}
+                  </h3>
+                  <p className="mt-4 text-[15.5px] leading-[1.7] text-fg-muted">{f.body}</p>
                 </div>
-                <h3 className="text-balance text-[22px] font-semibold leading-[1.22] tracking-[-0.01em] text-fg">
-                  {f.name}
-                </h3>
-                <p className="mt-3 text-[15.5px] leading-[1.7] text-fg-muted">{f.body}</p>
+                <div className={flip ? "lg:order-1" : ""}>
+                  <FeatureViz kind={f.key} alt={f.alt} />
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
 
-/* ------------------------------ how it works ------------------------------ */
+/* -------------------------- feature visualizations ------------------------- */
 
-function HowItWorks({ lang }: { lang: Lang }) {
-  const t = dict[lang].howItWorks;
+function FeatureViz({ kind, alt }: { kind: "memory" | "map" | "tell" | "fade"; alt: string }) {
   return (
-    <section id="how" className="border-t border-border-subtle py-24 md:py-32">
+    <div
+      role="img"
+      aria-label={alt}
+      className="overflow-hidden rounded-xl border border-border-subtle bg-bg-soft/50 p-5 shadow-apple-1"
+    >
+      {kind === "memory" && <MemoryTimelineViz />}
+      {kind === "map" && <MapGraphViz />}
+      {kind === "tell" && <TellRadarViz />}
+      {kind === "fade" && <FadeViz />}
+    </div>
+  );
+}
+
+function MemoryTimelineViz() {
+  const rows = ["Context", "Preferences", "Tasks", "Tools", "Models"];
+  const cols = [
+    { label: "Last wk", fills: [0.25, 0.3, 0.4, 0.2, 0.3] },
+    { label: "This wk", fills: [0.55, 0.7, 0.65, 0.5, 0.45] },
+    { label: "Now", fills: [0.95, 1.0, 0.9, 0.8, 0.85] },
+  ];
+  return (
+    <div>
+      <div className="mb-3 flex items-center justify-between">
+        <span className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-fg-muted">
+          LAYERED MEMORY
+        </span>
+        <div className="flex items-center gap-1.5 text-[9.5px] text-fg-dim">
+          <span className="inline-block h-2 w-2 rounded-sm bg-fg-dim/30" />
+          <span>fades</span>
+          <span className="mx-1">→</span>
+          <span className="inline-block h-2 w-2 rounded-sm bg-accent" />
+          <span>active</span>
+        </div>
+      </div>
+      <div className="space-y-1.5">
+        {rows.map((row, ri) => (
+          <div key={row} className="flex items-center gap-2">
+            <div className="w-[88px] shrink-0 text-[10.5px] text-fg-muted">{row}</div>
+            {cols.map((col, ci) => {
+              const fill = col.fills[ri];
+              return (
+                <div
+                  key={ci}
+                  className="relative h-7 flex-1 overflow-hidden rounded border border-border-subtle bg-white"
+                >
+                  <div
+                    className="absolute inset-y-0 left-0"
+                    style={{
+                      width: `${fill * 100}%`,
+                      background:
+                        fill > 0.6
+                          ? "rgba(217,122,92,0.85)"
+                          : fill > 0.3
+                          ? "rgba(217,122,92,0.4)"
+                          : "rgba(0,0,0,0.06)",
+                    }}
+                  />
+                  <div className="absolute inset-0 flex items-center justify-end pr-1.5 text-[8.5px] font-mono text-fg-muted">
+                    {col.label}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MapGraphViz() {
+  // Center: You; satellites with thin lines
+  const you = { x: 50, y: 50, label: "You", primary: true };
+  const nodes = [
+    { x: 50, y: 12, label: "v3 launch", note: "Project" },
+    { x: 12, y: 38, label: "Mei", note: "Person" },
+    { x: 88, y: 38, label: "Cursor", note: "Tool" },
+    { x: 28, y: 84, label: "Friday", note: "Deadline" },
+    { x: 72, y: 84, label: "P-2", note: "Person" },
+  ];
+  return (
+    <div>
+      <div className="mb-3 flex items-center justify-between">
+        <span className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-fg-muted">
+          THE MAP
+        </span>
+        <span className="text-[9.5px] text-fg-dim">9 entities · 14 relations</span>
+      </div>
+      <div className="relative aspect-[4/3] w-full">
+        <svg
+          viewBox="0 0 100 100"
+          className="absolute inset-0 h-full w-full"
+          preserveAspectRatio="none"
+        >
+          {nodes.map((n, i) => (
+            <line
+              key={i}
+              x1={you.x}
+              y1={you.y}
+              x2={n.x}
+              y2={n.y}
+              stroke="#d97a5c"
+              strokeOpacity="0.35"
+              strokeWidth="0.6"
+              strokeDasharray="1.5 1.2"
+            />
+          ))}
+        </svg>
+        {/* You (center) */}
+        <div
+          className="absolute -translate-x-1/2 -translate-y-1/2"
+          style={{ left: `${you.x}%`, top: `${you.y}%` }}
+        >
+          <div className="flex flex-col items-center gap-1">
+            <div className="h-11 w-11 rounded-full border-2 border-accent bg-white shadow-sm" />
+            <div className="text-[10px] font-semibold text-fg">{you.label}</div>
+          </div>
+        </div>
+        {nodes.map((n, i) => (
+          <div
+            key={i}
+            className="absolute -translate-x-1/2 -translate-y-1/2"
+            style={{ left: `${n.x}%`, top: `${n.y}%` }}
+          >
+            <div className="flex flex-col items-center gap-1">
+              <div className="rounded-md border border-border-subtle bg-white px-2 py-1 shadow-sm">
+                <div className="text-[10.5px] font-medium text-fg">{n.label}</div>
+              </div>
+              <div className="font-mono text-[8.5px] uppercase tracking-[0.1em] text-fg-dim">
+                {n.note}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function TellRadarViz() {
+  // 5 axes around a center
+  const axes = [
+    { name: "Concise", value: 0.92 },
+    { name: "Direct", value: 0.85 },
+    { name: "Casual", value: 0.7 },
+    { name: "No-emoji", value: 0.95 },
+    { name: "Long-form", value: 0.25 },
+  ];
+  const cx = 50;
+  const cy = 50;
+  const r = 38;
+  const angle = (i: number) => (i / axes.length) * Math.PI * 2 - Math.PI / 2;
+  const point = (i: number, v: number) => {
+    const a = angle(i);
+    return [cx + Math.cos(a) * r * v, cy + Math.sin(a) * r * v] as const;
+  };
+  const polygon = axes.map((a, i) => point(i, a.value).join(",")).join(" ");
+  // Concentric grid rings
+  const rings = [0.25, 0.5, 0.75, 1.0];
+  return (
+    <div>
+      <div className="mb-3 flex items-center justify-between">
+        <span className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-fg-muted">
+          THE TELL
+        </span>
+        <span className="text-[9.5px] text-fg-dim">detected from 142 replies</span>
+      </div>
+      <div className="relative aspect-[4/3] w-full">
+        <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full">
+          {/* Grid rings */}
+          {rings.map((ring) => (
+            <polygon
+              key={ring}
+              points={axes
+                .map((_, i) => point(i, ring).join(","))
+                .join(" ")}
+              fill="none"
+              stroke="rgba(0,0,0,0.06)"
+              strokeWidth="0.3"
+            />
+          ))}
+          {/* Axes */}
+          {axes.map((_a, i) => {
+            const [x, y] = point(i, 1);
+            return (
+              <line
+                key={i}
+                x1={cx}
+                y1={cy}
+                x2={x}
+                y2={y}
+                stroke="rgba(0,0,0,0.08)"
+                strokeWidth="0.3"
+              />
+            );
+          })}
+          {/* Filled polygon */}
+          <polygon
+            points={polygon}
+            fill="rgba(217,122,92,0.22)"
+            stroke="#d97a5c"
+            strokeWidth="0.7"
+            strokeLinejoin="round"
+          />
+        </svg>
+        {/* Labels */}
+        {axes.map((a, i) => {
+          const [x, y] = point(i, 1.15);
+          return (
+            <div
+              key={i}
+              className="absolute -translate-x-1/2 -translate-y-1/2 text-[9.5px] font-medium text-fg-muted"
+              style={{ left: `${x}%`, top: `${y}%` }}
+            >
+              {a.name}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function FadeViz() {
+  // 5 memory items with fading opacity
+  const items = [
+    { text: "Reviewed pull request with Mei", opacity: 1, age: "Now" },
+    { text: "v3 launch copy draft", opacity: 0.7, age: "1 day" },
+    { text: "Pricing tier for Pro", opacity: 0.45, age: "4 days" },
+    { text: "Standup notes — Aug 12", opacity: 0.25, age: "2 weeks" },
+    { text: "Old debug session", opacity: 0.1, age: "1 month" },
+  ];
+  return (
+    <div>
+      <div className="mb-3 flex items-center justify-between">
+        <span className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-fg-muted">
+          FADE
+        </span>
+        <span className="text-[9.5px] text-fg-dim">time →</span>
+      </div>
+      <div className="space-y-2">
+        {items.map((it, i) => (
+          <div
+            key={i}
+            className="flex items-center gap-3 rounded-md border border-border-subtle bg-white px-3 py-2"
+            style={{ opacity: 0.35 + it.opacity * 0.65 }}
+          >
+            <div
+              className="h-1.5 w-1.5 shrink-0 rounded-full"
+              style={{
+                backgroundColor: `rgba(217,122,92,${it.opacity})`,
+              }}
+            />
+            <div className="flex-1 text-[11.5px] text-fg" style={{ opacity: it.opacity }}>
+              {it.text}
+            </div>
+            <div className="font-mono text-[9.5px] text-fg-dim">{it.age}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* -------------------------------- install --------------------------------- */
+
+function Install({ lang }: { lang: Lang }) {
+  const t = dict[lang].install;
+  return (
+    <section id="install" className="border-t border-border-subtle py-24 md:py-32">
       <div className="container-page">
         <div className="reveal mx-auto max-w-2xl text-center">
           <div className="mb-5 text-[11px] font-medium uppercase tracking-[0.18em] text-fg-dim">
@@ -426,19 +721,103 @@ function HowItWorks({ lang }: { lang: Lang }) {
           <p className="mt-5 text-[15.5px] leading-[1.6] text-fg-muted">{t.body}</p>
         </div>
 
-        <div className="reveal mx-auto mt-16 grid max-w-3xl gap-10 md:grid-cols-3 md:gap-8">
-          {t.steps.map((s, i) => (
-            <div key={s.name} className="relative">
-              <div className="mb-3 font-mono text-[11px] tracking-[0.08em] text-fg-dim">
-                Step {String(i + 1).padStart(2, "0")}
-              </div>
-              <h3 className="text-[19px] font-semibold tracking-[-0.005em] text-fg">{s.name}</h3>
-              <p className="mt-3 text-[14.5px] leading-[1.7] text-fg-muted">{s.body}</p>
-            </div>
-          ))}
+        <div className="mx-auto mt-16 grid max-w-5xl gap-6 lg:grid-cols-2">
+          <InstallCard
+            icon={
+              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <rect x="3" y="4" width="18" height="14" rx="2" />
+                <path d="M3 8h18" />
+                <circle cx="6" cy="6" r="0.6" fill="currentColor" />
+                <circle cx="8" cy="6" r="0.6" fill="currentColor" />
+              </svg>
+            }
+            title={t.claude.title}
+            body={t.claude.body}
+            steps={t.claude.steps}
+            code={JSON.stringify(
+              {
+                mcpServers: {
+                  continuum: {
+                    command: "npx",
+                    args: ["-y", "@continuum/mcp-server"],
+                  },
+                },
+              },
+              null,
+              2,
+            )}
+            codeLabel={t.claude.codeLabel}
+          />
+          <InstallCard
+            icon={
+              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <path d="M8 9l-4 3 4 3" />
+                <path d="M16 9l4 3-4 3" />
+                <path d="M14 6l-4 12" />
+              </svg>
+            }
+            title={t.others.title}
+            body={t.others.body}
+            steps={t.others.steps}
+            code={JSON.stringify(
+              {
+                mcpServers: {
+                  continuum: {
+                    command: "npx",
+                    args: ["-y", "@continuum/mcp-server"],
+                  },
+                },
+              },
+              null,
+              2,
+            )}
+            codeLabel={t.others.codeLabel}
+          />
         </div>
       </div>
     </section>
+  );
+}
+
+function InstallCard({
+  icon,
+  title,
+  body,
+  steps,
+  code,
+  codeLabel,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  body: string;
+  steps: string[];
+  code: string;
+  codeLabel: string;
+}) {
+  return (
+    <div className="reveal flex flex-col rounded-2xl border border-border-subtle bg-white p-7 shadow-apple-1 md:p-8">
+      <div className="mb-4 flex items-center gap-2.5 text-fg">
+        <span className="text-accent">{icon}</span>
+        <h3 className="text-[19px] font-semibold tracking-[-0.005em]">{title}</h3>
+      </div>
+      <p className="mb-5 text-[14.5px] leading-[1.65] text-fg-muted">{body}</p>
+      <ol className="mb-6 space-y-2 text-[14px] leading-[1.55] text-fg">
+        {steps.map((s, i) => (
+          <li key={i} className="flex gap-3">
+            <span className="font-mono text-[11px] text-fg-dim">{String(i + 1).padStart(2, "0")}</span>
+            <span>{s}</span>
+          </li>
+        ))}
+      </ol>
+      <div className="mt-auto">
+        <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.14em] text-fg-dim">
+          {codeLabel}
+        </div>
+        <pre className="overflow-x-auto rounded-lg border border-border-subtle bg-[#1A1B1E] p-4 font-mono text-[12px] leading-[1.55] text-[#E8E8EA]">
+{code}
+        </pre>
+      </div>
+    </div>
   );
 }
 
@@ -1108,7 +1487,7 @@ export default function App() {
       <Hero lang={lang} />
       <Pain lang={lang} />
       <Features lang={lang} />
-      <HowItWorks lang={lang} />
+      <Install lang={lang} />
       <WhyExists lang={lang} />
       <WhyNot lang={lang} />
       <IsForMe lang={lang} />

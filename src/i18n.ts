@@ -19,6 +19,10 @@ type Dict = {
     cta2: string;
     hint: string;
     worksIn: string;
+    platformLabel: string;
+    platformMac: string;
+    platformWin: string;
+    platformLinux: string;
     stats: { num: string; label: string }[];
     mockup: {
       windowTitle: string;
@@ -43,13 +47,36 @@ type Dict = {
     tag: string;
     title: string;
     body: string;
-    items: { emoji: string; name: string; tag: string; body: string }[];
+    items: {
+      key: "memory" | "map" | "tell" | "fade";
+      name: string;
+      kicker: string;
+      body: string;
+      alt: string;
+    }[];
   };
   howItWorks: {
     tag: string;
     title: string;
     body: string;
     steps: { name: string; body: string }[];
+  };
+  install: {
+    tag: string;
+    title: string;
+    body: string;
+    claude: {
+      title: string;
+      body: string;
+      steps: string[];
+      codeLabel: string;
+    };
+    others: {
+      title: string;
+      body: string;
+      steps: string[];
+      codeLabel: string;
+    };
   };
   whyExists: {
     kicker: string;
@@ -139,7 +166,7 @@ export const dict: Record<Lang, Dict> = {
     },
     nav: {
       features: "What it does",
-      how: "How it works",
+      how: "Install",
       manifesto: "Manifesto",
       pricing: "Pricing",
       faq: "FAQ",
@@ -156,6 +183,10 @@ export const dict: Record<Lang, Dict> = {
       cta1: "Get started on GitHub",
       cta2: "See what it looks like",
       hint: "5 minutes. Free forever. No credit card.",
+      platformLabel: "Pick your platform:",
+      platformMac: "macOS",
+      platformWin: "Windows",
+      platformLinux: "Linux",
       worksIn: "Works in",
       stats: [
         { num: "1,000", label: "free memories" },
@@ -190,38 +221,36 @@ export const dict: Record<Lang, Dict> = {
     },
     features: {
       tag: "What it does",
-      title: "Five things it quietly does for you.",
-      body: "One memory. Every AI app. No copy-paste between them.",
+      title: "Four things it does — quietly, in the background.",
+      body: "No dashboards to manage. Continuum just pays attention, then hands your AI the right context at the right time.",
       items: [
         {
-          emoji: "💭",
-          name: "It knows what you've been working on",
-          tag: "Layered Memory · long-term",
-          body: "Your role, your voice, your preferences. Three layers — working (this task), short-term (this week), long-term (who you are). Old layers fade; recent layers surface. The same memory in Claude, Cursor, anywhere with MCP.",
+          key: "memory",
+          kicker: "01 · Layered Memory",
+          name: "Three layers, one continuous thread.",
+          body: "Working memory (this task), short-term (this week), long-term (who you are). Older layers fade on their own; the recent ones surface. The same memory follows you into Claude, Cursor, anywhere with MCP — no copy-paste.",
+          alt: "Layered memory timeline",
         },
         {
-          emoji: "🗂️",
-          name: "Pick up where you left off",
-          tag: "The Map · people, projects, deadlines",
-          body: "Your world, as a structured graph — the people you mention, the projects you're on, the things you care about. Any AI can query it. None of them have to build it.",
+          key: "map",
+          kicker: "02 · The Map",
+          name: "Your world, as a structured graph.",
+          body: "The people you mention, the projects you're on, the deadlines you keep missing. Continuum builds the map once, in the background. Any AI can query it; none of them have to build it themselves.",
+          alt: "Knowledge graph with you at the center",
         },
         {
-          emoji: "🧠",
-          name: "It picks up your style",
-          tag: "The Tell · your patterns",
-          body: "Continuum notices what works for you — the rephrasings, the corrections, the formats that land. Patterns become memory automatically. You never have to say \"I prefer short answers\" twice.",
+          key: "tell",
+          kicker: "03 · The Tell",
+          name: "It picks up your style — and predicts the next answer.",
+          body: "Continuum watches which phrasings you keep, which formats land, which corrections you make. Patterns become memory. When you switch apps, your next answer is already half-typed — because the AI already knows how you'd write it.",
+          alt: "Style radar across 5 dimensions",
         },
         {
-          emoji: "🧹",
-          name: "It forgets what doesn't matter",
-          tag: "Fade · less is more",
-          body: "Last week's debugging rabbit hole doesn't follow you into today's standup. Old, wrong, irrelevant context fades on its own. Your memory stays clean.",
-        },
-        {
-          emoji: "⚡",
-          name: "Your next answer is already on its way",
-          tag: "Anticipation · right context, right moment",
-          body: "Switch to Cursor mid-thought? Your AI already knows what you're building. Switch to ChatGPT? Same. Continuum pre-loads the right context before you ask.",
+          key: "fade",
+          kicker: "04 · Fade",
+          name: "It forgets what doesn't matter.",
+          body: "Last Tuesday's debugging rabbit hole doesn't follow you into today's standup. Old, wrong, irrelevant context fades on its own. Your memory stays clean without you lifting a finger.",
+          alt: "Memory items fading over time",
         },
       ],
     },
@@ -243,6 +272,31 @@ export const dict: Record<Lang, Dict> = {
           body: "When you open a new chat in any AI app, Continuum quietly pulls the relevant context. Claude knows what you told Cursor yesterday. Cursor knows your deadline from ChatGPT. The memory is yours — it just follows you.",
         },
       ],
+    },
+    install: {
+      tag: "Get started",
+      title: "Two install paths. Pick yours.",
+      body: "Continuum is an MCP server. Wherever your AI speaks MCP, you can plug it in.",
+      claude: {
+        title: "Inside Claude Desktop",
+        body: "Drop the config into your Claude Desktop settings. Restart once. Done.",
+        steps: [
+          "Open Claude Desktop → Settings → Developer → Edit Config",
+          "Paste the JSON below into claude_desktop_config.json",
+          "Save, restart Claude — and start a new chat",
+        ],
+        codeLabel: "Claude Desktop config",
+      },
+      others: {
+        title: "In Cursor, Cline, Zed, or any MCP client",
+        body: "Same MCP server, different config file. The snippet works everywhere — pick yours.",
+        steps: [
+          "Open your AI client's MCP / extension config",
+          "Paste the JSON below — same server, same name",
+          "Restart once. The same memory now follows you across apps.",
+        ],
+        codeLabel: "Generic MCP config",
+      },
     },
     whyExists: {
       kicker: "Why we built this",
@@ -438,7 +492,7 @@ export const dict: Record<Lang, Dict> = {
     },
     nav: {
       features: "它能做什么",
-      how: "怎么用",
+      how: "安装",
       manifesto: "宣言",
       pricing: "定价",
       faq: "常见问题",
@@ -455,6 +509,10 @@ export const dict: Record<Lang, Dict> = {
       cta1: "去 GitHub 装上",
       cta2: "看个示例",
       hint: "5 分钟装好。永久免费。不要信用卡。",
+      platformLabel: "选你的平台:",
+      platformMac: "macOS",
+      platformWin: "Windows",
+      platformLinux: "Linux",
       worksIn: "原生支持",
       stats: [
         { num: "1,000", label: "条免费记忆" },
@@ -488,38 +546,36 @@ export const dict: Record<Lang, Dict> = {
     },
     features: {
       tag: "它能做什么",
-      title: "五件事,安静地替你在做。",
-      body: "一份记忆,所有 AI app,不用互相复制粘贴。",
+      title: "四件事,后台安静地做。",
+      body: "没有需要管的 dashboard。Continuum 听你说话,然后把对的 context 在对的时机交给 AI。",
       items: [
         {
-          emoji: "💭",
-          name: "你最近在忙什么,它都知道",
-          tag: "Layered Memory · 长期",
-          body: "你的角色、你的语气、你的偏好。三层 —— working(当前任务)、short-term(本周)、long-term(你是谁)。老层自动 fade,新层自动 surface。同一份 memory 在 Claude、Cursor 跟所有支持 MCP 的客户端里。",
+          key: "memory",
+          kicker: "01 · Layered Memory",
+          name: "三层 memory,一条不间断的线。",
+          body: "Working(当前任务)、short-term(本周)、long-term(你是谁)。老层自动 fade,新层自动 surface。同一份 memory 跟着你进 Claude、Cursor、所有支持 MCP 的客户端 —— 不复制粘贴。",
+          alt: "Layered memory 时间线",
         },
         {
-          emoji: "🗂️",
-          name: "上次那个项目,接着说就行",
-          tag: "The Map · 关系图",
-          body: "你的世界是一张结构化的图:你提到的人、你做的项目、你在意的事。任何 AI 都能查,没人需要自己搭。",
+          key: "map",
+          kicker: "02 · The Map",
+          name: "你的世界,一张结构化的图。",
+          body: "你提到的人、你做的项目、错过一次的 deadline。Continuum 在后台把这张图建一次。任何 AI 都能查,谁都不用自己搭。",
+          alt: "以你为中心的关系图",
         },
         {
-          emoji: "🧠",
-          name: "它会懂你的说话方式",
-          tag: "The Tell · 你的模式",
-          body: "Continuum 看你什么表达对你有效 —— 改口、修正、用得顺的格式。模式自动变成 memory,你不用说。",
+          key: "tell",
+          kicker: "03 · The Tell",
+          name: "它懂你的语气 —— 下个答案已在路上。",
+          body: "Continuum 看你哪些措辞留着、哪些格式顺、哪些改口。模式自动变成 memory。切到别的 app,下个答案已经写好一半 —— 因为 AI 已经知道你会怎么写。",
+          alt: "风格雷达 5 个维度",
         },
         {
-          emoji: "🧹",
-          name: "不重要的,它会自己忘掉",
-          tag: "Fade · 越用越干净",
-          body: "上周的 debug rabbit hole,不该跟着你进今天的 standup。旧、错、不相关的 context 自动 fade 掉。",
-        },
-        {
-          emoji: "⚡",
-          name: "你还没问,答案已经在路上了",
-          tag: "Anticipation · 主动 surface",
-          body: "切到 Cursor 接着干?AI 已经知道你在做什么。切到 ChatGPT?也一样。背景不用你再说一次。",
+          key: "fade",
+          kicker: "04 · Fade",
+          name: "不重要的,它自己忘掉。",
+          body: "上周二 debug 那个 rabbit hole,不该跟着你进今天的 standup。旧、错、不相关的 context 自动 fade 掉。memory 一直干净,你不用动手。",
+          alt: "记忆项随时间渐隐",
         },
       ],
     },
@@ -541,6 +597,31 @@ export const dict: Record<Lang, Dict> = {
           body: "新开对话时,Continuum 悄悄把相关的 context 拉过来。Claude 知道昨天你在 Cursor 里讲什么。Cursor 知道你 ChatGPT 里的 deadline。memory 是你的 —— 它只是跟着你。",
         },
       ],
+    },
+    install: {
+      tag: "开始用",
+      title: "两条安装路径。选你那条。",
+      body: "Continuum 是一个 MCP server。你的 AI 只要支持 MCP,就能接进来。",
+      claude: {
+        title: "在 Claude Desktop 里",
+        body: "把配置贴进 Claude Desktop 的 settings。重启一次。完。",
+        steps: [
+          "打开 Claude Desktop → Settings → Developer → Edit Config",
+          "把下面的 JSON 贴进 claude_desktop_config.json",
+          "保存,重启 Claude —— 就可以开新对话了",
+        ],
+        codeLabel: "Claude Desktop 配置",
+      },
+      others: {
+        title: "在 Cursor、Cline、Zed 或任何 MCP 客户端里",
+        body: "同一个 MCP server,不同的配置文件。下面那段 snippet 哪里都通用 —— 选你那条。",
+        steps: [
+          "打开你的 AI 客户端的 MCP / 扩展配置",
+          "把下面的 JSON 贴进去 —— 同一个 server,同一个 name",
+          "重启一次。同一份 memory 现在跨 app 跟着你。",
+        ],
+        codeLabel: "通用 MCP 配置",
+      },
     },
     whyExists: {
       kicker: "为什么做这个",
