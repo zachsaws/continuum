@@ -7,8 +7,10 @@ export type Lang = "en" | "zh";
 type Dict = {
   nav: Record<string, string>;
   promo: {
-    text: string;
-    link?: { label: string; href: string };
+    items: Array<{
+      text: string;
+      link?: { label: string; href: string };
+    }>;
   } | null;
   hero: {
     tag: string;
@@ -161,8 +163,11 @@ type Dict = {
 export const dict: Record<Lang, Dict> = {
   en: {
     promo: {
-      text: "Public preview · Q4 2026 launch ·",
-      link: { label: "read the manifesto", href: "/manifesto" },
+      items: [
+        { text: "Public preview · Q4 2026 launch ·", link: { label: "read the manifesto", href: "/manifesto" } },
+        { text: "Self-host coming in 2027 ·", link: { label: "join the waitlist", href: "/manifesto" } },
+        { text: "First 1,000 users get it free forever ·", link: { label: "install on GitHub", href: "https://github.com/zachsaws/continuum" } },
+      ],
     },
     nav: {
       features: "What it does",
@@ -487,8 +492,11 @@ export const dict: Record<Lang, Dict> = {
   },
   zh: {
     promo: {
-      text: "公测中 · 2026 Q4 上线 ·",
-      link: { label: "读宣言", href: "/manifesto" },
+      items: [
+        { text: "公测中 · 2026 Q4 上线 ·", link: { label: "读宣言", href: "/manifesto" } },
+        { text: "2027 年开放自部署版 ·", link: { label: "加 waitlist", href: "/manifesto" } },
+        { text: "前 1000 个用户永久免费 ·", link: { label: "去 GitHub 装", href: "https://github.com/zachsaws/continuum" } },
+      ],
     },
     nav: {
       features: "它能做什么",

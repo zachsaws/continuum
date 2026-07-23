@@ -69,21 +69,53 @@ function useReveal() {
 
 function PromoStrip({ lang }: { lang: Lang }) {
   const t = dict[lang].promo;
+  const [idx, setIdx] = useState(0);
+  const [paused, setPaused] = useState(false);
+  useEffect(() => {
+    if (!t || t.items.length <= 1 || paused) return;
+    const id = setInterval(() => setIdx((i) => (i + 1) % t.items.length), 4500);
+    return () => clearInterval(id);
+  }, [t, paused]);
   if (!t) return null;
   return (
-    <div className="border-b border-border-subtle bg-bg-soft/70">
+    <div
+      className="relative border-b border-border-subtle bg-bg-soft/70"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
       <div className="container-page flex h-8 items-center justify-center text-[12px] text-fg-muted">
-        <span className="opacity-90">
-          {t.text}
-          {t.link ? (
-            <>
-              {" "}
-              <a href={t.link.href} className="text-accent transition-colors hover:text-accent-deep">
-                {t.link.label} →
-              </a>
-            </>
-          ) : null}
-        </span>
+        {t.items.map((it, i) => (
+          <span
+            key={i}
+            className="absolute inset-x-0 flex items-center justify-center transition-opacity duration-500"
+            style={{ opacity: i === idx ? 1 : 0, pointerEvents: i === idx ? "auto" : "none" }}
+            aria-hidden={i !== idx}
+          >
+            {it.text}
+            {it.link ? (
+              <>
+                {" "}
+                <a href={it.link.href} className="text-accent transition-colors hover:text-accent-deep">
+                  {it.link.label} →
+                </a>
+              </>
+            ) : null}
+          </span>
+        ))}
+      </div>
+      {/* Dot indicators — clicking jumps to slide */}
+      <div className="absolute right-4 top-1/2 hidden -translate-y-1/2 items-center gap-1 md:flex">
+        {t.items.map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => setIdx(i)}
+            aria-label={`Slide ${i + 1}`}
+            className={`h-1 w-1 rounded-full transition-all duration-300 ${
+              i === idx ? "bg-accent w-3" : "bg-fg-dim/40 hover:bg-fg-dim"
+            }`}
+          />
+        ))}
       </div>
     </div>
   );
@@ -229,8 +261,39 @@ function LogoBar({ label }: { label: string }) {
 
 function BigProductMockup({ lang }: { lang: Lang }) {
   const m = dict[lang].hero.mockup;
+
+  /* Recall loop: cycle through memories 0/1/2, then a brief "no highlight" beat, repeat.
+     Visual: when a memory is being "recalled" to inform Claude's draft, that item lights up. */
+  const [activeIdx, setActiveIdx] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.25 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  useEffect(() => {
+    if (!inView) return;
+    // 0,1,2 = memory 0/1/2 active, 3 = brief none (beat between recalls)
+    const seq = [0, 1, 2, 3];
+    let i = 0;
+    const tick = () => {
+      setActiveIdx(seq[i % seq.length]);
+      i++;
+    };
+    tick();
+    const id = setInterval(tick, 1300);
+    return () => clearInterval(id);
+  }, [inView]);
+  const activeTag = activeIdx < m.memories.length ? m.memories[activeIdx].tag : null;
+
   return (
-    <div className="reveal mx-auto mt-16 max-w-5xl">
+    <div className="reveal mx-auto mt-16 max-w-5xl" ref={containerRef}>
       <div className="overflow-hidden rounded-xl border border-border-subtle bg-white shadow-apple-3">
         {/* macOS window chrome */}
         <div className="flex items-center gap-2 border-b border-border-subtle bg-[#F5F5F4] px-4 py-2.5">
@@ -276,20 +339,42 @@ function BigProductMockup({ lang }: { lang: Lang }) {
             </div>
             <div className="mb-3 text-[11px] text-fg-muted">{m.pullHint}</div>
             <div className="space-y-2.5">
-              {m.memories.map((mem, i) => (
-                <div
-                  key={i}
-                  className="rounded-lg border border-border-subtle bg-white p-3 transition-shadow hover:shadow-apple-1"
-                >
-                  <div className="mb-1 flex items-center gap-1.5 text-[10px]">
-                    <span className="font-semibold uppercase tracking-[0.14em] text-accent">
-                      {mem.tag}
-                    </span>
-                    <span className="text-fg-dim">· {mem.source}</span>
+              {m.memories.map((mem, i) => {
+                const isActive = mem.tag === activeTag;
+                return (
+                  <div
+                    key={i}
+                    className={`relative rounded-lg border bg-white p-3 transition-all duration-300 ${
+                      isActive
+                        ? "border-accent/60 bg-accent/10 shadow-apple-1 ring-1 ring-accent/30"
+                        : "border-border-subtle hover:shadow-apple-1"
+                    }`}
+                  >
+                    <div className="mb-1 flex items-center gap-1.5 text-[10px]">
+                      <span className="font-semibold uppercase tracking-[0.14em] text-accent">
+                        {mem.tag}
+                      </span>
+                      <span className="text-fg-dim">· {mem.source}</span>
+                    </div>
+                    <div className={`text-[12.5px] leading-[1.4] transition-colors duration-300 ${
+                      isActive ? "text-fg" : "text-fg"
+                    }`}>{mem.text}</div>
+                    {/* "recalled" indicator — peach dot pulses when active */}
+                    {isActive && (
+                      <span
+                        className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-accent/12 px-1.5 py-0.5 text-[8.5px] font-semibold uppercase tracking-[0.1em] text-accent"
+                        aria-hidden="true"
+                      >
+                        <span className="relative inline-flex h-1 w-1">
+                          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+                          <span className="relative inline-flex h-1 w-1 rounded-full bg-accent" />
+                        </span>
+                        recalled
+                      </span>
+                    )}
                   </div>
-                  <div className="text-[12.5px] leading-[1.4] text-fg">{mem.text}</div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
