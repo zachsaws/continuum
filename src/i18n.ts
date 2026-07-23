@@ -38,6 +38,7 @@ type Dict = {
     title: string;
     paragraphs: string[];
     signature: string;
+    ctaLabel: string;
   };
   roadmap: {
     tag: string;
@@ -117,6 +118,7 @@ export const dict: Record<Lang, Dict> = {
     nav: {
       features: "What it does",
       how: "How it works",
+      manifesto: "Manifesto",
       pricing: "Pricing",
       faq: "FAQ",
       changelog: "Changelog",
@@ -205,6 +207,7 @@ export const dict: Record<Lang, Dict> = {
         "We run on the same primitives the big labs do — embeddings, vector search, decay-based memory. We just package them so you don't have to. The hard part of memory isn't the storage; it's deciding what to forget.",
       ],
       signature: "— The team at Continuum Labs",
+      ctaLabel: "Read the full manifesto →",
     },
     roadmap: {
       tag: "What's next",
@@ -386,6 +389,7 @@ export const dict: Record<Lang, Dict> = {
     nav: {
       features: "它能做什么",
       how: "怎么用",
+      manifesto: "宣言",
       pricing: "定价",
       faq: "常见问题",
       changelog: "更新",
@@ -474,6 +478,7 @@ export const dict: Record<Lang, Dict> = {
         "底层用的是大厂同款的 primitives —— embedding、向量检索、decay-based memory。我们只是把它们打包成你不用自己搭的样子。记忆的难处不在存,在忘。",
       ],
       signature: "—— Continuum Labs 团队",
+      ctaLabel: "读完整宣言 →",
     },
     roadmap: {
       tag: "下一步",
