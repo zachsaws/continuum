@@ -6,25 +6,47 @@ const GITHUB_URL = "https://github.com/zachsaws/continuum";
 /* --------------------------------- helpers -------------------------------- */
 
 function renderInline(s: string) {
-  const parts = s.split(/\[c\](.*?)\[\/c\]/);
-  return parts.map((p, i) =>
-    i % 2 === 1 ? (
-      <span key={i} className="code-inline">
-        {p}
+  // Parse [c]code[/c] (inline code) and [h]word[/h] (highlight / brand-color) in one pass.
+  // Order matters: split by [c] first, then within text parts split by [h].
+  const codeParts = s.split(/\[c\](.*?)\[\/c\]/);
+  return codeParts.map((segment, i) => {
+    if (i % 2 === 1) {
+      return (
+        <span key={`c-${i}`} className="code-inline">
+          {segment}
+        </span>
+      );
+    }
+    // Now split the text segment by [h]word[/h]
+    const hlParts = segment.split(/\[h\](.*?)\[\/h\]/);
+    return (
+      <span key={`t-${i}`}>
+        {hlParts.map((p, j) =>
+          j % 2 === 1 ? (
+            <span key={j} className="accent-word">
+              {p}
+            </span>
+          ) : (
+            <span key={j}>{p}</span>
+          ),
+        )}
       </span>
-    ) : (
-      <span key={i}>{p}</span>
-    ),
-  );
+    );
+  });
 }
 
 /* Reveal-on-scroll using IntersectionObserver — gives every section a soft fade-up. */
 function useReveal() {
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const els = document.querySelectorAll<HTMLElement>(".reveal");
-    if (!("IntersectionObserver" in window) || els.length === 0) {
-      els.forEach((el) => el.classList.add("is-visible"));
+    // Track every .reveal element AND every child of .reveal-stagger (so staggered children animate together when container scrolls in)
+    const reveals = Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
+    const staggerChildren = Array.from(
+      document.querySelectorAll<HTMLElement>(".reveal-stagger > *"),
+    );
+    const all = [...reveals, ...staggerChildren];
+    if (!("IntersectionObserver" in window) || all.length === 0) {
+      all.forEach((el) => el.classList.add("is-visible"));
       return;
     }
     const io = new IntersectionObserver(
@@ -38,9 +60,33 @@ function useReveal() {
       },
       { rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
     );
-    els.forEach((el) => io.observe(el));
+    all.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
+}
+
+/* --------------------------------- promo strip ----------------------------- */
+
+function PromoStrip({ lang }: { lang: Lang }) {
+  const t = dict[lang].promo;
+  if (!t) return null;
+  return (
+    <div className="border-b border-border-subtle bg-bg-soft/70">
+      <div className="container-page flex h-8 items-center justify-center text-[12px] text-fg-muted">
+        <span className="opacity-90">
+          {t.text}
+          {t.link ? (
+            <>
+              {" "}
+              <a href={t.link.href} className="text-accent transition-colors hover:text-accent-deep">
+                {t.link.label} →
+              </a>
+            </>
+          ) : null}
+        </span>
+      </div>
+    </div>
+  );
 }
 
 /* --------------------------------- brand ---------------------------------- */
@@ -147,21 +193,21 @@ function Hero({ lang }: { lang: Lang }) {
     <section className="relative overflow-hidden">
       <div className="absolute inset-x-0 top-0 -z-10 h-[680px] bg-hero-warm" />
       <div className="container-page pt-20 pb-20 md:pt-28 md:pb-28">
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="reveal mb-7 inline-flex items-center gap-1.5 rounded-full border border-border-subtle bg-bg/70 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.14em] text-fg-muted backdrop-blur">
+        <div className="reveal-stagger mx-auto max-w-3xl text-center">
+          <div className="mb-7 inline-flex items-center gap-1.5 rounded-full border border-border-subtle bg-bg/70 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.14em] text-fg-muted backdrop-blur">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             {t.tag}
           </div>
-          <h1 className="reveal text-balance text-display-1 text-fg">
-            {t.title}
+          <h1 className="text-balance text-display-1 text-fg">
+            {renderInline(t.title)}
           </h1>
-          <p className="reveal mx-auto mt-6 max-w-xl text-balance text-[17px] leading-[1.55] text-fg-muted">
+          <p className="mx-auto mt-6 max-w-xl text-balance text-[17px] leading-[1.55] text-fg-muted">
             {renderInline(t.body)}
           </p>
-          <p className="reveal mx-auto mt-3 max-w-md text-[13px] leading-[1.6] text-fg-dim">
+          <p className="mx-auto mt-3 max-w-md text-[13px] leading-[1.6] text-fg-dim">
             {t.body2}
           </p>
-          <div className="reveal mt-9 flex flex-col items-center justify-center gap-2.5 sm:flex-row">
+          <div className="mt-9 flex flex-col items-center justify-center gap-2.5 sm:flex-row">
             <a href={GITHUB_URL} className="btn-primary h-11 px-6 text-[14px]">
               {t.cta1}
               <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -172,7 +218,7 @@ function Hero({ lang }: { lang: Lang }) {
               {t.cta2}
             </a>
           </div>
-          <p className="reveal mt-4 text-[12.5px] text-fg-dim">{t.hint}</p>
+          <p className="mt-4 text-[12.5px] text-fg-dim">{t.hint}</p>
         </div>
 
         {/* Memory card — Apple-clean: white card, soft shadow, no fake chrome */}
@@ -988,6 +1034,7 @@ export default function App() {
   if (isManifesto) {
     return (
       <div className="min-h-screen bg-bg text-fg">
+        <PromoStrip lang={lang} />
         <Nav lang={lang} setLang={setLang} />
         <Manifesto lang={lang} />
         <Footer lang={lang} />
@@ -997,6 +1044,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-bg text-fg">
+      <PromoStrip lang={lang} />
       <Nav lang={lang} setLang={setLang} />
       <Hero lang={lang} />
       <Pain lang={lang} />

@@ -1,10 +1,15 @@
 // Bilingual copy for Continuum. Tech terms (SDK, API, Memory, Graph, etc.)
 // stay in English on both sides — that reads more native to developers.
 // Use [c]...[/c] inline to render a code-inline span.
+// Use [h]...[/h] inline to render an accent (brand color) word.
 export type Lang = "en" | "zh";
 
 type Dict = {
   nav: Record<string, string>;
+  promo: {
+    text: string;
+    link?: { label: string; href: string };
+  } | null;
   hero: {
     tag: string;
     title: string;
@@ -115,6 +120,10 @@ type Dict = {
 
 export const dict: Record<Lang, Dict> = {
   en: {
+    promo: {
+      text: "Public preview · Q4 2026 launch ·",
+      link: { label: "read the manifesto", href: "/manifesto" },
+    },
     nav: {
       features: "What it does",
       how: "How it works",
@@ -128,7 +137,7 @@ export const dict: Record<Lang, Dict> = {
     },
     hero: {
       tag: "Public preview",
-      title: "An AI that knows you.",
+      title: "An [h]AI[/h] that knows you.",
       body: "Your preferences. Your projects. The people you mentioned last week. [c]Install once — every AI app remembers you.[/c]",
       body2: "Works in Claude, Cursor, Cline, Zed, and 10+ MCP-compatible apps. ChatGPT needs a one-line bridge.",
       cta1: "Get started on GitHub",
@@ -386,6 +395,10 @@ export const dict: Record<Lang, Dict> = {
     },
   },
   zh: {
+    promo: {
+      text: "公测中 · 2026 Q4 上线 ·",
+      link: { label: "读宣言", href: "/manifesto" },
+    },
     nav: {
       features: "它能做什么",
       how: "怎么用",
@@ -399,7 +412,7 @@ export const dict: Record<Lang, Dict> = {
     },
     hero: {
       tag: "公测中",
-      title: "让 AI 认得你。",
+      title: "让 [h]AI[/h] 认得你。",
       body: "你的偏好、你的项目、你提过的人。[c]装一次,所有 AI app 都认得你。[/c]",
       body2: "原生支持 Claude、Cursor、Cline、Zed,以及 10+ 个支持 MCP 的 AI app。ChatGPT 走一行 bridge 配置。",
       cta1: "去 GitHub 装上",

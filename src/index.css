@@ -15,7 +15,7 @@
     font-feature-settings: "ss01", "cv01", "cv11", "ss03";
     font-optical-sizing: auto;
   }
-  /* Use a slightly transparent dark selection so it works on white */
+  /* Use a slightly transparent accent selection so it works on white */
   ::selection {
     background: rgba(217, 122, 92, 0.20);
     color: #1D1D1F;
@@ -27,15 +27,20 @@
     @apply mx-auto w-full max-w-5xl px-6;
   }
 
-  /* Buttons — Apple-style: filled primary, subtle press, focus-visible ring */
+  /* Buttons — Apple-style: filled primary in brand color, subtle press, focus-visible ring */
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-5 text-[14px] font-medium transition-all duration-200 select-none;
   }
+  /* Primary: brand peach (Continuum's signature CTA color, Apple's per-product color move) */
   .btn-primary {
-    @apply btn h-10 bg-fg text-bg hover:bg-fg/90 active:scale-[0.97];
+    @apply btn h-10 bg-accent text-white hover:bg-accent-deep active:scale-[0.97] shadow-[0_2px_8px_rgba(217,122,92,0.25)];
   }
   .btn-primary-sm {
-    @apply btn h-9 bg-fg px-4 text-[13px] text-bg hover:bg-fg/90 active:scale-[0.97];
+    @apply btn h-9 bg-accent px-4 text-[13px] text-white hover:bg-accent-deep active:scale-[0.97];
+  }
+  /* Secondary dark: for nav / inline links */
+  .btn-dark {
+    @apply btn h-10 bg-fg text-bg hover:bg-fg/90 active:scale-[0.97];
   }
   .btn-ghost {
     @apply btn h-10 text-fg hover:bg-fg/[0.04] active:scale-[0.97];
@@ -51,5 +56,21 @@
   /* Section reveal on scroll */
   .reveal {
     @apply animate-fade-up;
+  }
+  /* Stagger children of a reveal container */
+  .reveal-stagger > * {
+    @apply animate-fade-up;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+  .reveal-stagger > *:nth-child(1) { --reveal-delay: 0ms; }
+  .reveal-stagger > *:nth-child(2) { --reveal-delay: 80ms; }
+  .reveal-stagger > *:nth-child(3) { --reveal-delay: 160ms; }
+  .reveal-stagger > *:nth-child(4) { --reveal-delay: 240ms; }
+  .reveal-stagger > *:nth-child(5) { --reveal-delay: 320ms; }
+  .reveal-stagger > *:nth-child(6) { --reveal-delay: 400ms; }
+
+  /* Two-tone title highlight */
+  .accent-word {
+    color: #d97a5c;
   }
 }
