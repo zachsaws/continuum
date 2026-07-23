@@ -319,7 +319,7 @@ function Hero({ lang }: { lang: Lang }) {
         if (!inRange) { setParallaxY(0); raf = 0; return; }
         // distance scrolled past top of mockup, capped
         const scrolled = Math.max(0, vh - rect.top);
-        const offset = Math.min(scrolled * 0.18, 120);
+        const offset = Math.min(scrolled * 0.12, 72);
         setParallaxY(-offset);
         raf = 0;
       });
