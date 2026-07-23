@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { dict, type Lang } from "./i18n";
 
 const GITHUB_URL = "https://github.com/zachsaws/continuum";
@@ -302,6 +302,38 @@ function BigProductMockup({ lang }: { lang: Lang }) {
 function Hero({ lang }: { lang: Lang }) {
   const t = dict[lang].hero;
 
+  /* Mockup parallax — track scrollY, translate mockup up at 0.3x rate so it "peeks up from below" */
+  const mockupRef = useRef<HTMLDivElement>(null);
+  const [parallaxY, setParallaxY] = useState(0);
+  useEffect(() => {
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        const el = mockupRef.current;
+        if (!el) { raf = 0; return; }
+        const rect = el.getBoundingClientRect();
+        const vh = window.innerHeight;
+        // active when mockup top is within 2 viewports above the bottom
+        const inRange = rect.top < vh * 1.2 && rect.bottom > -200;
+        if (!inRange) { setParallaxY(0); raf = 0; return; }
+        // distance scrolled past top of mockup, capped
+        const scrolled = Math.max(0, vh - rect.top);
+        const offset = Math.min(scrolled * 0.18, 120);
+        setParallaxY(-offset);
+        raf = 0;
+      });
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-x-0 top-0 -z-10 h-[560px] bg-hero-warm" />
@@ -360,7 +392,15 @@ function Hero({ lang }: { lang: Lang }) {
 
         <StatsWall stats={t.stats} />
         <LogoBar label={t.worksIn} />
-        <BigProductMockup lang={lang} />
+        <div
+          ref={mockupRef}
+          style={{
+            transform: `translate3d(0, ${parallaxY}px, 0)`,
+            willChange: "transform",
+          }}
+        >
+          <BigProductMockup lang={lang} />
+        </div>
       </div>
     </section>
   );
