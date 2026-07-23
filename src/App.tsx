@@ -692,7 +692,6 @@ function FinalCTA({ lang }: { lang: Lang }) {
 
 function Footer({ lang }: { lang: Lang }) {
   const t = dict[lang].footer;
-  const isZh = lang === "zh";
   // Map link label → href. Anything not listed falls through to "#".
   const linkHref = (label: string): string => {
     const l = label.toLowerCase();
